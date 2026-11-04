@@ -7,7 +7,6 @@
 <meta name="description" content="Kavindu Deshal Silva, software engineer in Hildesheim, Germany. Flutter apps, Spring Boot and Node.js backends, applied machine learning.">
 <meta property="og:title" content="Kavindu Deshal Silva – Software Engineer">
 <meta property="og:description" content="Mobile apps and the systems underneath them. Flutter, Spring Boot, Node.js, applied ML.">
-<meta property="og:image" content="assets/me.jpg">
 <meta name="theme-color" content="#010309">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%228%22 fill=%22%23010309%22/%3E%3Ccircle cx=%2216%22 cy=%2216%22 r=%226%22 fill=%22%237CF7E4%22/%3E%3Ccircle cx=%2216%22 cy=%2216%22 r=%2211%22 fill=%22none%22 stroke=%22%237CF7E4%22 stroke-opacity=%22.4%22/%3E%3C/svg%3E">
 <link rel="stylesheet" href="styles.css">
@@ -64,22 +63,25 @@
 </section>
 
 
-<section class="work zone" id="work" data-depth="450" data-fg="light">
-  <div class="wrap">
-    <div class="work-head">
-      <div>
-        <p class="zone-tag">Twilight zone</p>
-        <h2 class="title">Things I've built</h2>
-        <p class="intro">Six projects from my GitHub. Open any of them for the architecture, the decisions and the code.</p>
-      </div>
-      <div class="filters" role="group" aria-label="Filter projects">
-        <button aria-pressed="true" data-f="all">All</button>
-        <button aria-pressed="false" data-f="mobile">Mobile</button>
-        <button aria-pressed="false" data-f="backend">Backend</button>
-        <button aria-pressed="false" data-f="ai">Machine learning</button>
+<section class="work zone hs" id="work" data-depth="450" data-fg="light">
+  <div class="hs-pin">
+    <div class="wrap">
+      <div class="work-head">
+        <div>
+          <p class="zone-tag">Twilight zone</p>
+          <h2 class="title">Things I've built</h2>
+          <p class="intro">Six projects from my GitHub. Scroll or swipe through them, and open any one for the architecture and the code.</p>
+        </div>
+        <div class="filters" role="group" aria-label="Filter projects">
+          <button aria-pressed="true" data-f="all">All</button>
+          <button aria-pressed="false" data-f="mobile">Mobile</button>
+          <button aria-pressed="false" data-f="backend">Backend</button>
+          <button aria-pressed="false" data-f="ai">Machine learning</button>
+        </div>
       </div>
     </div>
-    <div class="specimens" id="specimens"></div>
+    <div class="hs-track specimens" id="specimens"></div>
+    <div class="wrap"><div class="hs-bar" aria-hidden="true"><span></span></div></div>
   </div>
   <div id="jellies" aria-hidden="true"></div>
 </section>
@@ -98,12 +100,14 @@
 </section>
 
 
-<section class="exp zone" id="experience" data-depth="1400" data-fg="light">
-  <div class="wrap">
-    <p class="zone-tag">Midnight zone</p>
-    <h2 class="title">Experience</h2>
-    <p class="intro">Most recent first. The deeper you go, the further back in time.</p>
-    <ol class="line">
+<section class="exp zone hs" id="experience" data-depth="1400" data-fg="light">
+  <div class="hs-pin">
+    <div class="wrap">
+      <p class="zone-tag">Midnight zone</p>
+      <h2 class="title">Experience</h2>
+      <p class="intro">Most recent first. The deeper you go, the further back in time.</p>
+    </div>
+    <ol class="line hs-track">
       <li class="now"><time>Now</time><div><h3>Werkstudent</h3><p class="org">Comitec IT Systems</p><p>Working part-time alongside my master's studies.</p></div></li>
       <li class="now"><time>Apr 2025 – now</time><div><h3>MSc Software Engineering</h3><p class="org">University of Hildesheim</p><p>Master's programme in software engineering, studied alongside part-time work.</p></div></li>
       <li><time>Jan 2025 – now</time><div><h3>Co-founder, social media</h3><p class="org">Siggi's Ceylon</p><p>Co-founded a Sri Lanka travel company. I run its social media and coordinate with tour partners.</p></div></li>
@@ -112,30 +116,30 @@
       <li><time>Jun 2022 – Jun 2024</time><div><h3>Software Engineering Trainee</h3><p class="org">IFS, Colombo</p><p>Global technical support and troubleshooting for IFS asset management software, working with product teams to resolve customer issues.</p></div></li>
       <li><time>2021 – 2024</time><div><h3>BEng (Hons) Software Engineering, First Class</h3><p class="org">Informatics Institute of Technology, with the University of Westminster</p><p>Graduated with First Class Honours. Projects included GemLens, an explainable gemstone classifier.</p></div></li>
     </ol>
+    <div class="wrap"><div class="hs-bar" aria-hidden="true"><span></span></div></div>
   </div>
   <div class="jellies" id="jellies2" aria-hidden="true"></div>
 </section>
 
-
 <section class="about zone" id="about" data-depth="2100" data-fg="light">
   <div class="wrap">
-    <div class="panel">
-      <figure><img src="assets/me.jpg" alt="Kavindu in an astronaut suit, eyes covered by a brushstroke" loading="lazy" width="640" height="960"></figure>
-      <div>
-        <p class="zone-tag">The abyss</p>
-        <h2 class="title">About me</h2>
-        <p class="big">I'm from Sri Lanka, an island where the sea is never far away, and I now live in Hildesheim. I like the whole path of an app: the screen someone taps, the API it calls and the database underneath.</p>
+    <p class="zone-tag">The abyss</p>
+    <h2 class="title">About me</h2>
+    <div class="about-grid">
+      <p class="statement">I like the whole path of an app: the screen someone taps, the API it calls and the database underneath. I build all three.</p>
+      <div class="bio">
+        <p>I'm a software engineer from Sri Lanka, now based in Hildesheim, Germany. I graduated with a First Class BEng in Software Engineering from the University of Westminster programme at IIT, and I'm now doing an MSc in Software Engineering at the University of Hildesheim while working as a Werkstudent at Comitec IT Systems.</p>
         <p>Most of my work is Flutter with Clean Architecture and BLoC, backed by Spring Boot or Node.js on PostgreSQL. I've also trained and shipped image classifiers, and I care about explaining what a model sees, not only what it predicts.</p>
         <p>Away from the keyboard I play cricket and football, and I photograph landscapes and streets as Peaceful Lens.</p>
-        <div class="skills">
-          <div><h3>Mobile</h3><div class="chips"><span>Flutter</span><span>Dart</span><span>BLoC</span><span>Clean Architecture</span><span>Firebase</span><span>SwiftUI</span><span>Kotlin</span></div></div>
-          <div><h3>Backend</h3><div class="chips"><span>Java</span><span>Spring Boot</span><span>Spring Cloud</span><span>Node.js</span><span>Express</span><span>.NET</span><span>REST</span><span>JWT</span><span>PostgreSQL</span><span>Docker</span></div></div>
-          <div><h3>Web</h3><div class="chips"><span>Angular</span><span>React</span><span>TypeScript</span><span>HTML and CSS</span></div></div>
-          <div><h3>Machine learning</h3><div class="chips"><span>Python</span><span>TensorFlow</span><span>Keras</span><span>ONNX</span><span>LIME</span><span>scikit-learn</span></div></div>
-          <div><h3>Languages</h3><div class="chips"><span>English, fluent</span><span>Sinhala, native</span><span>German, learning</span></div></div>
-        </div>
       </div>
     </div>
+    <dl class="kit">
+      <div><dt><span class="k-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg></span>Mobile</dt><dd>Flutter, Dart, BLoC, Clean Architecture, Firebase, SwiftUI, Kotlin</dd></div>
+      <div><dt><span class="k-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="3.5" y="4" width="17" height="6" rx="1.5"/><rect x="3.5" y="14" width="17" height="6" rx="1.5"/><path d="M7 7h.01M7 17h.01"/></svg></span>Backend</dt><dd>Java, Spring Boot, Spring Cloud, Node.js, Express, .NET, REST, JWT, PostgreSQL, Docker</dd></div>
+      <div><dt><span class="k-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="14" rx="2"/><path d="M2.5 8h19M8 21h8"/></svg></span>Web</dt><dd>Angular, React, TypeScript, HTML and CSS</dd></div>
+      <div><dt><span class="k-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/><rect x="7" y="7" width="10" height="10" rx="2"/><path d="M10 10h4v4h-4z"/></svg></span>Machine learning</dt><dd>Python, TensorFlow, Keras, ONNX, LIME, scikit-learn</dd></div>
+      <div><dt><span class="k-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M4 5h9M8.5 3v2M6 5c0 4 3 7 6 8M11 5c-.5 3-3 6-6.5 8"/><path d="m12 21 4.5-10L21 21M13.5 18h6"/></svg></span>Languages</dt><dd>English (fluent), Sinhala (native), German (learning)</dd></div>
+    </dl>
   </div>
 </section>
 
@@ -143,17 +147,23 @@
   <div class="pearl-light" id="pearlLight" aria-hidden="true"></div>
   <div class="wrap">
     <p class="zone-tag">The seabed, 3,200 metres</p>
-    <h2 class="title">Let's talk</h2>
+    <h2 class="title">Let's build something</h2>
     <div class="contact-grid">
       <div>
-        <p class="intro">I'm looking for software engineering roles in Germany, in mobile, backend or full-stack teams. Email is the quickest way to reach me.</p>
-        <p style="margin-top:1.6rem"><a class="btn lit" href="assets/Kavindu_Deshal_Silva_CV.pdf" target="_blank" rel="noopener">Download my CV</a></p>
+        <p class="intro">I design and build digital products end to end, from the first screen to the API and the database behind it.</p>
+        <ul class="services">
+          <li><span class="s-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="14" rx="2"/><path d="M2.5 8h19M8 21h8"/></svg></span><div><h3>Web solutions</h3><p>Fast, responsive websites and web apps in Angular, React or plain HTML.</p></div></li>
+          <li><span class="s-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg></span><div><h3>Mobile solutions</h3><p>Android and iOS apps from one Flutter codebase, taken through to store release.</p></div></li>
+          <li><span class="s-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="3.5" y="4" width="17" height="6" rx="1.5"/><rect x="3.5" y="14" width="17" height="6" rx="1.5"/><path d="M7 7h.01M7 17h.01"/></svg></span><div><h3>Backend and APIs</h3><p>Secure REST APIs, databases and microservices with Spring Boot or Node.js.</p></div></li>
+          <li><span class="s-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/><rect x="7" y="7" width="10" height="10" rx="2"/><path d="M10 10h4v4h-4z"/></svg></span><div><h3>AI features</h3><p>Image recognition and smart features built into your app, with results people can understand.</p></div></li>
+        </ul>
       </div>
       <div class="rows">
         <button class="r" id="copyEmail" type="button"><span>kavindudeshal2@gmail.com</span><small>Copy email</small></button>
         <a class="r" href="mailto:kavindudeshal2@gmail.com"><span>Write an email</span><small>Opens your mail app</small></a>
         <a class="r" href="https://www.linkedin.com/in/deshal001/" target="_blank" rel="noopener"><span>LinkedIn</span><small>in/deshal001</small></a>
         <a class="r" href="https://github.com/Deshal-001" target="_blank" rel="noopener"><span>GitHub</span><small>Deshal-001</small></a>
+        <a class="r" href="assets/Kavindu_Deshal_Silva_CV.pdf" target="_blank" rel="noopener"><span>CV</span><small>PDF</small></a>
       </div>
     </div>
   </div>

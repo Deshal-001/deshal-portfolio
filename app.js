@@ -167,7 +167,7 @@ document.querySelector(".filters").addEventListener("click", e => {
   const f = b.dataset.f;
   document.querySelectorAll(".filters button").forEach(x => x.setAttribute("aria-pressed", x === b));
   document.querySelectorAll(".card").forEach(c => { c.hidden = !(f === "all" || c.dataset.tags.split(" ").includes(f)); });
-  measure();
+  if (typeof relayout === "function") relayout();
 });
 
 function renderRepos() {
@@ -244,7 +244,7 @@ const ticks = $("#ticks");
 for (let m = 0; m <= 3200; m += 100) ticks.insertAdjacentHTML("beforeend", `<span class="${m % 500 ? "minor" : ""}" style="top:${m / 32}%"></span>`);
 let depth = 200, lastShown = -1;
 
-function onScroll() {
+var onScroll = function () {
   depth = depthAt(scrollY);
   const [r, g, b] = colorAt(depth);
   ocean.style.background = `rgb(${r},${g},${b})`;
@@ -268,10 +268,43 @@ function onScroll() {
   nav.style.setProperty("--navbg", `rgba(${r},${g},${b},.85)`);
   nav.classList.toggle("solid", scrollY > 40);
 }
-measure(); onScroll();
-addEventListener("scroll", onScroll, { passive: true });
-addEventListener("resize", () => { measure(); onScroll(); sizeCanvas(); });
-if (document.fonts) document.fonts.ready.then(() => { measure(); onScroll(); });
+/* sideways scroll: vertical scrolling moves projects and experience horizontally */
+const hsSecs = [...document.querySelectorAll(".hs")];
+const hsMode = () => innerWidth > 760 && !reduced;
+function layoutHS() {
+  hsSecs.forEach(sec => {
+    const track = sec.querySelector(".hs-track");
+    if (!hsMode()) { sec.style.height = ""; track.style.transform = ""; sec._dist = 0; return; }
+    const lead = parseFloat(getComputedStyle(track).paddingLeft) || 0;
+    let right = 0;
+    [...track.children].forEach(c => { if (!c.hidden && c.offsetWidth) right = Math.max(right, c.offsetLeft + c.offsetWidth); });
+    sec._dist = Math.max(0, right + lead - innerWidth);
+    sec.style.height = `${innerHeight + sec._dist}px`;
+  });
+}
+function updateHS() {
+  if (!hsMode()) return;
+  hsSecs.forEach(sec => {
+    const p = clamp((scrollY - sec.offsetTop) / Math.max(1, sec.offsetHeight - innerHeight), 0, 1);
+    sec.querySelector(".hs-track").style.transform = `translate3d(${(-p * sec._dist).toFixed(1)}px,0,0)`;
+    const bar = sec.querySelector(".hs-bar span"); if (bar) bar.style.transform = `scaleX(${p.toFixed(4)})`;
+  });
+}
+hsSecs.forEach(sec => sec.querySelector(".hs-track").addEventListener("focusin", e => {
+  if (!hsMode() || !sec._dist) return;
+  const item = [...sec.querySelector(".hs-track").children].find(c => c.contains(e.target)); if (!item) return;
+  const lead = parseFloat(getComputedStyle(item.parentElement).paddingLeft) || 0;
+  const p = clamp((item.offsetLeft - lead) / sec._dist, 0, 1);
+  scrollTo({ top: sec.offsetTop + p * (sec.offsetHeight - innerHeight), behavior: "auto" });
+}));
+const relayout = () => { layoutHS(); measure(); onScroll(); };
+const _onScroll = onScroll;
+onScroll = () => { _onScroll(); updateHS(); };
+relayout();
+addEventListener("scroll", () => onScroll(), { passive: true });
+addEventListener("resize", () => { relayout(); sizeCanvas(); });
+if (document.fonts) document.fonts.ready.then(relayout);
+addEventListener("load", relayout);
 
 /* =========================================================
    Light, particles, bubbles, sonar, fish
