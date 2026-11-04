@@ -21,66 +21,66 @@ const I = {
 
 const P = [
   { id: "uniconnect", name: "UniConnect", c: "#2FE0BE", icon: I.uni, tags: ["mobile", "backend"], year: "2025", role: "Full stack", repo: "UniConnect",
-    summary: "An event booking platform for universities. Students find and book events in a mobile app, organisers run them from an admin dashboard.",
+    summary: "Campus events, in one place. Discovery, booking and QR check-in for students, and a full control room for organisers.",
     points: [
-      "Flutter app in Clean Architecture with BLoC: event discovery with filters, booking, ticket generation and QR check-in, plus localisation.",
-      "Angular admin dashboard with Angular Material for creating events, managing bookings and viewing participants.",
-      "Spring Boot (Java 17) REST API with DTO validation, JWT authentication and admin and user roles on PostgreSQL.",
-      "Security, JWT filter and error-handling design written up in the repo. Dockerfile and GitHub Actions CI."
+      "Flutter app on Clean Architecture and BLoC: filters, tickets, QR check-in, multiple languages.",
+      "Angular dashboard for creating events, managing bookings and tracking attendance.",
+      "Spring Boot API on PostgreSQL, secured with JWT and role-based access.",
+      "Documented security model, Docker images and CI on GitHub Actions."
     ],
     stack: ["Flutter", "BLoC", "Dio + Retrofit", "Angular", "Spring Boot", "JWT", "PostgreSQL", "Docker", "GitHub Actions"],
     layers: [["Flutter app", "Angular admin"], ["Spring Boot API", "JWT filter"], ["PostgreSQL"]],
     caption: "Two clients share one secured REST API." },
   { id: "gemlens", name: "GemLens", c: "#7D97FF", icon: I.gem, tags: ["ai", "mobile"], year: "2023 – 2024", role: "University project", repo: "GemLens",
-    summary: "Point a camera at a gemstone and GemLens names it, then shows which parts of the photo drove that decision.",
+    summary: "Gemstone identification that shows its reasoning. One photo in; the stone, its colour and the evidence out.",
     points: [
-      "Trained an image classifier on a dataset of about 24,000 gemstone photos and exported it to ONNX for fast inference.",
-      "Flask API with separate endpoints for prediction, class lookup and image analysis.",
-      "Explainable AI with LIME: the API returns the photo with the regions that most influenced the prediction outlined.",
-      "K-means colour clustering reports the stone's dominant colour next to the prediction.",
-      "Animated Flutter front end for Android, iOS, web and desktop from one codebase."
+      "Classifier trained on roughly 24,000 gemstone images, exported to ONNX for fast inference.",
+      "Flask API serving predictions, class details and image analysis.",
+      "LIME overlays mark the regions behind every prediction. No black box.",
+      "Dominant colour extracted with k-means clustering.",
+      "One Flutter codebase across Android, iOS, web and desktop."
     ],
     stack: ["Python", "TensorFlow / Keras", "ONNX Runtime", "LIME", "scikit-learn", "Flask", "Flutter"],
     layers: [["Flutter app"], ["Flask API"], ["ONNX classifier", "LIME explainer", "K-means colour"]],
     caption: "One upload, three answers: class, explanation and colour." },
   { id: "evion", name: "EVion", c: "#F2A196", icon: I.ev, tags: ["backend"], year: "2026", role: "Backend", repo: "evion-backend",
-    summary: "Trip planning for electric cars: the route, expected battery use, where to charge and an eco-score for every drive.",
+    summary: "Electric trips without range anxiety. Route, battery forecast, charging stops and an eco-score for every drive.",
     points: [
-      "Express and Sequelize API on PostgreSQL with JWT auth and role-based access for users and admins.",
-      "Route planning through OpenRouteService, then a battery model that estimates usable range per driving mode (eco, normal, aggressive) and suggests charging stops.",
-      "Eco-score that weighs energy efficiency, average speed against an optimum and driving mode.",
-      "Ported from an earlier Java backend while keeping every API route and its business logic intact.",
-      "OpenAPI docs in Swagger UI. Unit and integration tests with Jest and Supertest. Docker Compose for local setup."
+      "Node.js and Express API on PostgreSQL, with JWT and separate driver and admin roles.",
+      "OpenRouteService routing paired with a battery model for eco, normal and aggressive driving.",
+      "Charging stops placed exactly where the range runs out.",
+      "Eco-score built from energy use, speed and driving style.",
+      "Migrated from Java to Node.js with every API route intact. Swagger docs, Jest tests, Docker Compose."
     ],
     stack: ["Node.js", "Express", "Sequelize", "PostgreSQL", "JWT", "OpenRouteService", "Swagger", "Jest", "Docker"],
     layers: [["Client app"], ["Express API", "Auth + roles"], ["Route service", "Battery model", "Eco-score"], ["PostgreSQL", "OpenRouteService"]],
     caption: "Routing data goes in, range and charging advice come out." },
   { id: "fleet", name: "Fleet", c: "#A9B8FF", icon: I.fleet, tags: ["backend"], year: "2026, in progress", role: "Solo", repo: "fleet-management",
-    summary: "A fleet management system I'm building as Spring Cloud microservices, documenting each architecture decision as I go.",
+    summary: "Fleet management as Spring Cloud microservices, built one recorded decision at a time.",
     points: [
-      "Service registry with Netflix Eureka so services find each other without hardcoded addresses.",
-      "API gateway as the single entry point for the Flutter client, routing requests through the registry.",
-      "Every architecture choice recorded as an ADR, with the alternatives considered (Consul, Kubernetes DNS) and the planned migration path."
+      "Eureka registry: services discover each other, no hardcoded addresses.",
+      "A single API gateway in front of every service.",
+      "Each architecture choice captured as an ADR, alternatives and migration path included."
     ],
     stack: ["Java", "Spring Boot", "Spring Cloud Gateway", "Eureka", "Maven", "ADRs"],
     layers: [["Flutter app", "Postman"], ["API gateway"], ["Eureka registry"], ["Domain services"]],
     caption: "Clients only ever talk to the gateway." },
   { id: "snakeeyes", name: "Snake Eyes", c: "#A7D676", icon: I.snake, tags: ["ai", "mobile"], year: "2022", role: "Team project", repo: "Snake-Eyes", repo2: "https://github.com/CyberKnights2022/SnakeEyes-Final",
-    summary: "Identifies Sri Lankan snake species from a photo in real time, then shows what to do after a bite.",
+    summary: "A photo becomes a species name, and a species name becomes first aid. Snake identification for Sri Lanka.",
     points: [
-      "Flutter app that captures or picks a photo and runs a machine-learning model to name the species.",
-      "First-aid guide and a gallery of common Sri Lankan snakes inside the app.",
-      "Built as a university team project with the CyberKnights group."
+      "Machine-learning model identifies the species from the camera or the gallery.",
+      "First-aid guidance and a gallery of common local snakes, built in.",
+      "University team project, CyberKnights."
     ],
     stack: ["Flutter", "Dart", "Machine learning", "Camera"],
     layers: [["Camera or gallery"], ["Flutter app"], ["Species model"], ["First-aid guide"]],
     caption: "From photo to species to what to do next." },
   { id: "enash", name: "Enash Active", c: "#F4C04E", icon: I.shuttle, tags: ["mobile"], year: "2023", role: "Freelance, solo", repo: "Enash-Active-FE",
-    summary: "A badminton court booking app for a Sri Lankan sports company, built freelance from brief to delivery.",
+    summary: "Badminton courts, booked in seconds. A freelance build for a Sri Lankan sports company, from brief to delivery.",
     points: [
-      "Search venues by city and district, then browse each stadium's courts and free slots.",
-      "One-off and recurring bookings, a confirmation step and a payment page.",
-      "Sign-up with account verification."
+      "Search by city and district, with court availability per venue.",
+      "One-off or recurring bookings, confirmation and in-app payment.",
+      "Account sign-up with verification."
     ],
     stack: ["Flutter", "Dart", "REST over HTTP"],
     layers: [["Search by city"], ["Stadium + courts"], ["Book or repeat"], ["Pay + confirm"]],
@@ -185,35 +185,45 @@ fetch("https://api.github.com/users/Deshal-001/repos?per_page=100").then(r => r.
    Jellyfish
    ========================================================= */
 const jellyDefs = [
-  { left: "3%", top: "18%", w: 90, c: "#C6A4FF", dur: 28, dx: "40px", dy: "-120px" },
-  { left: "88%", top: "44%", w: 64, c: "#7CF7E4", dur: 22, dx: "-30px", dy: "-90px" },
-  { left: "46%", top: "86%", w: 52, c: "#FF9FD0", dur: 30, dx: "20px", dy: "-140px" }
+  { left: "5%",  w: 54, c: "#C6A4FF", dur: 30, delay: 2 },
+  { left: "31%", w: 40, c: "#7CF7E4", dur: 24, delay: 14 },
+  { left: "57%", w: 62, c: "#FF9FD0", dur: 34, delay: 8 },
+  { left: "83%", w: 46, c: "#FFB36B", dur: 27, delay: 20 }
 ];
 const jellyDefs2 = [
-  { left: "86%", top: "10%", w: 110, c: "#7CF7E4", dur: 32, dx: "-40px", dy: "100px" },
-  { left: "4%", top: "58%", w: 70, c: "#C6A4FF", dur: 24, dx: "30px", dy: "-80px" }
+  { left: "12%", w: 48, c: "#7CF7E4", dur: 28, delay: 6 },
+  { left: "40%", w: 58, c: "#C6A4FF", dur: 33, delay: 18 },
+  { left: "66%", w: 38, c: "#FFB36B", dur: 23, delay: 1 },
+  { left: "90%", w: 52, c: "#FF9FD0", dur: 29, delay: 12 }
 ];
 const jellyHTML = (defs) => defs.map((j, i) => `
-  <div class="jelly" style="left:${j.left};top:${j.top};width:${j.w}px;--jc:${j.c};--dur:${j.dur}s;--dx:${j.dx};--dy:${j.dy};animation-delay:-${i * 7}s">
+  <button type="button" class="jelly" aria-label="Jellyfish" style="left:${j.left};width:${j.w}px;--jc:${j.c};--dur:${j.dur}s;animation-delay:-${j.delay}s">
     <svg viewBox="0 0 100 170">
       <g class="tent" fill="none" stroke="${j.c}" stroke-width="1.4" stroke-linecap="round" opacity=".7">
         <path d="M30 58 C26 90 36 110 28 150"/><path d="M42 60 C40 95 50 115 44 165"/><path d="M58 60 C60 92 52 118 58 160"/><path d="M70 58 C76 88 64 112 72 145"/>
       </g>
       <g class="bell"><path d="M10 58 C10 20 90 20 90 58 C80 54 70 62 60 57 C50 62 40 54 30 60 C22 55 16 60 10 58Z" fill="${j.c}" fill-opacity=".28" stroke="${j.c}" stroke-width="1.5"/>
       <ellipse cx="50" cy="40" rx="18" ry="9" fill="${j.c}" opacity=".35"/></g>
-    </svg></div>`).join("");
+    </svg></button>`).join("");
 $("#jellies").innerHTML = jellyHTML(jellyDefs);
 $("#jellies2").innerHTML = jellyHTML(jellyDefs2);
 const jellies = [...document.querySelectorAll(".jelly")];
 const jellyCool = new Map();
 document.getElementById("jellies").className = "jellies";
+jellies.forEach(j => j.addEventListener("click", () => {
+  if (j.classList.contains("party") || j.classList.contains("dark")) return;
+  j.classList.remove("flash"); j.classList.add("party"); jellyCool.set(j, performance.now() + 9000);
+  if (!reduced) burst(j, 40, true);
+  setTimeout(() => { j.classList.remove("party"); j.classList.add("dark"); }, 2600);
+  setTimeout(() => { j.classList.remove("dark"); }, 7600);
+}));
 document.querySelector(".work .wrap").style.cssText = "position:relative;z-index:1";
 
 /* =========================================================
    Depth engine
    ========================================================= */
 const stops = [
-  [200, [1, 3, 9]], [600, [1, 5, 16]], [1100, [2, 9, 26]], [1700, [3, 13, 36]], [2400, [4, 17, 44]], [3200, [5, 22, 52]]
+  [200, [1, 3, 9]], [600, [1, 5, 16]], [1100, [2, 9, 26]], [1700, [3, 13, 36]], [2400, [3, 12, 32]], [3200, [1, 5, 14]]
 ];
 function colorAt(d) {
   for (let i = 0; i < stops.length - 1; i++) {
@@ -433,6 +443,7 @@ function frame(now) {
 
   // jellyfish flare when the light comes close
   if (deep > .2) for (const j of jellies) {
+    if (j.classList.contains("party") || j.classList.contains("dark")) continue;
     const r = j.getBoundingClientRect(); if (r.bottom < 0 || r.top > H) continue;
     if (Math.hypot(r.left + r.width / 2 - pointer.x, r.top + r.height / 3 - pointer.y) < 110 && !(jellyCool.get(j) > now)) {
       j.classList.remove("flash"); void j.offsetWidth; j.classList.add("flash"); jellyCool.set(j, now + 1500);
