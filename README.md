@@ -1,4 +1,4 @@
-# Kavindu Deshal Silva – Portfolio
+# Kavindu Deshal Hembadura – Portfolio
 
 An underwater portfolio: it opens 1,200 m down in the dark and rises to the surface as you scroll.
 Plain HTML, CSS and JavaScript. No framework, no build step, no trackers, fonts self-hosted.
@@ -42,7 +42,7 @@ Plain HTML, CSS and JavaScript. No framework, no build step, no trackers, fonts 
 - Smaller repositories: the `MORE` array in `app.js`.
 - Experience, about and contact: plain HTML in `index.html`.
 - Depth of each section: the `data-depth` attribute on each `<section>`.
-- CV: replace `assets/Kavindu_Deshal_Silva_CV.pdf` with the current one, same file name.
+- CV: replace `assets/Kavindu_Deshal_Hembadura_CV.pdf` with the current one, same file name.
 
 ## What moves
 

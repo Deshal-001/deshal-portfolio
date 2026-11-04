@@ -3,28 +3,32 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Kavindu Deshal Silva – Software Engineer</title>
-<meta name="description" content="Kavindu Deshal Silva, software engineer in Hildesheim, Germany. Flutter apps, Spring Boot and Node.js backends, applied machine learning.">
-<meta property="og:title" content="Kavindu Deshal Silva – Software Engineer">
+<title>Kavindu Deshal Hembadura – Software Engineer</title>
+<meta name="description" content="Kavindu Deshal Hembadura, software engineer in Hildesheim, Germany. Flutter apps, Spring Boot and Node.js backends, applied machine learning.">
+<meta property="og:title" content="Kavindu Deshal Hembadura – Software Engineer">
 <meta property="og:description" content="Mobile apps and the systems underneath them. Flutter, Spring Boot, Node.js, applied ML.">
 <meta name="theme-color" content="#010309">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%228%22 fill=%22%23010309%22/%3E%3Ccircle cx=%2216%22 cy=%2216%22 r=%226%22 fill=%22%237CF7E4%22/%3E%3Ccircle cx=%2216%22 cy=%2216%22 r=%2211%22 fill=%22none%22 stroke=%22%237CF7E4%22 stroke-opacity=%22.4%22/%3E%3C/svg%3E">
 <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="dark">
 <a class="skip" href="#main">Skip to content</a>
 
-<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
-  <linearGradient id="jellyRainbow" x1="0" y1="0" x2="1" y2="1">
-    <stop offset="0" stop-color="#ff5fd2"><animate attributeName="stop-color" values="#ff5fd2;#ffd35f;#5fffe0;#7f8cff;#ff5fd2" dur="1.6s" repeatCount="indefinite"/></stop>
-    <stop offset=".5" stop-color="#5fffe0"><animate attributeName="stop-color" values="#5fffe0;#7f8cff;#ff5fd2;#ffd35f;#5fffe0" dur="1.6s" repeatCount="indefinite"/></stop>
-    <stop offset="1" stop-color="#ffd35f"><animate attributeName="stop-color" values="#ffd35f;#ff5fd2;#7f8cff;#5fffe0;#ffd35f" dur="1.6s" repeatCount="indefinite"/></stop>
-  </linearGradient>
-</defs></svg>
 <div class="ocean" id="ocean" aria-hidden="true"></div>
 <div class="rays" id="rays" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
 <canvas id="sea" aria-hidden="true"></canvas>
 <div class="lure" id="lure" aria-hidden="true"></div>
+<div class="sharks" id="sharks" aria-hidden="true"></div>
+<div class="dark-mask" id="darkMask" aria-hidden="true"></div>
+<button class="sonar" id="sonar" type="button" aria-pressed="false"><i class="rec"></i><span id="hudStatus">SONAR OFF</span></button>
+<div class="hud" aria-hidden="true">
+  <span class="hc tl"></span><span class="hc tr"></span><span class="hc bl"></span><span class="hc br"></span>
+  <div class="scan"></div>
+  
+  <div class="hud-br"><span id="hudXY">X 0000 Y 0000</span><span id="hudHdg">HDG 000°</span></div>
+  <div class="reticle" id="reticle"><svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="22" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="3 5"/><path d="M40 4v12M40 64v12M4 40h12M64 40h12" stroke="currentColor" stroke-width="1.2"/><circle cx="40" cy="40" r="1.6" fill="currentColor"/></svg></div>
+  <div class="grain"></div>
+</div>
 
 <aside class="gauge" id="gauge" aria-label="Current depth">
   <div class="read"><span class="num" id="depth">200</span><span class="unit">metres</span></div>
@@ -33,41 +37,32 @@
   <span class="zname" id="zname">Twilight zone</span>
 </aside>
 
-<nav class="nav" id="nav" aria-label="Main">
-  <div class="in">
-    <a class="mark" href="#top">KDS</a>
-    <ul>
-      <li><a href="#work">Projects</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#writing">Writing</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-    <a class="btn small" href="assets/Kavindu_Deshal_Silva_CV.pdf" target="_blank" rel="noopener">CV</a>
-  </div>
-</nav>
 
 <main id="main">
 
 <!-- 200 m: twilight -->
 <section class="hero zone" id="top" data-depth="200" data-fg="light">
   <div class="wrap">
-    <h1 class="name" id="name" aria-label="Kavindu Deshal Silva">
-      <span class="base" aria-hidden="true"><span>Kavindu</span><span>Deshal Silva</span></span>
-      <span class="lit" aria-hidden="true"><span>Kavindu</span><span>Deshal Silva</span></span>
+    <h1 class="name" id="name" aria-label="Kavindu Deshal Hembadura">
+      <span class="base" aria-hidden="true"><span>Kavindu</span><span>Deshal Hembadura</span></span>
+      <span class="lit" aria-hidden="true"><span>Kavindu</span><span>Deshal Hembadura</span></span>
     </h1>
     <div class="row">
       <div class="reveal">
-        <p class="lede"><b>Mobile apps</b> and the <b>systems behind them</b>. From the screen you tap to the database underneath.</p>
+        <p class="lede">Mobile apps. The systems behind them.<br><b>Built end to end.</b></p>
         <div class="actions">
-          <a class="btn lit" href="#work">Dive into my projects</a>
-          <a class="btn" href="#contact">Get in touch</a>
+          <a class="btn lit" href="#work">View the builds</a>
+          <a class="btn" href="#contact">Contact</a>
         </div>
       </div>
-      <p class="side reveal d2">MSc Software Engineering, University of Hildesheim. Werkstudent at Comitec IT Systems. Previously shipping mobile apps at Irusri Group.</p>
+      <dl class="readout reveal d2">
+        <div><dt>Role</dt><dd>Software Engineer</dd></div>
+        <div><dt>Base</dt><dd>Hannover / Hildesheim, DE</dd></div>
+        <div><dt>Now</dt><dd>Fullstack-Entwickler, Comitec IT Systems / MSc SE</dd></div>
+        <div><dt>Stack</dt><dd>Flutter / Spring Boot / Node.js / ML</dd></div>
+      </dl>
     </div>
   </div>
-  <p class="hint reveal d3">Move your light. Scroll to dive.</p>
 </section>
 
 
@@ -76,12 +71,12 @@
     <div class="wrap">
       <div class="work-head">
         <div>
-          <p class="zone-tag">Twilight zone</p>
+          <p class="zone-tag">01 / Twilight zone</p>
           <h2 class="title">Selected builds</h2>
-          <p class="intro">Six builds. Scroll or swipe through them; open any one for the architecture and the code.</p>
         </div>
         <div class="filters" role="group" aria-label="Filter projects">
           <button aria-pressed="true" data-f="all">All</button>
+          <button aria-pressed="false" data-f="web">Web</button>
           <button aria-pressed="false" data-f="mobile">Mobile</button>
           <button aria-pressed="false" data-f="backend">Backend</button>
           <button aria-pressed="false" data-f="ai">Machine learning</button>
@@ -98,8 +93,9 @@
   <div class="wrap">
     <div class="more-head">
       <div>
+        <p class="zone-tag">02 / Archive</p>
         <h2 class="title">Smaller finds</h2>
-        <p class="intro">APIs, coursework and tools. <span id="repoCount"></span></p>
+        <p class="intro">APIs, coursework, tools. <span id="repoCount"></span></p>
       </div>
       <a class="btn" href="https://github.com/Deshal-001" target="_blank" rel="noopener">All repositories on GitHub</a>
     </div>
@@ -112,28 +108,27 @@
   <div class="wrap">
     <div class="more-head">
       <div>
-        <p class="zone-tag">Dive log</p>
+        <p class="zone-tag">03 / Dive log</p>
         <h2 class="title">Writing</h2>
-        <p class="intro">Notes from the build, published on Medium.</p>
       </div>
       <a class="btn" href="https://medium.com/@kavindudeshal2" target="_blank" rel="noopener">All articles on Medium</a>
     </div>
     <ol class="articles">
       <li><a href="https://medium.com/@kavindudeshal2/a-simple-tool-to-sort-arb-files-0cc881fdfc03" target="_blank" rel="noopener">
         <time datetime="2024-12-14">14 Dec 2024</time>
-        <span class="a-body"><span class="a-title">A Simple Tool to Sort ARB Files</span><span class="a-dek">Flutter localisation, tidied. A small Python tool that keeps .arb translation files sorted, clean and easy to review.</span></span>
+        <span class="a-body"><span class="a-title">A Simple Tool to Sort ARB Files</span></span>
         <span class="a-tags"><span>Flutter</span><span>Python</span></span>
         <span class="a-go" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M5 13 13 5M6.5 5H13v6.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </a></li>
       <li><a href="https://medium.com/@kavindudeshal2/provider-vs-bloc-choosing-the-right-state-management-solution-for-your-flutter-app-614d32a9f27c" target="_blank" rel="noopener">
         <time datetime="2024-08-12">12 Aug 2024</time>
-        <span class="a-body"><span class="a-title">Provider vs BLoC</span><span class="a-dek">Two state management approaches for Flutter, compared side by side, and when each one is the right call.</span></span>
+        <span class="a-body"><span class="a-title">Provider vs BLoC</span></span>
         <span class="a-tags"><span>Flutter</span><span>Architecture</span></span>
         <span class="a-go" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M5 13 13 5M6.5 5H13v6.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </a></li>
       <li><a href="https://medium.com/@kavindudeshal2/building-maintainable-flutter-apps-with-clean-architecture-5b81f7ef7830" target="_blank" rel="noopener">
         <time datetime="2024-06-20">20 Jun 2024</time>
-        <span class="a-body"><span class="a-title">Building Flutter Apps with Clean Architecture</span><span class="a-dek">Layers, boundaries and dependencies that keep a growing Flutter codebase maintainable.</span></span>
+        <span class="a-body"><span class="a-title">Building Flutter Apps with Clean Architecture</span></span>
         <span class="a-tags"><span>Flutter</span><span>Clean Architecture</span></span>
         <span class="a-go" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M5 13 13 5M6.5 5H13v6.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </a></li>
@@ -144,18 +139,20 @@
 <section class="exp zone hs" id="experience" data-depth="1400" data-fg="light">
   <div class="hs-pin">
     <div class="wrap">
-      <p class="zone-tag">Midnight zone</p>
-      <h2 class="title">Experience</h2>
-      <p class="intro">Most recent first. Deeper means earlier.</p>
+      <p class="zone-tag">04 / Midnight zone</p>
+      <h2 class="title">Timeline of a life</h2>
     </div>
-    <ol class="line hs-track">
-      <li class="now"><time>Now</time><div><h3>Werkstudent</h3><p class="org">Comitec IT Systems</p><p>Part-time engineering alongside the MSc.</p></div></li>
-      <li class="now"><time>Apr 2025 – now</time><div><h3>MSc Software Engineering</h3><p class="org">University of Hildesheim</p><p>Software architecture, cloud and engineering methods.</p></div></li>
-      <li><time>Jan 2025 – now</time><div><h3>Co-founder, social media</h3><p class="org">Siggi's Ceylon</p><p>Sri Lanka travel company. Social media and tour-partner coordination.</p></div></li>
-      <li><time>Jul 2024 – Apr 2025</time><div><h3>Software Engineer</h3><p class="org">Irusri Group AB</p><p>Mobile apps from first plan to store release. Mentoring junior developers and owning the releases.</p></div></li>
-      <li><time>Aug – Dec 2023</time><div><h3>Freelance Software Developer</h3><p class="org">Enash Active (Pvt) Ltd</p><p>Badminton court booking app, delivered solo from brief to launch.</p></div></li>
-      <li><time>Jun 2022 – Jun 2024</time><div><h3>Software Engineering Trainee</h3><p class="org">IFS, Colombo</p><p>Global technical support for IFS asset management software, side by side with the product teams.</p></div></li>
-      <li><time>2021 – 2024</time><div><h3>BEng (Hons) Software Engineering, First Class</h3><p class="org">Informatics Institute of Technology, with the University of Westminster</p><p>First Class Honours. Birthplace of GemLens, the explainable gemstone classifier.</p></div></li>
+    <ol class="line hs-track lifeline">
+      <li class="life gold"><span class="yr">2026</span><div class="lc"><p class="kind">Sport</p><h3>Best ODI bowler, Niedersachsen</h3><p>The season it all clicked. Named the best ODI bowler in Lower Saxony.</p></div></li>
+      <li class="life "><span class="yr">2026</span><div class="lc"><p class="kind">Build</p><h3>Ankomm goes live</h3><p>A guide for international students arriving in Germany. The one I wished I had.</p></div></li>
+      <li class="life now"><span class="yr">2025</span><div class="lc"><p class="kind">Work / Nov</p><h3>Fullstack-Entwickler, Comitec IT Systems</h3><p>Flutter, Node.js and CI/CD for a German IT company, alongside my master's.</p></div></li>
+      <li class="life now"><span class="yr">2025</span><div class="lc"><p class="kind">Move / Apr</p><h3>New country, new chapter</h3><p>Packed up in Sri Lanka and moved to Germany for an MSc in Software Engineering at Hildesheim.</p></div></li>
+      <li class="life "><span class="yr">2025</span><div class="lc"><p class="kind">Venture / Jan</p><h3>Co-founded Siggi's Ceylon</h3><p>A travel company showing people the real Sri Lanka. I handle the brand and the partners.</p></div></li>
+      <li class="life "><span class="yr">2024</span><div class="lc"><p class="kind">Work</p><h3>Software Engineer, Irusri Group</h3><p>Internship in Sweden (remote), then full-time. Mobile apps from first plan to the stores.</p></div></li>
+      <li class="life "><span class="yr">2024</span><div class="lc"><p class="kind">Degree</p><h3>First Class Honours</h3><p>BEng Software Engineering, University of Westminster at IIT. GemLens was born here.</p></div></li>
+      <li class="life "><span class="yr">2022</span><div class="lc"><p class="kind">Work</p><h3>First job, IFS Colombo</h3><p>A year supporting IFS customers worldwide. Learned how enterprise software really runs.</p></div></li>
+      <li class="life "><span class="yr">2021</span><div class="lc"><p class="kind">Start</p><h3>Into software engineering</h3><p>Started the BEng in Software Engineering, and the habit of building things just to see if I could.</p></div></li>
+      <li class="life "><span class="yr">2020</span><div class="lc"><p class="kind">Roots</p><h3>Holy Cross College, Kalutara</h3><p>A/Ls in Physics, Combined Maths and IT. Where it all started.</p></div></li>
     </ol>
     <div class="wrap"><div class="hs-bar" aria-hidden="true"><span></span></div></div>
     <div class="jellies" id="jellies2"></div>
@@ -164,56 +161,22 @@
 
 <section class="about zone" id="about" data-depth="2100" data-fg="light">
   <div class="wrap">
-    <p class="zone-tag">The abyss</p>
-    <h2 class="title">About me</h2>
-    <div class="about-grid">
-      <p class="statement">The screen someone taps. The API it calls. The database underneath. All three, built end to end.</p>
-      <div class="bio">
-        <p>Software engineer from Sri Lanka, based in Hildesheim, Germany. First Class BEng in Software Engineering, mobile apps shipped to the stores, and now an MSc at the University of Hildesheim alongside a Werkstudent role at Comitec IT Systems.</p>
-        <p>Flutter on the front, Spring Boot or Node.js behind it, and a soft spot for machine learning that explains its answers.</p>
-      </div>
-    </div>
-    <dl class="kit">
-      <div><dt><span class="k-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg></span>Mobile</dt><dd>Flutter, Dart, BLoC, Clean Architecture, Firebase, SwiftUI, Kotlin</dd></div>
-      <div><dt><span class="k-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="3.5" y="4" width="17" height="6" rx="1.5"/><rect x="3.5" y="14" width="17" height="6" rx="1.5"/><path d="M7 7h.01M7 17h.01"/></svg></span>Backend</dt><dd>Java, Spring Boot, Spring Cloud, Node.js, Express, .NET, REST, JWT, PostgreSQL, Docker</dd></div>
-      <div><dt><span class="k-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="14" rx="2"/><path d="M2.5 8h19M8 21h8"/></svg></span>Web</dt><dd>Angular, React, TypeScript, HTML and CSS</dd></div>
-      <div><dt><span class="k-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/><rect x="7" y="7" width="10" height="10" rx="2"/><path d="M10 10h4v4h-4z"/></svg></span>Machine learning</dt><dd>Python, TensorFlow, Keras, ONNX, LIME, scikit-learn</dd></div>
-      <div><dt><span class="k-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M4 5h9M8.5 3v2M6 5c0 4 3 7 6 8M11 5c-.5 3-3 6-6.5 8"/><path d="m12 21 4.5-10L21 21M13.5 18h6"/></svg></span>Languages</dt><dd>English (fluent), Sinhala (native), German (learning)</dd></div>
-    </dl>
-    <h3 class="off-title">Off the clock</h3>
-    <div class="off">
-      <article class="off-card award">
-        <span class="o-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8.5 20h7M10 17h4v3h-4z"/></svg></span>
-        <div>
-          <p class="o-kicker">Cricket</p>
-          <h4>Best ODI bowler 2026, Niedersachsen</h4>
-          <p>A season to remember: named best ODI bowler in Niedersachsen for 2026. The bowling crease is where the code switches off.</p>
-        </div>
-      </article>
-      <article class="off-card">
-        <span class="o-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m12 7 4 3-1.5 4.5h-5L8 10z"/><path d="M12 3v4M21 10.5l-5 0M3 10.5h5M15.5 20l-1-5.5M8.5 20l1-5.5"/></svg></span>
-        <div><p class="o-kicker">Football</p><p>University and local teams. Fitness, competition and the quickest way into a new city.</p></div>
-      </article>
-      <article class="off-card">
-        <span class="o-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="14" cy="4.5" r="1.8"/><path d="M13 7.5 10 12l4 2-2 4M10 12l-4 1.5"/><path d="M3 19c2 1.2 4 1.2 6 0s4-1.2 6 0 4 1.2 6 0M4 17.5l11-1.5"/></svg></span>
-        <div><p class="o-kicker">Water skiing</p><p>Summer, open water, full speed. Fitting, for a portfolio that lives under the surface.</p></div>
-      </article>
-      <article class="off-card">
-        <span class="o-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M4 8h3l2-2.5h6L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
-        <div><p class="o-kicker">Photography</p><p>Landscapes and street scenes, published as Peaceful Lens.</p></div>
-      </article>
-    </div>
+    <p class="zone-tag">05 / The abyss</p>
+    <h2 class="poly">Polymath</h2>
+    <p class="poly-sub"><span>7 disciplines.</span> <span>1 operator.</span></p>
   </div>
+  <div class="tick big" aria-label="Coder, Cricketer, Founder, Writer, Footballer, Water skier, Photographer"><div class="tt"><span>Coder</span><i>/</i><span class="g">Cricketer</span><i>/</i><span>Founder</span><i>/</i><span>Writer</span><i>/</i><span>Footballer</span><i>/</i><span>Water skier</span><i>/</i><span>Photographer</span><i>/</i><span>Coder</span><i>/</i><span class="g">Cricketer</span><i>/</i><span>Founder</span><i>/</i><span>Writer</span><i>/</i><span>Footballer</span><i>/</i><span>Water skier</span><i>/</i><span>Photographer</span><i>/</i></div></div>
+  <div class="tick small" aria-label="Tech stack"><div class="tt"><span>Flutter</span><i>+</i><span>Dart</span><i>+</i><span>BLoC</span><i>+</i><span>Spring Boot</span><i>+</i><span>Node.js</span><i>+</i><span>NestJS</span><i>+</i><span>Next.js</span><i>+</i><span>Angular</span><i>+</i><span>React</span><i>+</i><span>TypeScript</span><i>+</i><span>PostgreSQL</span><i>+</i><span>Prisma</span><i>+</i><span>Docker</span><i>+</i><span>CI/CD</span><i>+</i><span>Python</span><i>+</i><span>TensorFlow</span><i>+</i><span>ONNX</span><i>+</i><span>Flutter</span><i>+</i><span>Dart</span><i>+</i><span>BLoC</span><i>+</i><span>Spring Boot</span><i>+</i><span>Node.js</span><i>+</i><span>NestJS</span><i>+</i><span>Next.js</span><i>+</i><span>Angular</span><i>+</i><span>React</span><i>+</i><span>TypeScript</span><i>+</i><span>PostgreSQL</span><i>+</i><span>Prisma</span><i>+</i><span>Docker</span><i>+</i><span>CI/CD</span><i>+</i><span>Python</span><i>+</i><span>TensorFlow</span><i>+</i><span>ONNX</span><i>+</i></div></div>
 </section>
 
 <section class="seabed zone" id="contact" data-depth="2900" data-fg="light">
   <div class="pearl-light" id="pearlLight" aria-hidden="true"></div>
   <div class="wrap">
-    <p class="zone-tag">The seabed, 3,200 metres</p>
+    <p class="zone-tag">06 / Seabed, 3,200 m</p>
     <h2 class="title">Let's build something</h2>
     <div class="contact-grid">
       <div>
-        <p class="intro">An idea, or a product that needs a hand. Designed and built end to end, from the first screen to the server it runs on.</p>
+        <p class="intro">Web. Mobile. Backend. AI. Designed and built end to end.</p>
         <ul class="services">
           <li><span class="s-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="14" rx="2"/><path d="M2.5 8h19M8 21h8"/></svg></span><div><h3>Web solutions</h3><p>Websites and web apps that load fast and work on every screen.</p></div></li>
           <li><span class="s-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg></span><div><h3>Mobile solutions</h3><p>One Flutter app for Android and iOS, all the way to the app stores.</p></div></li>
@@ -226,7 +189,7 @@
         <a class="r" href="mailto:kavindudeshal2@gmail.com"><span>Write an email</span><small>Opens your mail app</small></a>
         <a class="r" href="https://www.linkedin.com/in/deshal001/" target="_blank" rel="noopener"><span>LinkedIn</span><small>in/deshal001</small></a>
         <a class="r" href="https://github.com/Deshal-001" target="_blank" rel="noopener"><span>GitHub</span><small>Deshal-001</small></a>
-        <a class="r" href="assets/Kavindu_Deshal_Silva_CV.pdf" target="_blank" rel="noopener"><span>CV</span><small>PDF</small></a>
+        <a class="r" href="assets/Kavindu_Deshal_Hembadura_CV.pdf" target="_blank" rel="noopener"><span>CV</span><small>PDF</small></a>
       </div>
     </div>
   </div>
@@ -290,37 +253,44 @@
 
     <div class="oyster-wrap">
       <p class="found" id="found" aria-live="polite"></p>
-      <button class="oyster" id="oyster" type="button" aria-pressed="false" aria-label="Open the oyster">
+      <button class="oyster" id="oyster" type="button" aria-pressed="false" aria-label="Open the clam">
         <svg viewBox="0 0 260 180" aria-hidden="true">
           <defs>
-            <radialGradient id="pearlG" cx=".38" cy=".35" r=".7"><stop offset="0" stop-color="#ffffff"/><stop offset=".45" stop-color="#F6EEFF"/><stop offset="1" stop-color="#BFA9E6"/></radialGradient>
-            <radialGradient id="glowG"><stop offset="0" stop-color="#FFF8E7" stop-opacity="1"/><stop offset=".4" stop-color="#FFD9F0" stop-opacity=".55"/><stop offset="1" stop-color="#9FFFF0" stop-opacity="0"/></radialGradient>
-            <linearGradient id="shellG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4A3E78"/><stop offset="1" stop-color="#1A1436"/></linearGradient>
-            <linearGradient id="nacreG" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#9FFFF0"/><stop offset=".5" stop-color="#FFD3EC"/><stop offset="1" stop-color="#C6A4FF"/></linearGradient>
+            <radialGradient id="pearlG" cx=".36" cy=".32" r=".75"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".35" stop-color="#E4F1F7"/><stop offset=".75" stop-color="#9DB3C2"/><stop offset="1" stop-color="#4E6577"/></radialGradient>
+            <linearGradient id="sheenG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7FF7FF" stop-opacity=".0"/><stop offset=".5" stop-color="#9FD8FF" stop-opacity=".35"/><stop offset="1" stop-color="#C9B8FF" stop-opacity=".0"/></linearGradient>
+            <radialGradient id="glowG"><stop offset="0" stop-color="#EFFFFF" stop-opacity=".9"/><stop offset=".35" stop-color="#3DF2FF" stop-opacity=".28"/><stop offset="1" stop-color="#3DF2FF" stop-opacity="0"/></radialGradient>
+            <linearGradient id="shellG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#16222E"/><stop offset="1" stop-color="#03070C"/></linearGradient>
+            <linearGradient id="lidG" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#1A2835"/><stop offset="1" stop-color="#05090F"/></linearGradient>
+            <linearGradient id="nacreG" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2B6F86"/><stop offset=".5" stop-color="#BFEFFF"/><stop offset="1" stop-color="#5A6FB0"/></linearGradient>
           </defs>
-          <circle class="glow" cx="130" cy="104" r="120" fill="url(#glowG)"/>
-          <!-- bottom shell -->
-          <path d="M24 112 C40 172 220 172 236 112 C200 124 60 124 24 112Z" fill="url(#shellG)" stroke="#7E6BC0" stroke-opacity=".5"/>
-          <g stroke="#8F7CD0" stroke-opacity=".35" fill="none"><path d="M60 130 C80 150 100 158 130 160"/><path d="M200 130 C180 150 160 158 130 160"/><path d="M90 122 C105 140 115 150 130 152"/></g>
-          <ellipse cx="130" cy="113" rx="104" ry="12" fill="url(#nacreG)" opacity=".55"/>
-          <!-- pearl -->
-          <circle class="pearl-core" cx="130" cy="98" r="18" fill="url(#pearlG)"/>
-          <circle cx="124" cy="92" r="5" fill="#fff" opacity=".9"/>
-          <!-- lid -->
+          <circle class="glow" cx="130" cy="98" r="120" fill="url(#glowG)"/>
+          <path d="M22 112 C34 166 226 166 238 112 Q225 120 212 112 Q199 121 186 112 Q173 122 160 112 Q147 122 134 112 Q121 122 108 112 Q95 122 82 112 Q69 121 56 112 Q43 120 22 112 Z" fill="url(#shellG)" stroke="rgba(61,242,255,.28)" stroke-width="1"/>
+          <g stroke="rgba(61,242,255,.14)" stroke-width="1" fill="none"><path d="M130 158 L48 116"/><path d="M130 158 L74 116"/><path d="M130 158 L100 116"/><path d="M130 158 L126 116"/><path d="M130 158 L152 116"/><path d="M130 158 L178 116"/><path d="M130 158 L204 116"/><path d="M130 158 L226 116"/></g>
+          <ellipse class="nacre" cx="130" cy="113" rx="102" ry="9" fill="url(#nacreG)" opacity=".35"/>
+          <g class="pearl-core">
+            <circle cx="130" cy="97" r="17" fill="url(#pearlG)"/>
+            <circle cx="130" cy="97" r="17" fill="url(#sheenG)"/>
+            <ellipse cx="124" cy="90" rx="5" ry="3.2" fill="#fff" opacity=".9" transform="rotate(-30 124 90)"/>
+          </g>
+          <g class="pring" fill="none" stroke="#3DF2FF" stroke-width="1">
+            <circle cx="130" cy="97" r="28" stroke-dasharray="2 6"/>
+            <circle cx="130" cy="97" r="38" stroke-opacity=".4"/>
+            <path d="M130 55v10M130 129v10M88 97h10M162 97h10"/>
+          </g>
           <g class="lid">
-            <path d="M22 112 C26 52 80 30 130 30 C182 30 234 52 238 112 C200 100 60 100 22 112Z" fill="url(#shellG)" stroke="#7E6BC0" stroke-opacity=".6"/>
-            <g stroke="#8F7CD0" stroke-opacity=".4" fill="none"><path d="M130 34 C128 60 128 80 130 104"/><path d="M80 44 C90 64 100 84 108 104"/><path d="M180 44 C170 64 160 84 152 104"/><path d="M46 70 C62 82 74 94 84 106"/><path d="M214 70 C198 82 186 94 176 106"/></g>
-            <path class="seam" d="M30 111 C80 101 180 101 230 111" stroke="#9FFFF0" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <path d="M22 112 C20 50 80 24 130 24 C180 24 240 50 238 112 Q225 104 212 112 Q199 103 186 112 Q173 102 160 112 Q147 102 134 112 Q121 102 108 112 Q95 102 82 112 Q69 103 56 112 Q43 104 22 112 Z" fill="url(#lidG)" stroke="rgba(61,242,255,.3)" stroke-width="1"/>
+            <g stroke="rgba(61,242,255,.14)" stroke-width="1" fill="none"><path d="M130 30 L40 108"/><path d="M130 30 L66 108"/><path d="M130 30 L92 108"/><path d="M130 30 L118 108"/><path d="M130 30 L142 108"/><path d="M130 30 L168 108"/><path d="M130 30 L194 108"/><path d="M130 30 L220 108"/></g>
+            <path class="seam" d="M238 112 Q225 104 212 112 Q199 103 186 112 Q173 102 160 112 Q147 102 134 112 Q121 102 108 112 Q95 102 82 112 Q69 103 56 112 Q43 104 22 112" stroke="#3DF2FF" stroke-width="1.4" fill="none"/>
           </g>
         </svg>
       </button>
-      <p class="oy-hint">Click the oyster</p>
+      
     </div>
   </div>
 
   <div class="wrap">
     <footer class="foot">
-      <span>© <span id="yr"></span> Kavindu Deshal Silva</span>
+      <span>© <span id="yr"></span> Kavindu Deshal Hembadura</span>
       <span>Hildesheim, Germany, <span id="clock"></span></span>
       <a href="#top">Back to the top</a>
     </footer>
