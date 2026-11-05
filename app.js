@@ -143,14 +143,17 @@ function fitEmail() {
   const avail = box.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight) - (innerWidth < 821 ? 0 : $(".f-copy").offsetWidth + 32);
   e.style.fontSize = "100px";
   const w = e.scrollWidth;
-  e.style.fontSize = Math.min(88, Math.floor(100 * avail / w * .97)) + "px";
+  e.style.fontSize = Math.min(64, Math.floor(100 * avail / w * .97)) + "px";
 }
 function fit() {
   fitEmail();
   $$(".fit").forEach(el => {
     const box = el.closest(".hname, .pword, .fname");
     const cs = getComputedStyle(box);
-    const target = box.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    let target = box.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    if (box.classList.contains("hname")) target *= innerWidth > 820 ? .7 : .9;   // the name: big, not wall-to-wall
+    if (box.classList.contains("pword") && innerWidth > 820) target *= .72;
+    if (box.classList.contains("fname") && innerWidth > 820) target *= .8;
     el.style.fontSize = "100px";
     el.style.fontSize = (100 * target / el.getBoundingClientRect().width * (box.classList.contains("hname") ? .995 : .97)) + "px";
   });
@@ -484,12 +487,14 @@ let lenis = null;
 function goTo(top) { lenis ? lenis.scrollTo(top) : scrollTo({ top, behavior: reduced ? "auto" : "smooth" }); }
 if (!reduced && window.Lenis) {
   lenis = new Lenis({ lerp: .085, wheelMultiplier: .95, touchMultiplier: 1.3, smoothWheel: true });
-  lenis.on("scroll", frame);
   (function loop(t) { lenis.raf(t); requestAnimationFrame(loop); })(performance.now());
-} else {
-  let raf = 0;
-  addEventListener("scroll", () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; frame(); }); }, { passive: true });
 }
+/* every scroll, smooth or native touch, drives the animations: one update per frame */
+let rafQ = 0;
+const queue = () => { if (!rafQ) rafQ = requestAnimationFrame(() => { rafQ = 0; frame(); }); };
+addEventListener("scroll", queue, { passive: true });
+addEventListener("touchmove", queue, { passive: true });
+if (lenis) lenis.on("scroll", queue);
 addEventListener("resize", () => { fit(); tlSize(); capColours(); measure(); skSize(); frame(); });
 
 /* ================= cursor ================= */
