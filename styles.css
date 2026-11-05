@@ -277,7 +277,9 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
   .repo span{display:none}
   .repo{padding:.8rem 0}
   .fx-tabs{margin-bottom:.4rem}
-  .finds .say,.wr .say,.tl .say{display:none}
+  .finds .say,.wr .say,.tl .say{margin-bottom:.6rem}
+  .finds .say > span,.wr .say > span,.tl .say > span{font-size:.85rem;padding:.5rem .7rem;min-height:2.4em}
+  .finds .say i,.wr .say i,.tl .say i{flex-basis:1.8rem;height:1.8rem}
   .say{max-width:100%}
   .say > span{font-size:.95rem}
   .post b{font-size:clamp(1.5rem,7vw,2.2rem)}
