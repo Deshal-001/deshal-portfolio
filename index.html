@@ -1,309 +1,178 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Kavindu Deshal Hembadura – Software Engineer</title>
-<meta name="description" content="Kavindu Deshal Hembadura, software engineer in Hildesheim, Germany. Flutter apps, Spring Boot and Node.js backends, applied machine learning.">
-<meta property="og:title" content="Kavindu Deshal Hembadura – Software Engineer">
-<meta property="og:description" content="Mobile apps and the systems underneath them. Flutter, Spring Boot, Node.js, applied ML.">
-<meta name="theme-color" content="#010309">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%228%22 fill=%22%23010309%22/%3E%3Ccircle cx=%2216%22 cy=%2216%22 r=%226%22 fill=%22%237CF7E4%22/%3E%3Ccircle cx=%2216%22 cy=%2216%22 r=%2211%22 fill=%22none%22 stroke=%22%237CF7E4%22 stroke-opacity=%22.4%22/%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css">
+<title>Kavindu Hembadura – Software Engineer</title>
+<meta name="description" content="Kavindu Hembadura, software engineer in Hannover. Mobile, web, backend and AI.">
+<meta name="theme-color" content="#000000">
+<link rel="preload" href="assets/fonts/big-shoulders.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/hanken-grotesk.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="styles.css?v=31">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23FF4F12'/%3E%3Ctext x='16' y='24' font-family='Arial Black' font-size='19' text-anchor='middle' fill='%23000'%3EK%3C/text%3E%3C/svg%3E">
 </head>
-<body class="dark">
-<a class="skip" href="#main">Skip to content</a>
+<body>
 
-<div class="ocean" id="ocean" aria-hidden="true"></div>
-<div class="rays" id="rays" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-<canvas id="sea" aria-hidden="true"></canvas>
-<div class="lure" id="lure" aria-hidden="true"></div>
-<div class="sharks" id="sharks" aria-hidden="true"></div>
-<div class="dark-mask" id="darkMask" aria-hidden="true"></div>
-<button class="sonar" id="sonar" type="button" aria-pressed="false"><i class="rec"></i><span id="hudStatus">SONAR OFF</span></button>
-<div class="hud" aria-hidden="true">
-  <span class="hc tl"></span><span class="hc tr"></span><span class="hc bl"></span><span class="hc br"></span>
-  <div class="scan"></div>
-  
-  <div class="hud-br"><span id="hudXY">X 0000 Y 0000</span><span id="hudHdg">HDG 000°</span></div>
-  <div class="reticle" id="reticle"><svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="22" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="3 5"/><path d="M40 4v12M40 64v12M4 40h12M64 40h12" stroke="currentColor" stroke-width="1.2"/><circle cx="40" cy="40" r="1.6" fill="currentColor"/></svg></div>
-  <div class="grain"></div>
-</div>
+<header class="bar">
+  <a class="mark" href="#top" aria-label="Back to the top">KH</a>
+  <a class="bar-cta" href="#contact">Let's build</a>
+  <i class="prog" id="prog"></i>
+</header>
 
-<aside class="gauge" id="gauge" aria-label="Current depth">
-  <div class="read"><span class="num" id="depth">200</span><span class="unit">metres</span></div>
-  <div class="track" aria-hidden="true"><div class="ticks" id="ticks"></div><span class="sub" id="sub"></span></div>
-  <span class="temp" id="temp">12 °C</span>
-  <span class="zname" id="zname">Twilight zone</span>
-</aside>
+<canvas class="ski" id="ski" aria-hidden="true"></canvas>
 
+<main>
 
-<main id="main">
-
-<!-- 200 m: twilight -->
-<section class="hero zone" id="top" data-depth="200" data-fg="light">
-  <div class="wrap">
-    <h1 class="name" id="name" aria-label="Kavindu Deshal Hembadura">
-      <span class="base" aria-hidden="true"><span>Kavindu</span><span>Deshal Hembadura</span></span>
-      <span class="lit" aria-hidden="true"><span>Kavindu</span><span>Deshal Hembadura</span></span>
+<!-- NAME -->
+<section class="pin hero" id="top" style="--h:230vh">
+  <div class="stage">
+    <h1 class="hname" aria-label="Kavindu Hembadura">
+      <span class="row r1" aria-hidden="true"><span class="mask fit" data-chars>Kavindu</span></span>
+      <span class="row r2" aria-hidden="true"><span class="mask fit" data-chars>Hembadura</span></span>
     </h1>
-    <div class="row">
-      <div class="reveal">
-        <p class="lede">Mobile apps. The systems behind them.<br><b>Built end to end.</b></p>
-        <div class="actions">
-          <a class="btn lit" href="#work">View the builds</a>
-          <a class="btn" href="#contact">Contact</a>
-        </div>
-      </div>
-      <dl class="readout reveal d2">
-        <div><dt>Role</dt><dd>Software Engineer</dd></div>
-        <div><dt>Base</dt><dd>Hannover / Hildesheim, DE</dd></div>
-        <div><dt>Now</dt><dd>Fullstack-Entwickler, Comitec IT Systems / MSc SE</dd></div>
-        <div><dt>Stack</dt><dd>Flutter / Spring Boot / Node.js / ML</dd></div>
-      </dl>
+    <p class="hero-mid" id="heroMid"><span>Software engineer</span><span>Hannover, DE</span></p>
+    <div class="hero-foot">
+      <p>Mobile / Web / Backend / AI</p>
+      <p id="clock">Hannover --:--</p>
     </div>
   </div>
 </section>
 
+<!-- WORK (orange) -->
+<section class="sec hot" id="work">
+  <div class="wrap">
+    <p class="say"><i aria-hidden="true">KH</i><span>You made it past the name. Good. Here are six things I built. Open any of them, I'll walk you through it.</span></p>
+    <div class="head"><h2 class="big rise">Selected<br>builds</h2><p class="head-n">06</p></div>
+    <div class="stack projects" id="projects"></div>
+  </div>
+</section>
 
-<section class="work zone hs" id="work" data-depth="450" data-fg="light">
-  <div class="hs-pin">
+<!-- ARCHIVE: scroll switches the group -->
+<section class="pin finds wave" id="archive" style="--h:270vh">
+  <div class="stage">
     <div class="wrap">
-      <div class="work-head">
-        <div>
-          <p class="zone-tag">01 / Twilight zone</p>
-          <h2 class="title">Selected builds</h2>
-        </div>
-        <div class="filters" role="group" aria-label="Filter projects">
-          <button aria-pressed="true" data-f="all">All</button>
-          <button aria-pressed="false" data-f="web">Web</button>
-          <button aria-pressed="false" data-f="mobile">Mobile</button>
-          <button aria-pressed="false" data-f="backend">Backend</button>
-          <button aria-pressed="false" data-f="ai">Machine learning</button>
-        </div>
-      </div>
-    </div>
-    <div class="hs-track specimens" id="specimens"></div>
-    <div class="wrap"><div class="hs-bar" aria-hidden="true"><span></span></div></div>
-    <div id="jellies"></div>
-  </div>
-</section>
-
-<section class="more zone" id="more" data-depth="900" data-fg="light">
-  <div class="wrap">
-    <div class="more-head">
-      <div>
-        <p class="zone-tag">02 / Archive</p>
-        <h2 class="title">Smaller finds</h2>
-        <p class="intro">APIs, coursework, tools. <span id="repoCount"></span></p>
-      </div>
-      <a class="btn" href="https://github.com/Deshal-001" target="_blank" rel="noopener">All repositories on GitHub</a>
-    </div>
-    <div class="repos" id="repos"></div>
-  </div>
-</section>
-
-
-<section class="log zone" id="writing" data-depth="1150" data-fg="light">
-  <div class="wrap">
-    <div class="more-head">
-      <div>
-        <p class="zone-tag">03 / Dive log</p>
-        <h2 class="title">Writing</h2>
-      </div>
-      <a class="btn" href="https://medium.com/@kavindudeshal2" target="_blank" rel="noopener">All articles on Medium</a>
-    </div>
-    <ol class="articles">
-      <li><a href="https://medium.com/@kavindudeshal2/a-simple-tool-to-sort-arb-files-0cc881fdfc03" target="_blank" rel="noopener">
-        <time datetime="2024-12-14">14 Dec 2024</time>
-        <span class="a-body"><span class="a-title">A Simple Tool to Sort ARB Files</span></span>
-        <span class="a-tags"><span>Flutter</span><span>Python</span></span>
-        <span class="a-go" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M5 13 13 5M6.5 5H13v6.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      </a></li>
-      <li><a href="https://medium.com/@kavindudeshal2/provider-vs-bloc-choosing-the-right-state-management-solution-for-your-flutter-app-614d32a9f27c" target="_blank" rel="noopener">
-        <time datetime="2024-08-12">12 Aug 2024</time>
-        <span class="a-body"><span class="a-title">Provider vs BLoC</span></span>
-        <span class="a-tags"><span>Flutter</span><span>Architecture</span></span>
-        <span class="a-go" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M5 13 13 5M6.5 5H13v6.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      </a></li>
-      <li><a href="https://medium.com/@kavindudeshal2/building-maintainable-flutter-apps-with-clean-architecture-5b81f7ef7830" target="_blank" rel="noopener">
-        <time datetime="2024-06-20">20 Jun 2024</time>
-        <span class="a-body"><span class="a-title">Building Flutter Apps with Clean Architecture</span></span>
-        <span class="a-tags"><span>Flutter</span><span>Clean Architecture</span></span>
-        <span class="a-go" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M5 13 13 5M6.5 5H13v6.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      </a></li>
-    </ol>
-  </div>
-</section>
-
-<section class="exp zone hs" id="experience" data-depth="1400" data-fg="light">
-  <div class="hs-pin">
-    <div class="wrap">
-      <p class="zone-tag">04 / Midnight zone</p>
-      <h2 class="title">Timeline of a life</h2>
-    </div>
-    <ol class="line hs-track lifeline">
-      <li class="life gold"><span class="yr">2026</span><div class="lc"><p class="kind">Sport</p><h3>Best ODI bowler, Niedersachsen</h3><p>The season it all clicked. Named the best ODI bowler in Lower Saxony.</p></div></li>
-      <li class="life "><span class="yr">2026</span><div class="lc"><p class="kind">Build</p><h3>Ankomm goes live</h3><p>A guide for international students arriving in Germany. The one I wished I had.</p></div></li>
-      <li class="life now"><span class="yr">2025</span><div class="lc"><p class="kind">Work / Nov</p><h3>Fullstack-Entwickler, Comitec IT Systems</h3><p>Flutter, Node.js and CI/CD for a German IT company, alongside my master's.</p></div></li>
-      <li class="life now"><span class="yr">2025</span><div class="lc"><p class="kind">Move / Apr</p><h3>New country, new chapter</h3><p>Packed up in Sri Lanka and moved to Germany for an MSc in Software Engineering at Hildesheim.</p></div></li>
-      <li class="life "><span class="yr">2025</span><div class="lc"><p class="kind">Venture / Jan</p><h3>Co-founded Siggi's Ceylon</h3><p>A travel company showing people the real Sri Lanka. I handle the brand and the partners.</p></div></li>
-      <li class="life "><span class="yr">2024</span><div class="lc"><p class="kind">Work</p><h3>Software Engineer, Irusri Group</h3><p>Internship in Sweden (remote), then full-time. Mobile apps from first plan to the stores.</p></div></li>
-      <li class="life "><span class="yr">2024</span><div class="lc"><p class="kind">Degree</p><h3>First Class Honours</h3><p>BEng Software Engineering, University of Westminster at IIT. GemLens was born here.</p></div></li>
-      <li class="life "><span class="yr">2022</span><div class="lc"><p class="kind">Work</p><h3>First job, IFS Colombo</h3><p>A year supporting IFS customers worldwide. Learned how enterprise software really runs.</p></div></li>
-      <li class="life "><span class="yr">2021</span><div class="lc"><p class="kind">Start</p><h3>Into software engineering</h3><p>Started the BEng in Software Engineering, and the habit of building things just to see if I could.</p></div></li>
-      <li class="life "><span class="yr">2020</span><div class="lc"><p class="kind">Roots</p><h3>Holy Cross College, Kalutara</h3><p>A/Ls in Physics, Combined Maths and IT. Where it all started.</p></div></li>
-    </ol>
-    <div class="wrap"><div class="hs-bar" aria-hidden="true"><span></span></div></div>
-    <div class="jellies" id="jellies2"></div>
-  </div>
-</section>
-
-<section class="about zone" id="about" data-depth="2100" data-fg="light">
-  <div class="wrap">
-    <p class="zone-tag">05 / The abyss</p>
-    <h2 class="poly">Polymath</h2>
-    <p class="poly-sub"><span>7 disciplines.</span> <span>1 operator.</span></p>
-  </div>
-  <div class="tick big" aria-label="Coder, Cricketer, Founder, Writer, Footballer, Water skier, Photographer"><div class="tt"><span>Coder</span><i>/</i><span class="g">Cricketer</span><i>/</i><span>Founder</span><i>/</i><span>Writer</span><i>/</i><span>Footballer</span><i>/</i><span>Water skier</span><i>/</i><span>Photographer</span><i>/</i><span>Coder</span><i>/</i><span class="g">Cricketer</span><i>/</i><span>Founder</span><i>/</i><span>Writer</span><i>/</i><span>Footballer</span><i>/</i><span>Water skier</span><i>/</i><span>Photographer</span><i>/</i></div></div>
-  <div class="tick small" aria-label="Tech stack"><div class="tt"><span>Flutter</span><i>+</i><span>Dart</span><i>+</i><span>BLoC</span><i>+</i><span>Spring Boot</span><i>+</i><span>Node.js</span><i>+</i><span>NestJS</span><i>+</i><span>Next.js</span><i>+</i><span>Angular</span><i>+</i><span>React</span><i>+</i><span>TypeScript</span><i>+</i><span>PostgreSQL</span><i>+</i><span>Prisma</span><i>+</i><span>Docker</span><i>+</i><span>CI/CD</span><i>+</i><span>Python</span><i>+</i><span>TensorFlow</span><i>+</i><span>ONNX</span><i>+</i><span>Flutter</span><i>+</i><span>Dart</span><i>+</i><span>BLoC</span><i>+</i><span>Spring Boot</span><i>+</i><span>Node.js</span><i>+</i><span>NestJS</span><i>+</i><span>Next.js</span><i>+</i><span>Angular</span><i>+</i><span>React</span><i>+</i><span>TypeScript</span><i>+</i><span>PostgreSQL</span><i>+</i><span>Prisma</span><i>+</i><span>Docker</span><i>+</i><span>CI/CD</span><i>+</i><span>Python</span><i>+</i><span>TensorFlow</span><i>+</i><span>ONNX</span><i>+</i></div></div>
-</section>
-
-<section class="seabed zone" id="contact" data-depth="2900" data-fg="light">
-  <div class="pearl-light" id="pearlLight" aria-hidden="true"></div>
-  <div class="wrap">
-    <p class="zone-tag">06 / Seabed, 3,200 m</p>
-    <h2 class="title">Let's build something</h2>
-    <div class="contact-grid">
-      <div>
-        <p class="intro">Web. Mobile. Backend. AI. Designed and built end to end.</p>
-        <ul class="services">
-          <li><span class="s-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="14" rx="2"/><path d="M2.5 8h19M8 21h8"/></svg></span><div><h3>Web solutions</h3><p>Websites and web apps that load fast and work on every screen.</p></div></li>
-          <li><span class="s-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg></span><div><h3>Mobile solutions</h3><p>One Flutter app for Android and iOS, all the way to the app stores.</p></div></li>
-          <li><span class="s-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="3.5" y="4" width="17" height="6" rx="1.5"/><rect x="3.5" y="14" width="17" height="6" rx="1.5"/><path d="M7 7h.01M7 17h.01"/></svg></span><div><h3>Backend and APIs</h3><p>Reliable, secure APIs and databases with Spring Boot or Node.js.</p></div></li>
-          <li><span class="s-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/><rect x="7" y="7" width="10" height="10" rx="2"/><path d="M10 10h4v4h-4z"/></svg></span><div><h3>AI features</h3><p>Image recognition and smart features that explain their answers.</p></div></li>
-        </ul>
-      </div>
-      <div class="rows">
-        <button class="r" id="copyEmail" type="button"><span>kavindudeshal2@gmail.com</span><small>Copy email</small></button>
-        <a class="r" href="mailto:kavindudeshal2@gmail.com"><span>Write an email</span><small>Opens your mail app</small></a>
-        <a class="r" href="https://www.linkedin.com/in/deshal001/" target="_blank" rel="noopener"><span>LinkedIn</span><small>in/deshal001</small></a>
-        <a class="r" href="https://github.com/Deshal-001" target="_blank" rel="noopener"><span>GitHub</span><small>Deshal-001</small></a>
-        <a class="r" href="assets/Kavindu_Deshal_Hembadura_CV.pdf" target="_blank" rel="noopener"><span>CV</span><small>PDF</small></a>
+      <p class="say"><i aria-hidden="true">KH</i><span>Not everything is a big launch. These are the side quests: APIs, tools and experiments.</span></p>
+      <div class="head"><h2 class="mid rise">Smaller finds</h2><a class="more" href="https://github.com/Deshal-001?tab=repositories" target="_blank" rel="noopener"><span id="repoCount">12</span> repositories on GitHub</a></div>
+      <div class="fx">
+        <ol class="fx-tabs" id="fxTabs"></ol>
+        <div class="fx-panes" id="repos"></div>
       </div>
     </div>
   </div>
+</section>
 
-  <div class="floor" id="floor">
-    <svg class="reef" viewBox="0 0 1440 420" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
-      <defs>
-        <linearGradient id="sand1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="s-top"/><stop offset="1" class="s-bot"/></linearGradient>
-        <linearGradient id="sand2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="s2-top"/><stop offset="1" class="s-bot"/></linearGradient>
-      </defs>
-      <!-- back rocks -->
-      <path class="rock" d="M0 300 C80 250 160 255 230 285 C260 230 340 220 380 270 L380 420 L0 420Z"/>
-      <path class="rock" d="M1060 290 C1110 220 1200 215 1250 260 C1300 230 1390 240 1440 275 L1440 420 L1060 420Z"/>
-      <!-- coral -->
-      <g class="coral c1"><path d="M190 330 C185 290 170 270 150 250 M188 300 C200 280 215 268 232 262 M170 272 C160 258 158 244 162 230 M206 276 C204 258 210 246 220 236" /></g>
-      <g class="coral c2"><path d="M1180 322 C1182 286 1196 262 1214 246 M1184 292 C1166 276 1152 270 1134 268 M1206 256 C1210 240 1222 230 1236 226 M1160 272 C1150 256 1148 244 1152 232" /></g>
-      <g class="coral c3"><circle cx="300" cy="318" r="16"/><circle cx="322" cy="324" r="11"/><circle cx="282" cy="328" r="9"/></g>
-      <g class="coral c4"><circle cx="1290" cy="316" r="14"/><circle cx="1310" cy="326" r="10"/></g>
-      <!-- seaweed -->
-      <g class="weeds">
-        <path class="weed w1" d="M90 360 C70 300 110 260 85 200 C70 165 95 140 88 110"/>
-        <path class="weed w2" d="M110 362 C125 310 95 275 118 225 C130 195 112 170 120 145"/>
-        <path class="weed w3" d="M420 365 C400 320 432 290 412 245"/>
-        <path class="weed w1" d="M1010 362 C1030 310 996 270 1020 220 C1032 192 1012 168 1022 140"/>
-        <path class="weed w2" d="M1350 362 C1332 312 1362 280 1340 230 C1330 205 1348 182 1342 160"/>
-        <path class="weed w3" d="M1372 364 C1385 330 1366 305 1380 270"/>
-      </g>
-      <!-- kelp forest -->
-      <g>
-        <path class="kelp" d="M520 350 C500 280 545 230 515 160 C495 110 525 70 512 20"/>
-        <path class="kelp" d="M548 352 C565 290 530 250 556 190 C575 150 552 110 562 70" style="animation-delay:-3s"/>
-        <path class="kelp" d="M880 350 C900 285 860 240 888 175 C905 130 880 95 892 45" style="animation-delay:-1.5s"/>
-        <path class="kelp" d="M1250 340 C1232 280 1268 240 1246 180 C1230 140 1252 105 1244 70" style="animation-delay:-4s"/>
-        <path class="kelp" d="M40 345 C25 285 60 240 38 175 C24 135 46 100 40 60" style="animation-delay:-2s"/>
-        <g class="leaf"><ellipse cx="528" cy="230" rx="16" ry="6" transform="rotate(-30 528 230)"/><ellipse cx="506" cy="150" rx="15" ry="5.5" transform="rotate(25 506 150)"/><ellipse cx="560" cy="200" rx="14" ry="5" transform="rotate(30 560 200)"/><ellipse cx="896" cy="200" rx="16" ry="6" transform="rotate(28 896 200)"/><ellipse cx="874" cy="120" rx="15" ry="5.5" transform="rotate(-25 874 120)"/><ellipse cx="1236" cy="200" rx="15" ry="5.5" transform="rotate(-28 1236 200)"/><ellipse cx="50" cy="200" rx="14" ry="5" transform="rotate(25 50 200)"/></g>
-      </g>
-      <!-- sand -->
-      <path fill="url(#sand2)" d="M0 350 C200 320 380 345 560 338 C760 330 900 300 1100 322 C1260 340 1360 330 1440 318 L1440 420 L0 420Z"/>
-      <path fill="url(#sand1)" d="M0 385 C220 360 420 380 640 372 C860 364 1040 380 1240 368 C1340 362 1400 366 1440 370 L1440 420 L0 420Z"/>
-      <!-- sea grass and anemones in front -->
-      <g class="grass">
-        <path d="M180 392 C176 370 184 355 178 335"/><path d="M188 392 C192 372 186 360 194 342"/><path d="M196 393 C198 378 204 368 206 352"/>
-        <path d="M640 390 C636 368 644 352 638 330"/><path d="M648 390 C652 372 646 358 654 340"/><path d="M658 391 C660 376 666 366 668 350"/><path d="M630 391 C626 378 622 368 618 354"/>
-        <path d="M790 390 C786 370 794 356 788 338"/><path d="M800 390 C804 372 798 360 806 344"/>
-        <path d="M1130 388 C1126 366 1134 350 1128 330"/><path d="M1140 388 C1144 370 1138 356 1146 340"/><path d="M1120 389 C1116 376 1112 366 1108 352"/>
-        <path d="M1400 386 C1396 366 1404 352 1398 334"/><path d="M1410 386 C1414 370 1408 358 1416 342"/>
-      </g>
-      <g class="anem">
-        <g><path d="M440 392 C436 378 430 372 426 364"/><path d="M446 392 C446 378 446 370 446 360"/><path d="M452 392 C456 378 462 372 466 364"/><path d="M443 392 C438 382 432 380 428 376"/><path d="M449 392 C454 382 460 380 464 376"/><circle cx="446" cy="394" r="7"/></g>
-        <g><path d="M968 388 C964 374 958 368 954 360"/><path d="M974 388 C974 374 974 366 974 356"/><path d="M980 388 C984 374 990 368 994 360"/><circle cx="974" cy="390" r="6"/></g>
-        <g><path d="M262 396 C259 386 255 382 252 376"/><path d="M267 396 C267 386 267 380 267 372"/><path d="M272 396 C275 386 279 382 282 376"/><circle cx="267" cy="398" r="5"/></g>
-      </g>
-    </svg>
-
-    <button class="pearl p1" type="button" aria-label="Pearl" style="left:8%;bottom:56px"></button>
-    <button class="pearl p2" type="button" aria-label="Pearl" style="left:23%;bottom:84px"></button>
-    <button class="pearl p3" type="button" aria-label="Pearl" style="left:34%;bottom:40px"></button>
-    <button class="pearl p4" type="button" aria-label="Pearl" style="left:64%;bottom:70px"></button>
-    <button class="pearl p5" type="button" aria-label="Pearl" style="left:76%;bottom:36px"></button>
-    <button class="pearl p6" type="button" aria-label="Pearl" style="left:90%;bottom:90px"></button>
-
-    <div class="oyster-wrap">
-      <p class="found" id="found" aria-live="polite"></p>
-      <button class="oyster" id="oyster" type="button" aria-pressed="false" aria-label="Open the clam">
-        <svg viewBox="0 0 260 180" aria-hidden="true">
-          <defs>
-            <radialGradient id="pearlG" cx=".36" cy=".32" r=".75"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".35" stop-color="#E4F1F7"/><stop offset=".75" stop-color="#9DB3C2"/><stop offset="1" stop-color="#4E6577"/></radialGradient>
-            <linearGradient id="sheenG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7FF7FF" stop-opacity=".0"/><stop offset=".5" stop-color="#9FD8FF" stop-opacity=".35"/><stop offset="1" stop-color="#C9B8FF" stop-opacity=".0"/></linearGradient>
-            <radialGradient id="glowG"><stop offset="0" stop-color="#EFFFFF" stop-opacity=".9"/><stop offset=".35" stop-color="#3DF2FF" stop-opacity=".28"/><stop offset="1" stop-color="#3DF2FF" stop-opacity="0"/></radialGradient>
-            <linearGradient id="shellG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#16222E"/><stop offset="1" stop-color="#03070C"/></linearGradient>
-            <linearGradient id="lidG" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#1A2835"/><stop offset="1" stop-color="#05090F"/></linearGradient>
-            <linearGradient id="nacreG" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2B6F86"/><stop offset=".5" stop-color="#BFEFFF"/><stop offset="1" stop-color="#5A6FB0"/></linearGradient>
-          </defs>
-          <circle class="glow" cx="130" cy="98" r="120" fill="url(#glowG)"/>
-          <path d="M22 112 C34 166 226 166 238 112 Q225 120 212 112 Q199 121 186 112 Q173 122 160 112 Q147 122 134 112 Q121 122 108 112 Q95 122 82 112 Q69 121 56 112 Q43 120 22 112 Z" fill="url(#shellG)" stroke="rgba(61,242,255,.28)" stroke-width="1"/>
-          <g stroke="rgba(61,242,255,.14)" stroke-width="1" fill="none"><path d="M130 158 L48 116"/><path d="M130 158 L74 116"/><path d="M130 158 L100 116"/><path d="M130 158 L126 116"/><path d="M130 158 L152 116"/><path d="M130 158 L178 116"/><path d="M130 158 L204 116"/><path d="M130 158 L226 116"/></g>
-          <ellipse class="nacre" cx="130" cy="113" rx="102" ry="9" fill="url(#nacreG)" opacity=".35"/>
-          <g class="pearl-core">
-            <circle cx="130" cy="97" r="17" fill="url(#pearlG)"/>
-            <circle cx="130" cy="97" r="17" fill="url(#sheenG)"/>
-            <ellipse cx="124" cy="90" rx="5" ry="3.2" fill="#fff" opacity=".9" transform="rotate(-30 124 90)"/>
-          </g>
-          <g class="pring" fill="none" stroke="#3DF2FF" stroke-width="1">
-            <circle cx="130" cy="97" r="28" stroke-dasharray="2 6"/>
-            <circle cx="130" cy="97" r="38" stroke-opacity=".4"/>
-            <path d="M130 55v10M130 129v10M88 97h10M162 97h10"/>
-          </g>
-          <g class="lid">
-            <path d="M22 112 C20 50 80 24 130 24 C180 24 240 50 238 112 Q225 104 212 112 Q199 103 186 112 Q173 102 160 112 Q147 102 134 112 Q121 102 108 112 Q95 102 82 112 Q69 103 56 112 Q43 104 22 112 Z" fill="url(#lidG)" stroke="rgba(61,242,255,.3)" stroke-width="1"/>
-            <g stroke="rgba(61,242,255,.14)" stroke-width="1" fill="none"><path d="M130 30 L40 108"/><path d="M130 30 L66 108"/><path d="M130 30 L92 108"/><path d="M130 30 L118 108"/><path d="M130 30 L142 108"/><path d="M130 30 L168 108"/><path d="M130 30 L194 108"/><path d="M130 30 L220 108"/></g>
-            <path class="seam" d="M238 112 Q225 104 212 112 Q199 103 186 112 Q173 102 160 112 Q147 102 134 112 Q121 102 108 112 Q95 102 82 112 Q69 103 56 112 Q43 104 22 112" stroke="#3DF2FF" stroke-width="1.4" fill="none"/>
-          </g>
-        </svg>
-      </button>
-      
+<!-- WRITING -->
+<section class="pin wr wave" id="writing" style="--h:300vh">
+  <div class="stage">
+  <div class="wrap">
+    <p class="say"><i aria-hidden="true">KH</i><span>When I figure something out, I write it down. So you don't have to figure it out twice.</span></p>
+    <div class="head"><h2 class="mid rise">Writing</h2><a class="more" href="https://medium.com/@kavindudeshal2" target="_blank" rel="noopener">All articles on Medium</a></div>
+    <div class="deck" id="deck">
+      <a class="post" href="https://medium.com/@kavindudeshal2/a-simple-tool-to-sort-arb-files-0cc881fdfc03" target="_blank" rel="noopener" data-c="Read"><span class="post-n">01</span><time datetime="2024-12-14">Dec 2024</time><b>A Simple Tool to Sort ARB Files</b><span class="post-t">Flutter / Python</span><span class="post-go">Read on Medium</span></a>
+      <a class="post" href="https://medium.com/@kavindudeshal2/provider-vs-bloc-choosing-the-right-state-management-solution-for-your-flutter-app-614d32a9f27c" target="_blank" rel="noopener" data-c="Read"><span class="post-n">02</span><time datetime="2024-08-12">Aug 2024</time><b>Provider vs BLoC</b><span class="post-t">Flutter / Architecture</span><span class="post-go">Read on Medium</span></a>
+      <a class="post" href="https://medium.com/@kavindudeshal2/building-maintainable-flutter-apps-with-clean-architecture-5b81f7ef7830" target="_blank" rel="noopener" data-c="Read"><span class="post-n">03</span><time datetime="2024-06-20">Jun 2024</time><b>Building Flutter Apps with Clean Architecture</b><span class="post-t">Flutter / Clean Architecture</span><span class="post-go">Read on Medium</span></a>
     </div>
   </div>
-
-  <div class="wrap">
-    <footer class="foot">
-      <span>© <span id="yr"></span> Kavindu Deshal Hembadura</span>
-      <span>Hildesheim, Germany, <span id="clock"></span></span>
-      <a href="#top">Back to the top</a>
-    </footer>
   </div>
 </section>
+
+<!-- TIMELINE: scrolls sideways -->
+<section class="pin tl wave" id="timeline">
+  <div class="stage">
+    <div class="wrap"><p class="say"><i aria-hidden="true">KH</i><span>How did I get here? One year at a time.</span></p><div class="head"><h2 class="mid rise">Timeline of a life</h2><p class="tl-n"><b id="tlNow">2026</b></p></div></div>
+    <div class="ttrack" id="life"></div>
+    <div class="wrap"><div class="tl-bar"><i id="tlBar"></i></div></div>
+  </div>
+</section>
+
+<!-- POLYMATH (orange) -->
+<section class="sec hot poly wave" id="polymath">
+  <div class="wrap">
+    <p class="say"><i aria-hidden="true">KH</i><span>Code is only part of the story. Here's the rest of me.</span></p>
+    <h2 class="pword reveal"><span class="fit" data-chars>Polymath</span></h2>
+    <p class="psub">8 disciplines. 1 operator.</p>
+    <ul class="disc reveal" aria-label="Disciplines">
+      <li>Coder</li><li>Cricketer</li><li>Founder</li><li>Writer</li><li>Footballer</li><li>Water skier</li><li>Photographer</li><li>Traveler</li>
+    </ul>
+    <p class="techs">Flutter / Dart / BLoC / Spring Boot / Node.js / NestJS / Next.js / Angular / React / TypeScript / PostgreSQL / Prisma / Docker / CI/CD / Python / TensorFlow / ONNX</p>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<section class="sec quote wave">
+  <div class="wrap">
+    <p class="say"><i aria-hidden="true">KH</i><span>The line I train by. On the pitch and at the keyboard.</span></p>
+    <blockquote class="q" id="quote"><p>Talent without working hard <span>is nothing.</span></p><cite>Cristiano Ronaldo</cite></blockquote>
+  </div>
+</section>
+
+<!-- RECOMMENDATIONS (shown only when filled in app.js) -->
+<section class="sec" id="recs" hidden>
+  <div class="wrap">
+    <div class="head"><h2 class="mid rise">Said about me</h2><a class="more" href="https://www.linkedin.com/in/deshal001/" target="_blank" rel="noopener">On LinkedIn</a></div>
+    <div class="rec-list" id="recList"></div>
+  </div>
+</section>
+
+<!-- CONTACT (orange) -->
+<section class="sec hot contact wave" id="contact">
+  <div class="wrap">
+    <h2 class="big slide2"><span class="ln">Let's build</span><span class="ln">something</span></h2>
+    <p class="say csay"><i aria-hidden="true">KH</i><span>Your turn. Got an idea? Pick what you need and tell me about it.</span></p>
+    <div class="forge">
+      <div class="pick" role="tablist" aria-label="What should we build?">
+        <button role="tab" aria-selected="true" data-k="mobile">Mobile app</button>
+        <button role="tab" aria-selected="false" data-k="web">Web platform</button>
+        <button role="tab" aria-selected="false" data-k="api">Backend &amp; APIs</button>
+        <button role="tab" aria-selected="false" data-k="ai">AI feature</button>
+        <button role="tab" aria-selected="false" data-k="new">Something new</button>
+      </div>
+      <div class="out" role="tabpanel" aria-live="polite">
+        <h3 id="fTitle"></h3>
+        <p id="fDesc"></p>
+        <div class="fgrid"><ul id="fGet"></ul><p class="fstack" id="fStack"></p></div>
+        <a class="go" id="fGo" href="mailto:kavindudeshal2@gmail.com">Start building</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="foot wave">
+  <div class="wrap">
+    <div class="f-top reveal">
+      <p class="f-lab">Still here? Then let's talk.</p>
+      <a class="f-email" href="mailto:kavindudeshal2@gmail.com" data-c="Write">kavindudeshal2@gmail.com</a>
+      <button type="button" class="f-copy" id="copyEmail" data-c="Copy">Copy</button>
+    </div>
+    <nav class="f-grid reveal" aria-label="Links">
+      <a href="https://www.linkedin.com/in/deshal001/" target="_blank" rel="noopener"><small>01</small>LinkedIn</a>
+      <a href="https://github.com/Deshal-001" target="_blank" rel="noopener"><small>02</small>GitHub</a>
+      <a href="https://medium.com/@kavindudeshal2" target="_blank" rel="noopener"><small>03</small>Medium</a>
+      <a href="assets/Kavindu_Deshal_Hembadura_CV.pdf" target="_blank" rel="noopener" data-c="CV"><small>04</small>Download CV</a>
+    </nav>
+    <div class="fmeta"><span>Hannover, Germany <b id="clock2">--:--</b></span><span>© <span id="yr2">2026</span> Kavindu Hembadura</span><a href="#top">Back to the top</a></div>
+  </div>
+  <p class="fname reveal" aria-hidden="true"><span class="fit" data-chars>Kavindu Hembadura</span></p>
+</footer>
+
 </main>
 
-<dialog class="case" id="case" aria-labelledby="caseTitle">
-  <button class="x" id="caseClose" aria-label="Close project"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3 3 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
-  <div class="scroll" id="caseBody"></div>
+<dialog class="sheet" id="sheet" aria-labelledby="shName">
+  <div class="sheet-in">
+    <button class="x" type="button" id="shClose">Close</button>
+    <p class="sh-meta" id="shMeta"></p>
+    <h3 id="shName"></h3>
+    <p class="sh-sum" id="shSum"></p>
+    <ol class="sh-pts" id="shPts"></ol>
+    <p class="sh-stack" id="shStack"></p>
+    <div class="sh-links" id="shLinks"></div>
+  </div>
 </dialog>
 
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script src="app.js"></script>
+<div class="cur" id="cur" aria-hidden="true"><i class="cur-dot"></i><i class="cur-ring"><span id="curT"></span></i></div>
+<p class="toast" id="toast" role="status"></p>
+<script src="assets/lenis.min.js?v=31"></script>
+<script src="app.js?v=31"></script>
 </body>
 </html>
