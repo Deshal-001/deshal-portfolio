@@ -11,7 +11,7 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;",
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const lerp = (a, b, t) => a + (b - a) * t;
 const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const reduced = false;   // full motion for everyone, as chosen
 if (reduced) document.documentElement.classList.add("rm");
 const GH = "https://github.com/Deshal-001/";
 
@@ -277,21 +277,34 @@ const wr = $("#writing"), posts = $$("#deck .post");
 const deckN = document.createElement("p"); deckN.className = "deck-n"; deckN.innerHTML = posts.map(() => "<i></i>").join("");
 $("#deck").after(deckN);
 const deckDots = [...deckN.children];
-function deckFx(y) {
-  if (!near("wr", y)) return;
-  const raw = pin("wr", y) * (posts.length - .4);
-  const k = Math.floor(raw), f = raw - k;
-  const t = Math.min(posts.length - 1, k + ease(clamp((f - .3) / .6)));
+/* the deck follows the scroll through its own eased loop, so a flick never makes a card jump */
+let deckT = 0, deckS = 0, deckRaf = 0;
+const smooth = t => t * t * (3 - 2 * t);
+function deckApply(t) {
   posts.forEach((el, i) => {
     const d = i - t;
     let tr, op;
-    if (d < 0) { const q = Math.min(1, -d); tr = `translate3d(0,${-q * 55}%,0) rotateX(${q * 62}deg) scale(${1 - q * .12})`; op = 1 - q; }
-    else { tr = `translate3d(0,${d * 26}px,0) scale(${1 - d * .05})`; op = d > 2.5 ? 0 : 1 - d * .3; }
+    if (d < 0) { const q = Math.min(1, -d), e = smooth(q); tr = `translate3d(0,${(-e * 42).toFixed(2)}%,0) rotateX(${(e * 40).toFixed(2)}deg) scale(${(1 - e * .1).toFixed(4)})`; op = 1 - e; }
+    else { const e = Math.min(d, 3); tr = `translate3d(0,${(e * 24).toFixed(2)}px,0) scale(${(1 - e * .045).toFixed(4)})`; op = clamp(1 - Math.max(0, d - 1.6) / .9) * (1 - Math.min(d, 1.6) * .22); }
     el.style.transform = tr; el.style.opacity = op.toFixed(3);
     el.style.zIndex = String(100 - i);
     el.style.pointerEvents = Math.abs(d) < .5 ? "auto" : "none";
   });
-  deckDots.forEach((dt, i) => dt.classList.toggle("on", i === Math.round(t)));
+  const on = Math.round(t);
+  deckDots.forEach((dt, i) => dt.classList.toggle("on", i === on));
+}
+function deckLoop() {
+  const d = deckT - deckS;
+  deckS = Math.abs(d) < .0005 ? deckT : deckS + d * .12;
+  deckApply(deckS);
+  deckRaf = deckS !== deckT ? requestAnimationFrame(deckLoop) : 0;
+}
+function deckFx(y) {
+  if (!near("wr", y)) return;
+  const raw = pin("wr", y) * (posts.length - .4);
+  const k = Math.floor(raw), f = raw - k;
+  deckT = Math.min(posts.length - 1, k + smooth(clamp((f - .15) / .7)));
+  if (!deckRaf) deckRaf = requestAnimationFrame(deckLoop);
 }
 
 /* after the timeline: water edges, the quote, the build heading */
@@ -355,7 +368,42 @@ function frame() {
   r2.style.transform = `translate3d(${hp * 62}vw,0,0) scale(${1 + hp * .15})`;
   heroMid.style.opacity = clamp((hp - .15) / .3);
   heroMid.style.transform = `translate(-50%,-50%) scale(${lerp(.8, 1, clamp((hp - .15) / .5))})`;
+  morphTo(y >= skRange()[0] - L.vh * .18 ? 1 : 0);
 }
+/* ================= the name screen: "Software engineer" decodes into "Polymath" as the skier comes in ================= */
+const midWord = heroMid.firstElementChild, midSub = heroMid.lastElementChild;
+const MORPH = [["Software engineer", "Hannover, DE"], ["Polymath", "The one who does everything"]];
+const GLYPHS = "#%&$@!?<>/\\=+*01ΔΣΞ";
+let mState = 0;
+function scramble(el, to, dur, delay) {
+  if (el._raf) cancelAnimationFrame(el._raf);
+  const from = el.textContent, n = Math.max(from.length, to.length), t0 = performance.now() + delay;
+  const at = [...Array(n)].map((_, i) => .2 + .65 * (i / n) + Math.random() * .12);
+  let last = -1, glyph = [];
+  const esc = c => c === "<" ? "&lt;" : c === ">" ? "&gt;" : c === "&" ? "&amp;" : c;
+  (function step(now) {
+    const p = clamp((now - t0) / dur);
+    const tick = Math.floor(now / 45);
+    if (tick !== last) { last = tick; glyph = at.map(() => GLYPHS[Math.random() * GLYPHS.length | 0]); }
+    let html = "";
+    for (let i = 0; i < n; i++) {
+      if (p >= at[i]) html += to[i] ? esc(to[i]) : "";
+      else if (p > at[i] - .32) html += (to[i] === " " && from[i] === " ") ? " " : `<i class="gl">${esc(glyph[i])}</i>`;
+      else html += from[i] ? esc(from[i]) : "";
+    }
+    el.innerHTML = html;
+    if (p < 1) el._raf = requestAnimationFrame(step);
+    else { el.textContent = to; el._raf = 0; }
+  })(performance.now());
+}
+function morphTo(s) {
+  if (s === mState) return;
+  mState = s;
+  scramble(midWord, MORPH[s][0], 760, 0);
+  scramble(midSub, MORPH[s][1], 620, 120);
+  heroMid.classList.remove("hit"); void heroMid.offsetWidth; heroMid.classList.add("hit");
+}
+
 /* ================= the slalom: a silhouette carving a solid wall of water that turns orange ================= */
 const sk = $("#ski"), g = sk.getContext("2d");
 let SW = 0, SH = 0, DPR = 1, skQ = 0, skVel = 0;
