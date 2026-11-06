@@ -372,7 +372,7 @@ function frame() {
 }
 /* ================= the name screen: "Software engineer" decodes into "Polymath" as the skier comes in ================= */
 const midWord = heroMid.firstElementChild, midSub = heroMid.lastElementChild;
-const MORPH = [["Software engineer", "Hannover, DE"], ["Polymath", "The one who does everything"]];
+const MORPH = [["Software engineer", "Hannover, DE"], ["Polymath", "Curious about too many things"]];
 const GLYPHS = "#%&$@!?<>/\\=+*01ΔΣΞ";
 let mState = 0;
 function scramble(el, to, dur, delay) {
