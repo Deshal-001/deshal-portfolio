@@ -155,6 +155,9 @@ if (DE) {
   MORE.forEach(m => { if (MORE_DE[m[0]]) m[1] = MORE_DE[m[0]]; });
   LIFE.forEach((e, i) => { e[1] = LIFE_DE[i][0]; e[2] = LIFE_DE[i][1]; e[3] = LIFE_DE[i][2]; });
 }
+/* one picture per project, in the site's own black and orange */
+const SHOTS = ["ankomm", "uniconnect", "gemlens", "evion", "fleet", "snakeeyes"];
+P.forEach((p, i) => { p.shot = `assets/work/${SHOTS[i]}.webp`; });
 LIFE.reverse(); // latest first
 /* LinkedIn recommendations: [text, name, role]. The section stays hidden while this is empty. */
 const RECS = [];
@@ -175,7 +178,7 @@ $$("[data-chars]").forEach(el => {
 
 $("#projects").innerHTML = P.map((p, i) => `<article class="card pc" style="--i:${i}"><div class="card-in">
   <p class="pc-top"><b>${String(i + 1).padStart(2, "0")} / ${String(P.length).padStart(2, "0")}</b><span>${esc(p.year)} / ${esc(p.role)}</span></p>
-  <h3 class="pc-name">${esc(p.name)}</h3>
+  <div class="pc-l"><h3 class="pc-name">${esc(p.name)}</h3><img class="pc-shot" src="${p.shot}" alt="${esc(p.name)}: ${esc(tr("preview", "Vorschau"))}" width="1200" height="750" loading="${i ? "lazy" : "eager"}" decoding="async"></div>
   <div class="pc-body">
     <p class="pc-sum">${esc(p.summary)}</p>
     <p class="pc-stack">${p.stack.slice(0, 6).map(esc).join(" / ")}</p>
@@ -210,6 +213,7 @@ function openSheet(i) {
   const p = P[i];
   $("#shMeta").innerHTML = `<span>${esc(p.year)}</span><span>${esc(p.role)}</span>`;
   $("#shName").textContent = p.name;
+  const si = $("#shImg"); si.src = p.shot; si.alt = `${p.name}: ${tr("preview", "Vorschau")}`;
   $("#shSum").textContent = p.summary;
   $("#shPts").innerHTML = p.points.map(x => `<li>${esc(x)}</li>`).join("");
   $("#shStack").textContent = p.stack.join(" / ");

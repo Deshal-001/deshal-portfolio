@@ -93,8 +93,11 @@ body.leaving main,body.leaving .bar{opacity:0;transition:opacity .25s}
 .pc .card-in{background:#000;color:var(--ink);min-height:min(72vh,640px);display:grid;grid-template-columns:1.1fr 1fr;grid-template-rows:auto 1fr auto;gap:1.5rem 3rem;padding:clamp(1.4rem,3vw,2.8rem);border-top:4px solid var(--o)}
 .pc-top{grid-column:1/-1;display:flex;justify-content:space-between;font-size:.85rem;color:var(--dim)}
 .pc-top b{color:var(--o);font-weight:700}
-.pc-name{grid-column:1;align-self:start;margin:0;font-family:var(--d);font-weight:900;font-stretch:110%;text-transform:uppercase;font-size:clamp(2.4rem,1rem + 3.6vw,5rem);line-height:.84;letter-spacing:-.02em;color:var(--o);overflow-wrap:anywhere}
+.pc-name{align-self:start;margin:0;font-family:var(--d);font-weight:900;font-stretch:110%;text-transform:uppercase;font-size:clamp(2.4rem,1rem + 3.6vw,5rem);line-height:.84;letter-spacing:-.02em;color:var(--o);overflow-wrap:anywhere}
 .pc-body{grid-column:2;align-self:end;display:flex;flex-direction:column;gap:1.2rem}
+.pc-l{grid-column:1;display:flex;flex-direction:column;justify-content:space-between;gap:1.6rem;min-width:0}
+.pc-shot{display:block;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;border:1px solid #262626;background:#0A0A0A}
+.sh-shot{display:block;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;margin:0 0 2.5rem;border:2px solid #000;background:#0A0A0A}
 .pc-sum{margin:0;font-size:clamp(1rem,.95rem + .2vw,1.15rem);line-height:1.45}
 .pc-stack{margin:0;font-size:.85rem;color:var(--dim)}
 .pc-act{display:flex;gap:.6rem;flex-wrap:wrap}
@@ -306,7 +309,10 @@ html[lang="de"] .ev.now .k::after{content:"Jetzt"}
   .mid{font-size:9vw}
   .card{top:calc(4.2rem + var(--i) * .6rem)}
   .pc .card-in{grid-template-columns:1fr;min-height:min(74svh,600px)}
-  .pc-name,.pc-body{grid-column:1}
+  .pc-name,.pc-body,.pc-l{grid-column:1}
+  .pc .card-in{gap:1rem}
+  .pc-l{gap:1rem}
+  .pc-shot{aspect-ratio:16/9;max-height:26svh}
   .fx{grid-template-columns:1fr;gap:1.2rem}
   .fx-tabs{flex-direction:row;flex-wrap:wrap;gap:.3rem 1rem}
   .fx-tabs button{font-size:1.5rem}
