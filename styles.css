@@ -87,7 +87,7 @@ body.leaving main,body.leaving .bar{opacity:0;transition:opacity .25s}
 .stack{display:flex;flex-direction:column;gap:3vh;padding-bottom:4vh}
 .card{position:sticky;top:calc(4.6rem + var(--i) * 1.1rem);transform-origin:50% 0;will-change:transform}
 .card-in{position:relative;overflow:hidden}
-.card-in::after{content:"";position:absolute;inset:0;background:#000;opacity:var(--dark,0);pointer-events:none}
+.pc .card-in > .shade{position:absolute;inset:0;z-index:0;background:#000;opacity:0;pointer-events:none;will-change:opacity}
 
 /* project cards: black on orange */
 .pc .card-in{background:#000;color:var(--ink);min-height:min(72vh,640px);display:grid;grid-template-columns:1.1fr 1fr;grid-template-rows:auto 1fr auto;gap:1.5rem 3rem;padding:clamp(1.4rem,3vw,2.8rem);border-top:4px solid var(--o)}
@@ -369,3 +369,7 @@ html[lang="de"] .ev.now .k::after{content:"Jetzt"}
 
 .wr .say > span{background:#000}
 .wr .say > span::before{border-right-color:#000}
+
+/* phones: no blend modes on fixed or moving text (each one forces the whole screen to be re-composited every frame) */
+.touch .mark,.touch .lang,.touch .hero-mid{mix-blend-mode:normal}
+.touch .hero-mid{will-change:transform,opacity}

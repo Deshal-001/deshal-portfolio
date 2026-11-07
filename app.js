@@ -12,6 +12,9 @@ const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const lerp = (a, b, t) => a + (b - a) * t;
 const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 const reduced = false;   // full motion for everyone, as chosen
+/* phones and tablets: same motion, but only effects their browsers can draw without re-rendering text every frame */
+const TOUCH = matchMedia("(hover: none), (pointer: coarse)").matches;
+if (TOUCH) document.documentElement.classList.add("touch");
 if (reduced) document.documentElement.classList.add("rm");
 const GH = "https://github.com/Deshal-001/";
 
@@ -21,7 +24,9 @@ const LANG = (() => {
   const q = new URLSearchParams(location.search).get("lang");
   if (q === "de" || q === "en") { try { localStorage.setItem("lang", q); } catch (e) {} return q; }
   try { const s = localStorage.getItem("lang"); if (s === "de" || s === "en") return s; } catch (e) {}
-  return /^de\b/i.test(navigator.language || "") ? "de" : "en";
+  // where the visitor is, not what their browser speaks: Germany's time zones get German, everywhere else English
+  let tz = ""; try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch (e) {}
+  return /^Europe\/(Berlin|Busingen)$/.test(tz) ? "de" : "en";
 })();
 const DE = LANG === "de";
 const tr = (en, de) => DE ? de : en;
@@ -177,6 +182,7 @@ $("#projects").innerHTML = P.map((p, i) => `<article class="card pc" style="--i:
     <div class="pc-act"><button type="button" class="btn o" data-i="${i}" data-c="${curWord("Open")}">${tr("Open project", "Projekt öffnen")}</button>${p.live ? `<a class="btn" href="${p.live}" target="_blank" rel="noopener" data-c="${curWord("Visit")}">${tr("Live site", "Live-Seite")}</a>` : ""}${p.repo ? `<a class="btn" href="${GH + p.repo}" target="_blank" rel="noopener" data-c="Code">GitHub</a>` : ""}</div>
   </div>
   <p class="pc-big" aria-hidden="true">${String(i + 1).padStart(2, "0")}</p>
+  <i class="shade" aria-hidden="true"></i>
 </div></article>`).join("");
 
 const GROUPS = [
@@ -295,6 +301,9 @@ function measure() {
   L.extra = Math.max(0, track.scrollWidth - innerWidth);
   L.evLeft = tlCards.map(c => c.offsetLeft);
   L.max = document.documentElement.scrollHeight - vh;
+  L.waves = waves.map(docTop);
+  L.quote = { top: docTop(quoteEl), h: quoteEl.offsetHeight };
+  L.build = { top: docTop(buildLns[0]), h: buildLns[0].offsetHeight };
   const fxp = $("#repos");
   if (fxp && !reduced) { fxp.style.minHeight = Math.max(...$$("#repos .pane").map(p => p.offsetHeight)) + "px"; }
 }
@@ -309,9 +318,9 @@ function stackFx(y) {
     S.cards.forEach((c, i) => {
       let s = 0;
       for (let j = i + 1; j < n && j <= i + 3; j++) s += prog[j];
-      const tr = s ? `scale(${(1 - s * .045).toFixed(4)})` : "", dk = Math.min(.6, s * .22).toFixed(2);
+      const tr = s && !TOUCH ? `scale(${(1 - s * .045).toFixed(4)})` : "", dk = Math.min(.6, s * .22).toFixed(2);
       if (c._tr !== tr) { c._tr = tr; c.style.transform = tr; }
-      if (c._dk !== dk) { c._dk = dk; c.style.setProperty("--dark", dk); }
+      if (c._dk !== dk) { c._dk = dk; (c._sh || (c._sh = c.querySelector(".shade"))).style.opacity = dk; }
     });
   });
 }
@@ -412,10 +421,11 @@ function capColours() {
     sec._cap.style.height = CAP_H() + "px";
   });
 }
-function afterFx(t) {
-  const vh = innerHeight;
-  waves.forEach(sec => {
-    const r = sec.getBoundingClientRect();
+function afterFx(y) {
+  if (!L.waves) return;
+  const vh = L.vh;
+  waves.forEach((sec, i) => {
+    const r = { top: L.waves[i] - y };
     if (r.top > vh || r.top < -vh) return;
     const k = 1 - ease(clamp((vh - r.top) / (vh * .9)));
     const v = Math.round(k * 1000) / 1000;
@@ -423,13 +433,13 @@ function afterFx(t) {
     sec._amp = v;
     sec._cap.style.transform = `scaleY(${v})`;
   });
-  const qr = quoteEl.getBoundingClientRect();
+  const qr = { top: L.quote.top - y, bottom: L.quote.top + L.quote.h - y };
   if (qr.top < vh && qr.bottom > 0) {
     const p = clamp((vh * .85 - qr.top) / (vh * .55));
     const lit = Math.round(p * qWords.length);
     qWords.forEach((w, i) => w.classList.toggle("on", i < lit));
   }
-  const br = buildLns[0].getBoundingClientRect();
+  const br = { top: L.build.top - y, bottom: L.build.top + L.build.h - y };
   if (br.top < vh && br.bottom > -vh) {
     const p = ease(clamp((vh - br.top) / (vh * .7)));
     buildLns[0].style.transform = `translate3d(${(-(1 - p) * 40).toFixed(2)}vw,0,0)`;
@@ -446,13 +456,15 @@ function frame() {
   findsFx(y);
   deckFx(y);
   ski(y);
-  afterFx();
+  afterFx(y);
   if (!near("hero", y)) return;
   const hp = ease(pin("hero", y));
-  r1.style.transform = `translate3d(${-hp * 62}vw,0,0) scale(${1 + hp * .15})`;
-  r2.style.transform = `translate3d(${hp * 62}vw,0,0) scale(${1 + hp * .15})`;
-  heroMid.style.opacity = clamp((hp - .15) / .3);
-  heroMid.style.transform = `translate(-50%,-50%) scale(${lerp(.8, 1, clamp((hp - .15) / .5))})`;
+  const sc = TOUCH ? "" : ` scale(${(1 + hp * .15).toFixed(4)})`;
+  r1.style.transform = `translate3d(${(-hp * 62).toFixed(3)}vw,0,0)${sc}`;
+  r2.style.transform = `translate3d(${(hp * 62).toFixed(3)}vw,0,0)${sc}`;
+  heroMid.style.opacity = clamp((hp - .15) / .3).toFixed(3);
+  const mk = clamp((hp - .15) / .5);
+  heroMid.style.transform = TOUCH ? `translate3d(-50%,calc(-50% + ${((1 - mk) * 24).toFixed(1)}px),0)` : `translate(-50%,-50%) scale(${lerp(.8, 1, mk).toFixed(4)})`;
   morphTo(y >= skRange()[0] - L.vh * .18 ? 1 : 0);
 }
 /* ================= the name screen: "Software engineer" decodes into "Polymath" as the skier comes in ================= */
