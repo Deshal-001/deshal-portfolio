@@ -225,8 +225,9 @@ function stackFx(y) {
     S.cards.forEach((c, i) => {
       let s = 0;
       for (let j = i + 1; j < n && j <= i + 3; j++) s += prog[j];
-      c.style.transform = s ? `scale(${(1 - s * .045).toFixed(4)})` : "";
-      c.style.setProperty("--dark", Math.min(.6, s * .22).toFixed(3));
+      const tr = s ? `scale(${(1 - s * .045).toFixed(4)})` : "", dk = Math.min(.6, s * .22).toFixed(2);
+      if (c._tr !== tr) { c._tr = tr; c.style.transform = tr; }
+      if (c._dk !== dk) { c._dk = dk; c.style.setProperty("--dark", dk); }
     });
   });
 }
@@ -408,9 +409,10 @@ function morphTo(s) {
 const sk = $("#ski"), g = sk.getContext("2d");
 let SW = 0, SH = 0, DPR = 1, skQ = 0, skVel = 0;
 function skSize() {
-  DPR = Math.min(2, devicePixelRatio || 1);
   SW = innerWidth; SH = innerHeight;
-  sk.width = SW * DPR; sk.height = SH * DPR;
+  DPR = Math.min(1.5, devicePixelRatio || 1, Math.sqrt(1.6e6 / (SW * SH)));
+  sk.width = Math.round(SW * DPR); sk.height = Math.round(SH * DPR);
+  skMode = "clear";
 }
 const skRange = () => [L.hero.top + (L.hero.h - L.vh) * .5, L.hero.top + (L.hero.h - L.vh) * 1.02];
 const sstep = (a, b, x) => { const t = clamp((x - a) / (b - a)); return t * t * (3 - 2 * t); };
@@ -451,6 +453,19 @@ function wall(ox, oy, len, hgt, t, col, seed) {
   g.fillStyle = col; g.fill();
 }
 
+/* the rider and his orange rim, pre-drawn once at the size they appear: one cheap copy per frame */
+let skSp = null;
+function skSprite(w, h) {
+  const key = `${Math.round(w)}x${DPR}`;
+  if (skSp && skSp._key === key) return skSp;
+  const pad = Math.ceil(w * .01), c = document.createElement("canvas");
+  c.width = Math.ceil((w + pad * 2) * DPR); c.height = Math.ceil((h + pad * 2) * DPR);
+  const x = c.getContext("2d"); x.scale(DPR, DPR);
+  if (skRim) x.drawImage(skRim, pad + w * .005, pad - h * .008, w, h);
+  x.drawImage(skImg, pad, pad, w, h);
+  c._key = key; c._pad = pad; c._w = w + pad * 2; c._h = h + pad * 2;
+  return (skSp = skRim ? c : null) || c;
+}
 function skDraw(q, t) {
   g.setTransform(DPR, 0, 0, DPR, 0, 0);
   g.clearRect(0, 0, SW, SH);
@@ -498,27 +513,37 @@ function skDraw(q, t) {
   g.translate(tx, ty); g.rotate(tilt); g.translate(-tx, -ty);
   g.strokeStyle = "#FF4F12"; g.lineWidth = Math.max(2.5, w * .0042); g.lineCap = "butt";
   g.beginPath(); g.moveTo(ix + w * .99, iy + h * .372); g.lineTo(ix + w + SW * 2.5, iy + h * .372); g.stroke();
-  if (skRim) g.drawImage(skRim, ix + w * .005, iy - h * .008, w, h);
-  g.drawImage(skImg, ix, iy, w, h);
+  const sp = skSprite(w, h);
+  g.drawImage(sp, ix - sp._pad, iy - sp._pad, sp._w, sp._h);
   g.restore();
 }
 
-let skAnim = 0, skT = 0, skLast = 0;
+let skAnim = 0, skT = 0, skLast = 0, skMode = "clear", skShift = 0;
+/* the canvas is only touched when its picture changes: an idle or solid-orange canvas costs nothing per frame */
+function skSet(mode) {
+  if (mode === skMode) return;
+  g.setTransform(DPR, 0, 0, DPR, 0, 0);
+  g.clearRect(0, 0, SW, SH);
+  if (mode === "hold") { g.fillStyle = "#FF4F12"; g.fillRect(0, 0, SW, SH); sk.style.opacity = "1"; }
+  if (mode !== "hold" && skShift) { skShift = 0; sk.style.transform = ""; }
+  skMode = mode;
+}
 function skFrame(t) {
   const y = scrollY, [a, b] = skRange();
   skT = clamp((y - a) / (b - a));
   const d = skT - skQ;
   skVel = d;
   skQ = Math.abs(d) < .0004 ? skT : skQ + d * .16;          // ease toward the scroll: no jumps, even on a fast flick
-  g.setTransform(DPR, 0, 0, DPR, 0, 0);
   if (skQ >= .999 && y >= b && y < L.work.top) {
-    // the water carries on: orange above the projects as they rise out of it
-    g.clearRect(0, 0, SW, SH);
-    g.fillStyle = "#FF4F12"; g.fillRect(0, 0, SW, Math.max(0, L.work.top - y) + 1);
+    // the water carries on: a solid orange sheet, slid up by the compositor as the projects rise out of it
+    skSet("hold");
+    const shift = Math.min(0, Math.round(L.work.top - y + 1 - SH));
+    if (shift !== skShift) { skShift = shift; sk.style.transform = `translate3d(0,${shift}px,0)`; }
   } else if (skQ > 0 && skQ < 1) {
+    skSet("draw");
     skDraw(skQ, t);
   } else {
-    g.clearRect(0, 0, SW, SH);
+    skSet("clear");
   }
   const busy = Math.abs(skT - skQ) > .0004 || (skQ > 0 && skQ < 1);
   skAnim = busy ? requestAnimationFrame(skFrame) : 0;
@@ -527,9 +552,8 @@ function ski(y) {
   // wake the loop near the hand-off; it sleeps everywhere else
   const [a] = skRange();
   if (y > a - L.vh && y < L.work.top + 10) { if (!skAnim) skAnim = requestAnimationFrame(skFrame); }
-  else if (skQ !== 0 || skAnim) { if (skAnim) cancelAnimationFrame(skAnim); skAnim = 0; skQ = skT = 0; g.setTransform(DPR, 0, 0, DPR, 0, 0); g.clearRect(0, 0, SW, SH); }
+  else if (skQ !== 0 || skAnim || skMode !== "clear") { if (skAnim) cancelAnimationFrame(skAnim); skAnim = 0; skQ = skT = 0; skSet("clear"); }
 }
-
 /* ================= smooth scrolling ================= */
 let lenis = null;
 function goTo(top) { lenis ? lenis.scrollTo(top) : scrollTo({ top, behavior: reduced ? "auto" : "smooth" }); }
