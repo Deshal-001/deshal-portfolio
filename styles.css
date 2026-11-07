@@ -260,7 +260,7 @@ html[lang="de"] .ev.now .k::after{content:"Jetzt"}
 .fname{margin:clamp(1rem,4vh,3rem) 0 0;padding:0 var(--pad);font-size:10rem;line-height:.8;color:var(--o);transform:translateY(16%)}
 
 /* ---------- project sheet ---------- */
-.sheet{border:0;padding:0;margin:0;max-width:none;max-height:none;width:100%;height:100%;background:var(--o);color:#000;overflow:auto}
+.sheet{border:0;padding:0;margin:0;max-width:none;max-height:none;width:100%;height:100%;background:var(--o);color:#000;overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
 .sheet::backdrop{background:#000}
 .sheet[open]{animation:fade .4s var(--out)}
 .sheet-in{max-width:1100px;margin:0 auto;padding:clamp(4rem,10vh,7rem) var(--pad) 4rem}
