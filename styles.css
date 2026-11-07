@@ -269,6 +269,11 @@ html[lang="de"] .ev.now .k::after{content:"Jetzt"}
 .sh-meta{margin:0 0 1rem;font-weight:700;font-size:.9rem;display:flex;gap:1.2rem}
 .sheet h3{margin:0 0 1.4rem;font-size:clamp(3rem,1rem + 5vw,7rem);line-height:.84;letter-spacing:-.02em}
 .sh-sum{font-size:clamp(1.2rem,1rem + .6vw,1.6rem);line-height:1.35;max-width:36ch;margin:0 0 2.5rem;font-weight:600}
+.sh-h{margin:0 0 1rem;font:900 clamp(1.3rem,1rem + .8vw,1.8rem)/1 var(--d);font-stretch:110%;text-transform:uppercase;letter-spacing:-.01em}
+.sh-feat{list-style:none;margin:0 0 3rem;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem}
+.sh-feat li{background:#000;color:var(--ink);padding:1.2rem 1.3rem 1.3rem;display:flex;flex-direction:column;gap:.45rem}
+.sh-feat b{font:900 1.05rem/1.05 var(--d);font-stretch:110%;text-transform:uppercase;color:var(--o)}
+.sh-feat span{font-size:.98rem;line-height:1.45}
 .sh-pts{list-style:none;margin:0 0 2rem;padding:0;counter-reset:p}
 .sh-pts li{counter-increment:p;display:grid;grid-template-columns:3rem 1fr;padding:1rem 0;border-top:2px solid #000}
 .sh-pts li::before{content:counter(p,decimal-leading-zero);font-weight:700;font-size:.85rem;padding-top:.15rem}
@@ -313,6 +318,7 @@ html[lang="de"] .ev.now .k::after{content:"Jetzt"}
   .pc .card-in{gap:1rem}
   .pc-l{gap:1rem}
   .pc-shot{aspect-ratio:16/9;max-height:26svh}
+  .sh-feat{grid-template-columns:1fr}
   .fx{grid-template-columns:1fr;gap:1.2rem}
   .fx-tabs{flex-direction:row;flex-wrap:wrap;gap:.3rem 1rem}
   .fx-tabs button{font-size:1.5rem}
