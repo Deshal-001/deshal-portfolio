@@ -18,14 +18,14 @@
 <link rel="preload" href="assets/fonts/big-shoulders.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/hanken-grotesk.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="styles.css?v=38">
+<link rel="stylesheet" href="styles.css?v=40">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23FF4F12'/%3E%3Ctext x='16' y='24' font-family='Arial Black' font-size='19' text-anchor='middle' fill='%23000'%3EK%3C/text%3E%3C/svg%3E">
 </head>
 <body>
 
 <header class="bar">
-  <a class="mark" href="#top" aria-label="Back to the top">KH</a>
-  <a class="bar-cta" href="#contact">Let's build</a>
+  <a class="mark" href="#top" aria-label="Back to the top" data-de-aria="Zurück nach oben">KH</a>
+  <div class="bar-r"><button type="button" class="lang" id="lang" data-c="DE" aria-label="Auf Deutsch lesen" data-de-aria="Read in English" lang="de" data-de="EN">DE</button><a class="bar-cta" href="#contact" data-de="Projekt starten">Let's build</a></div>
   <i class="prog" id="prog"></i>
 </header>
 
@@ -40,9 +40,9 @@
       <span class="row r1" aria-hidden="true"><span class="mask fit" data-chars>Kavindu</span></span>
       <span class="row r2" aria-hidden="true"><span class="mask fit" data-chars>Hembadura</span></span>
     </h1>
-    <p class="hero-mid" id="heroMid"><span>Software engineer</span><span>Hannover, DE</span></p>
+    <p class="hero-mid" id="heroMid"><span data-de="Softwareentwickler">Software engineer</span><span>Hannover, DE</span></p>
     <div class="hero-foot">
-      <p>Mobile / Web / Backend / AI</p>
+      <p data-de="Mobile / Web / Backend / KI">Mobile / Web / Backend / AI</p>
       <p id="clock">Hannover --:--</p>
     </div>
   </div>
@@ -51,8 +51,8 @@
 <!-- WORK (orange) -->
 <section class="sec hot" id="work">
   <div class="wrap">
-    <p class="say"><i aria-hidden="true">KH</i><span>You made it past the name. Good. Here are six things I built. Open any of them, I'll walk you through it.</span></p>
-    <div class="head"><h2 class="mid rise">Selected builds</h2><p class="head-n">06</p></div>
+    <p class="say"><i aria-hidden="true">KH</i><span data-de="Du hast es am Namen vorbei geschafft. Gut. Hier sind sechs Dinge, die ich gebaut habe. Öffne eins, ich führe dich durch.">You made it past the name. Good. Here are six things I built. Open any of them, I'll walk you through it.</span></p>
+    <div class="head"><h2 class="mid rise" data-de="Ausgewählte Projekte">Selected builds</h2><p class="head-n">06</p></div>
     <div class="stack projects" id="projects"></div>
   </div>
 </section>
@@ -61,8 +61,8 @@
 <section class="pin finds wave" id="archive" style="--h:270vh">
   <div class="stage">
     <div class="wrap">
-      <p class="say"><i aria-hidden="true">KH</i><span>Not everything is a big launch. These are the side quests: APIs, tools and experiments.</span></p>
-      <div class="head"><h2 class="mid rise">Smaller finds</h2><a class="more" href="https://github.com/Deshal-001?tab=repositories" target="_blank" rel="noopener"><span id="repoCount">12</span> repositories on GitHub</a></div>
+      <p class="say"><i aria-hidden="true">KH</i><span data-de="Nicht alles ist ein großer Launch. Das hier sind die Nebenquests: APIs, Tools und Experimente.">Not everything is a big launch. These are the side quests: APIs, tools and experiments.</span></p>
+      <div class="head"><h2 class="mid rise" data-de="Kleinere Fundstücke">Smaller finds</h2><a class="more" href="https://github.com/Deshal-001?tab=repositories" target="_blank" rel="noopener" data-de-html="&lt;span id=&quot;repoCount&quot;&gt;12&lt;/span&gt; Repositories auf GitHub"><span id="repoCount">12</span> repositories on GitHub</a></div>
       <div class="fx">
         <ol class="fx-tabs" id="fxTabs"></ol>
         <div class="fx-panes" id="repos"></div>
@@ -75,12 +75,12 @@
 <section class="pin wr wave" id="writing" style="--h:300vh">
   <div class="stage">
   <div class="wrap">
-    <p class="say"><i aria-hidden="true">KH</i><span>When I figure something out, I write it down. So you don't have to figure it out twice.</span></p>
-    <div class="head"><h2 class="mid rise">Writing</h2><a class="more" href="https://medium.com/@kavindudeshal2" target="_blank" rel="noopener">All articles on Medium</a></div>
+    <p class="say"><i aria-hidden="true">KH</i><span data-de="Wenn ich etwas herausfinde, schreibe ich es auf. Damit du es nicht zweimal herausfinden musst.">When I figure something out, I write it down. So you don't have to figure it out twice.</span></p>
+    <div class="head"><h2 class="mid rise" data-de="Artikel">Writing</h2><a class="more" href="https://medium.com/@kavindudeshal2" target="_blank" rel="noopener" data-de="Alle Artikel auf Medium">All articles on Medium</a></div>
     <div class="deck" id="deck">
-      <a class="post" href="https://medium.com/@kavindudeshal2/a-simple-tool-to-sort-arb-files-0cc881fdfc03" target="_blank" rel="noopener" data-c="Read"><span class="post-n">01</span><time datetime="2024-12-14">Dec 2024</time><b>A Simple Tool to Sort ARB Files</b><span class="post-t">Flutter / Python</span><span class="post-go">Read on Medium</span></a>
-      <a class="post" href="https://medium.com/@kavindudeshal2/provider-vs-bloc-choosing-the-right-state-management-solution-for-your-flutter-app-614d32a9f27c" target="_blank" rel="noopener" data-c="Read"><span class="post-n">02</span><time datetime="2024-08-12">Aug 2024</time><b>Provider vs BLoC</b><span class="post-t">Flutter / Architecture</span><span class="post-go">Read on Medium</span></a>
-      <a class="post" href="https://medium.com/@kavindudeshal2/building-maintainable-flutter-apps-with-clean-architecture-5b81f7ef7830" target="_blank" rel="noopener" data-c="Read"><span class="post-n">03</span><time datetime="2024-06-20">Jun 2024</time><b>Building Flutter Apps with Clean Architecture</b><span class="post-t">Flutter / Clean Architecture</span><span class="post-go">Read on Medium</span></a>
+      <a class="post" href="https://medium.com/@kavindudeshal2/a-simple-tool-to-sort-arb-files-0cc881fdfc03" target="_blank" rel="noopener" data-c="Read"><span class="post-n">01</span><time datetime="2024-12-14" data-de="Dez 2024">Dec 2024</time><b>A Simple Tool to Sort ARB Files</b><span class="post-t">Flutter / Python</span><span class="post-go" data-de="Auf Medium lesen">Read on Medium</span></a>
+      <a class="post" href="https://medium.com/@kavindudeshal2/provider-vs-bloc-choosing-the-right-state-management-solution-for-your-flutter-app-614d32a9f27c" target="_blank" rel="noopener" data-c="Read"><span class="post-n">02</span><time datetime="2024-08-12">Aug 2024</time><b>Provider vs BLoC</b><span class="post-t">Flutter / Architecture</span><span class="post-go" data-de="Auf Medium lesen">Read on Medium</span></a>
+      <a class="post" href="https://medium.com/@kavindudeshal2/building-maintainable-flutter-apps-with-clean-architecture-5b81f7ef7830" target="_blank" rel="noopener" data-c="Read"><span class="post-n">03</span><time datetime="2024-06-20">Jun 2024</time><b>Building Flutter Apps with Clean Architecture</b><span class="post-t">Flutter / Clean Architecture</span><span class="post-go" data-de="Auf Medium lesen">Read on Medium</span></a>
     </div>
   </div>
   </div>
@@ -89,7 +89,7 @@
 <!-- TIMELINE: scrolls sideways -->
 <section class="pin tl wave" id="timeline">
   <div class="stage">
-    <div class="wrap"><p class="say"><i aria-hidden="true">KH</i><span>How did I get here? One year at a time.</span></p><div class="head"><h2 class="mid rise">Timeline of a life</h2><p class="tl-n"><b id="tlNow">2026</b></p></div></div>
+    <div class="wrap"><p class="say"><i aria-hidden="true">KH</i><span data-de="Wie bin ich hierher gekommen? Ein Jahr nach dem anderen.">How did I get here? One year at a time.</span></p><div class="head"><h2 class="mid rise" data-de="Zeitleiste eines Lebens">Timeline of a life</h2><p class="tl-n"><b id="tlNow">2026</b></p></div></div>
     <div class="ttrack" id="life"></div>
     <div class="wrap"><div class="tl-bar"><i id="tlBar"></i></div></div>
   </div>
@@ -98,11 +98,11 @@
 <!-- POLYMATH (orange) -->
 <section class="sec hot poly wave" id="polymath">
   <div class="wrap">
-    <p class="say"><i aria-hidden="true">KH</i><span>Code is only part of the story. Here's the rest of me.</span></p>
+    <p class="say"><i aria-hidden="true">KH</i><span data-de="Code ist nur ein Teil der Geschichte. Hier ist der Rest von mir.">Code is only part of the story. Here's the rest of me.</span></p>
     <h2 class="pword reveal"><span class="fit" data-chars>Polymath</span></h2>
-    <p class="psub">8 disciplines. 1 operator.</p>
-    <ul class="disc reveal" aria-label="Disciplines">
-      <li>Coder</li><li>Cricketer</li><li>Founder</li><li>Writer</li><li>Footballer</li><li>Water skier</li><li>Photographer</li><li>Traveler</li>
+    <p class="psub" data-de="8 Disziplinen. Ein Kopf.">8 disciplines. 1 operator.</p>
+    <ul class="disc reveal" aria-label="Disciplines" data-de-aria="Disziplinen">
+      <li>Coder</li><li data-de="Cricketspieler">Cricketer</li><li data-de="Gründer">Founder</li><li data-de="Autor">Writer</li><li data-de="Fußballer">Footballer</li><li data-de="Wasser&shy;skifahrer">Water skier</li><li data-de="Fotograf">Photographer</li><li data-de="Reisender">Traveler</li>
     </ul>
     <p class="techs">Flutter / Dart / BLoC / Spring Boot / Node.js / NestJS / Next.js / Angular / React / TypeScript / PostgreSQL / Prisma / Docker / CI/CD / Python / TensorFlow / ONNX</p>
   </div>
@@ -111,15 +111,15 @@
 <!-- QUOTE -->
 <section class="sec quote wave">
   <div class="wrap">
-    <p class="say"><i aria-hidden="true">KH</i><span>The line I train by. On the pitch and at the keyboard.</span></p>
-    <blockquote class="q" id="quote"><p>Talent without working hard <span>is nothing.</span></p><cite>Cristiano Ronaldo</cite></blockquote>
+    <p class="say"><i aria-hidden="true">KH</i><span data-de="Der Satz, nach dem ich trainiere. Auf dem Platz und an der Tastatur.">The line I train by. On the pitch and at the keyboard.</span></p>
+    <blockquote class="q" id="quote"><p data-de-html="Talent ohne harte Arbeit &lt;span&gt;ist nichts.&lt;/span&gt;">Talent without working hard <span>is nothing.</span></p><cite>Cristiano Ronaldo</cite></blockquote>
   </div>
 </section>
 
 <!-- RECOMMENDATIONS (shown only when filled in app.js) -->
 <section class="sec" id="recs" hidden>
   <div class="wrap">
-    <div class="head"><h2 class="mid rise">Said about me</h2><a class="more" href="https://www.linkedin.com/in/deshal001/" target="_blank" rel="noopener">On LinkedIn</a></div>
+    <div class="head"><h2 class="mid rise" data-de="Was andere sagen">Said about me</h2><a class="more" href="https://www.linkedin.com/in/deshal001/" target="_blank" rel="noopener" data-de="Auf LinkedIn">On LinkedIn</a></div>
     <div class="rec-list" id="recList"></div>
   </div>
 </section>
@@ -127,21 +127,21 @@
 <!-- CONTACT (orange) -->
 <section class="sec hot contact wave" id="contact">
   <div class="wrap">
-    <h2 class="big slide2"><span class="ln">Let's build</span><span class="ln">something</span></h2>
-    <p class="say csay"><i aria-hidden="true">KH</i><span>Your turn. Got an idea? Pick what you need and tell me about it.</span></p>
+    <h2 class="big slide2"><span class="ln" data-de="Lass uns">Let's build</span><span class="ln" data-de="was bauen">something</span></h2>
+    <p class="say csay"><i aria-hidden="true">KH</i><span data-de="Du bist dran. Eine Idee? Wähl aus, was du brauchst, und erzähl mir davon.">Your turn. Got an idea? Pick what you need and tell me about it.</span></p>
     <div class="forge">
-      <div class="pick" role="tablist" aria-label="What should we build?">
-        <button role="tab" aria-selected="true" data-k="mobile">Mobile app</button>
-        <button role="tab" aria-selected="false" data-k="web">Web platform</button>
+      <div class="pick" role="tablist" aria-label="What should we build?" data-de-aria="Was sollen wir bauen?">
+        <button role="tab" aria-selected="true" data-k="mobile" data-de="Mobile App">Mobile app</button>
+        <button role="tab" aria-selected="false" data-k="web" data-de="Webplattform">Web platform</button>
         <button role="tab" aria-selected="false" data-k="api">Backend &amp; APIs</button>
-        <button role="tab" aria-selected="false" data-k="ai">AI feature</button>
-        <button role="tab" aria-selected="false" data-k="new">Something new</button>
+        <button role="tab" aria-selected="false" data-k="ai" data-de="KI-Feature">AI feature</button>
+        <button role="tab" aria-selected="false" data-k="new" data-de="Etwas Neues">Something new</button>
       </div>
       <div class="out" role="tabpanel" aria-live="polite">
         <h3 id="fTitle"></h3>
         <p id="fDesc"></p>
         <div class="fgrid"><ul id="fGet"></ul><p class="fstack" id="fStack"></p></div>
-        <a class="go" id="fGo" href="mailto:kavindudeshal2@gmail.com">Start building</a>
+        <a class="go" id="fGo" href="mailto:kavindudeshal2@gmail.com" data-de="Loslegen">Start building</a>
       </div>
     </div>
   </div>
@@ -150,17 +150,17 @@
 <footer class="foot wave">
   <div class="wrap">
     <div class="f-top reveal">
-      <p class="f-lab">Still here? Then let's talk.</p>
+      <p class="f-lab" data-de="Immer noch da? Dann lass uns reden.">Still here? Then let's talk.</p>
       <a class="f-email" href="mailto:kavindudeshal2@gmail.com" data-c="Write">kavindudeshal2@gmail.com</a>
-      <button type="button" class="f-copy" id="copyEmail" data-c="Copy">Copy</button>
+      <button type="button" class="f-copy" id="copyEmail" data-c="Copy" data-de="Kopieren">Copy</button>
     </div>
     <nav class="f-grid reveal" aria-label="Links">
       <a href="https://www.linkedin.com/in/deshal001/" target="_blank" rel="noopener"><small>01</small>LinkedIn</a>
       <a href="https://github.com/Deshal-001" target="_blank" rel="noopener"><small>02</small>GitHub</a>
       <a href="https://medium.com/@kavindudeshal2" target="_blank" rel="noopener"><small>03</small>Medium</a>
-      <a href="assets/Kavindu_Deshal_Hembadura_CV.pdf" target="_blank" rel="noopener" data-c="CV"><small>04</small>Download CV</a>
+      <a href="assets/Kavindu_Deshal_Hembadura_CV.pdf" target="_blank" rel="noopener" data-c="CV" data-de-html="&lt;small&gt;04&lt;/small&gt;Lebenslauf (EN)"><small>04</small>Download CV</a>
     </nav>
-    <div class="fmeta"><span>Hannover, Germany <b id="clock2">--:--</b></span><span>© <span id="yr2">2026</span> Kavindu Hembadura</span><a href="#top">Back to the top</a></div>
+    <div class="fmeta"><span><span data-de="Hannover, Deutschland">Hannover, Germany</span> <b id="clock2">--:--</b></span><span>© <span id="yr2">2026</span> Kavindu Hembadura</span><a href="#top" data-de="Nach oben">Back to the top</a></div>
   </div>
   <p class="fname reveal" aria-hidden="true"><span class="fit" data-chars>Kavindu Hembadura</span></p>
 </footer>
@@ -169,7 +169,7 @@
 
 <dialog class="sheet" id="sheet" aria-labelledby="shName">
   <div class="sheet-in">
-    <button class="x" type="button" id="shClose">Close</button>
+    <button class="x" type="button" id="shClose" data-de="Schließen">Close</button>
     <p class="sh-meta" id="shMeta"></p>
     <h3 id="shName"></h3>
     <p class="sh-sum" id="shSum"></p>
@@ -181,7 +181,7 @@
 
 <div class="cur" id="cur" aria-hidden="true"><i class="cur-dot"></i><i class="cur-ring"><span id="curT"></span></i></div>
 <p class="toast" id="toast" role="status"></p>
-<script src="assets/lenis.min.js?v=38"></script>
-<script src="app.js?v=38"></script>
+<script src="assets/lenis.min.js?v=40"></script>
+<script src="app.js?v=40"></script>
 </body>
 </html>

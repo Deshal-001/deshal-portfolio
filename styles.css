@@ -27,6 +27,11 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 /* ---------- top bar ---------- */
 .bar{position:fixed;inset:0 0 auto;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:.9rem var(--pad);pointer-events:none}
 .bar a{pointer-events:auto}
+.bar-r{display:flex;align-items:center;gap:.6rem}
+.lang{pointer-events:auto;font:900 .82rem/1 var(--d);font-stretch:110%;letter-spacing:.04em;color:#fff;mix-blend-mode:difference;background:none;border:2px solid currentColor;padding:.5rem .6rem;cursor:pointer;transition:transform .2s}
+.lang:hover{transform:translateY(-2px)}
+.lang:focus-visible{outline:2px solid var(--o);outline-offset:3px}
+body.leaving main,body.leaving .bar{opacity:0;transition:opacity .25s}
 .mark{font-size:1.1rem;color:#fff;mix-blend-mode:difference}
 .bar-cta{background:var(--ink);color:#000;font-size:.82rem;padding:.65rem 1rem;letter-spacing:.02em;transition:background .25s,color .25s}
 .bar-cta:hover{background:var(--o)}
@@ -164,6 +169,7 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .ev.g.on .y{color:var(--gold);-webkit-text-stroke-color:var(--gold)}
 .ev.g .dot{border-color:var(--gold)}
 .ev.now .k::after{content:"Now";margin-left:.6rem;background:var(--o);color:#000;padding:.1rem .4rem;font-weight:700;letter-spacing:.04em}
+html[lang="de"] .ev.now .k::after{content:"Jetzt"}
 .tl-bar{height:3px;background:#222;margin-top:clamp(1rem,3vh,2rem)}
 .tl-bar i{display:block;height:100%;background:var(--o);transform-origin:0 50%;transform:scaleX(0)}
 

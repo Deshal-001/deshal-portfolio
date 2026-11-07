@@ -15,6 +15,34 @@ const reduced = false;   // full motion for everyone, as chosen
 if (reduced) document.documentElement.classList.add("rm");
 const GH = "https://github.com/Deshal-001/";
 
+/* ================= language: English or German ================= */
+/* ?lang=de in the link wins, then the visitor's last choice, then the browser's language */
+const LANG = (() => {
+  const q = new URLSearchParams(location.search).get("lang");
+  if (q === "de" || q === "en") { try { localStorage.setItem("lang", q); } catch (e) {} return q; }
+  try { const s = localStorage.getItem("lang"); if (s === "de" || s === "en") return s; } catch (e) {}
+  return /^de\b/i.test(navigator.language || "") ? "de" : "en";
+})();
+const DE = LANG === "de";
+const tr = (en, de) => DE ? de : en;
+document.documentElement.lang = LANG;
+if (DE) {
+  document.title = "Kavindu Hembadura – Softwareentwickler";
+  const md = $('meta[name="description"]'); if (md) md.content = "Kavindu Hembadura, Softwareentwickler in Hannover. Mobile, Web, Backend und KI.";
+  $$("[data-de]").forEach(el => { el.textContent = el.dataset.de; });
+  $$("[data-de-html]").forEach(el => { el.innerHTML = el.dataset.deHtml; });
+  $$("[data-de-aria]").forEach(el => el.setAttribute("aria-label", el.dataset.deAria));
+}
+/* the cursor ring's one-word labels */
+const CUR = { Read: "Lesen", Open: "Öffnen", Visit: "Besuchen", Code: "Code", Write: "Schreiben", Copy: "Kopieren", CV: "CV", Show: "Zeigen", Go: "Los", DE: "EN" };
+const curWord = w => DE ? (CUR[w] || w) : w;
+$("#lang").addEventListener("click", () => {
+  const to = DE ? "en" : "de";
+  try { localStorage.setItem("lang", to); sessionStorage.setItem("langY", String(scrollY)); } catch (e) {}
+  document.body.classList.add("leaving");
+  setTimeout(() => location.replace(location.pathname + "?lang=" + to), 260);
+});
+
 /* ================= content ================= */
 const P = [
   { name: "Ankomm", c: "#7DF0FF", year: "2026", role: "Solo, live", live: "https://ankomm.vercel.app",
@@ -68,6 +96,60 @@ const LIFE = [
   ["2026", "Build", "Ankomm goes live", "A guide for international students arriving in Germany. The one I wished I had."],
   ["2026", "Sport", "Best ODI bowler, Niedersachsen", "The season it all clicked. Best ODI bowler in Lower Saxony.", "g"]
 ];
+/* German versions of the content above, same order */
+const P_DE = [
+  { role: "Solo, live", summary: "Ankommen in Deutschland, sortiert. Eine persönliche Checkliste für internationale Studierende, von der Anmeldung bis zum ersten Bankkonto.",
+    points: ["Das Onboarding erstellt eine Checkliste aus Stadt, Hochschule und Situation, mit Abhängigkeiten zwischen Aufgaben und Fortschrittsanzeige.", "Offizielle Links, Hinweise für jede Stadt, Dokumentverweise, Erinnerungen und Datenexport.", "NestJS-API auf PostgreSQL mit Prisma, JWT-Auth, Rate Limiting und Swagger-Doku.", "Next.js- und TypeScript-Frontend auf Vercel, dahinter ein Backend mit Docker und Jest."] },
+  { role: "Full Stack", summary: "Campus-Events an einem Ort. Entdecken, buchen und per QR einchecken für Studierende, dazu ein komplettes Kontrollzentrum für Veranstalter.",
+    points: ["Flutter-App mit Clean Architecture und BLoC: Filter, Tickets, QR-Check-in, mehrsprachig.", "Angular-Dashboard zum Anlegen von Events, Verwalten von Buchungen und Erfassen der Teilnahme.", "Spring-Boot-API auf PostgreSQL, abgesichert mit JWT und rollenbasiertem Zugriff.", "Dokumentiertes Sicherheitskonzept, Docker-Images und CI mit GitHub Actions."] },
+  { role: "Uniprojekt", summary: "Edelsteinerkennung, die ihre Begründung zeigt. Ein Foto rein, Stein, Farbe und Belege raus.",
+    points: ["Klassifikator, trainiert auf rund 24.000 Edelsteinbildern und als ONNX exportiert für schnelle Inferenz.", "Flask-API für Vorhersagen, Klassendetails und Bildanalyse.", "LIME-Overlays markieren die Bildbereiche hinter jeder Vorhersage. Keine Blackbox.", "Dominante Farbe per k-Means-Clustering bestimmt.", "Eine Flutter-Codebasis für Android, iOS, Web und Desktop."] },
+  { role: "Backend", summary: "Elektrisch unterwegs ohne Reichweitenangst. Route, Akkuprognose, Ladestopps und ein Eco-Score für jede Fahrt.",
+    points: ["Node.js- und Express-API auf PostgreSQL, mit JWT und getrennten Rollen für Fahrer und Admins.", "Routing mit OpenRouteService, kombiniert mit einem Akkumodell für sparsames, normales und sportliches Fahren.", "Ladestopps genau dort, wo die Reichweite endet.", "Eco-Score aus Energieverbrauch, Geschwindigkeit und Fahrstil.", "Von Java nach Node.js migriert, alle API-Routen erhalten. Swagger-Doku, Jest-Tests, Docker Compose."] },
+  { year: "2026, in Arbeit", role: "Solo", summary: "Flottenmanagement als Spring-Cloud-Microservices, Entscheidung für Entscheidung dokumentiert.",
+    points: ["Eureka-Registry: Services finden sich gegenseitig, ohne fest codierte Adressen.", "Ein einziges API-Gateway vor allen Services.", "Jede Architekturentscheidung als ADR festgehalten, mit Alternativen und Migrationspfad."] },
+  { role: "Teamprojekt", summary: "Aus einem Foto wird ein Artname, aus dem Artnamen Erste Hilfe. Schlangenerkennung für Sri Lanka.",
+    points: ["Ein Machine-Learning-Modell erkennt die Art über Kamera oder Galerie.", "Erste-Hilfe-Hinweise und eine Galerie häufiger heimischer Schlangen, direkt eingebaut.", "Uni-Teamprojekt, CyberKnights."],
+    stack: ["Flutter", "Dart", "Machine Learning", "Kamera"] }
+];
+const MORE_DE = {
+  "SwiftUI-Weather-App": "iOS-Wetter-App mit stündlicher und täglicher Vorhersage und einer MapKit-Karte mit Orten in der Nähe.",
+  "Formula1_Championship_Manager": "Meisterschaftsmanager mit Renneingabe, Tabellen, Dateispeicherung und Unit-Tests.",
+  "BookStack-RestAPI": "API für Bestands- und Bestellverwaltung einer Buchhandlung.",
+  "Room-Reservation-API-Springboot": "API für Raumreservierungen, containerisiert mit Docker.",
+  "Student-RestAPI": "REST-API für Studierendendaten auf PostgreSQL.",
+  "Tool-to-Sort-ARB-Files": "CLI, das Flutter-Lokalisierungsschlüssel sortiert. Eine ausführbare Datei fürs ganze Team.",
+  "Sr-Lanka-Reisen-zur-Natur": "Deutschsprachige Website für ein Reisebüro in Sri Lanka.",
+  "COVID-19-Vaccination-Center-Program": "Verwaltet Impfkabinen und druckt Belege.",
+  "React-Movie-App": "Web-App zum Stöbern in Filmen.",
+  "Movie-App": "Native Android-App für Filme.",
+  "ThreadGroupHierarchyDemo": "Java-Threadgruppen und ihre Hierarchie.",
+  "Advanced_web_task3": "Angular-App aus dem Modul Advanced Web in Hildesheim."
+};
+const LIFE_DE = [
+  ["Wurzeln", "Holy Cross College, Kalutara", "A-Levels in Physik, Mathematik und IT. Hier fing alles an."],
+  ["Start", "Rein in die Softwareentwicklung", "BEng in Software Engineering und die Angewohnheit, Dinge zu bauen, nur um zu sehen, ob ich es kann."],
+  ["Arbeit", "Erster Job, IFS Colombo", "Ein Jahr Support für IFS-Kunden weltweit. So läuft Unternehmenssoftware wirklich."],
+  ["Abschluss", "First Class Honours", "BEng Software Engineering, University of Westminster am IIT. Hier entstand GemLens."],
+  ["Arbeit", "Software Engineer, Irusri Group", "Praktikum für Schweden (remote), dann Vollzeit. Mobile Apps vom ersten Plan bis in die Stores."],
+  ["Gründung / Jan", "Mitgründer von Siggi's Ceylon", "Ein Reiseunternehmen, das Menschen das echte Sri Lanka zeigt. Marke und Partner."],
+  ["Umzug / Apr", "Neues Land, neues Kapitel", "Von Sri Lanka nach Deutschland, für den MSc Software Engineering in Hildesheim."],
+  ["Arbeit / Nov", "Fullstack-Entwickler, Comitec IT Systems", "Flutter, Node.js und CI/CD für ein deutsches IT-Unternehmen, neben dem Master."],
+  ["Projekt", "Ankomm geht live", "Ein Leitfaden für internationale Studierende, die in Deutschland ankommen. Den hätte ich mir selbst gewünscht."],
+  ["Sport", "Bester ODI-Bowler, Niedersachsen", "Die Saison, in der alles passte. Bester ODI-Bowler in Niedersachsen."]
+];
+const F_DE = {
+  mobile: { title: "Eine App, die auf dem Homescreen bleibt", desc: "Eine Flutter-Codebasis für iOS und Android, von der ersten Skizze bis zum Store-Release.", get: ["Klickbarer Prototyp in der ersten Woche", "Clean Architecture, leicht erweiterbar", "Push, Karten, Zahlungen, offline", "Store-Release und Updates"] },
+  web: { title: "Eine Webplattform, die sich sofort anfühlt", desc: "Buchungssysteme, Dashboards, Portale oder eine Produktseite. Modernes Frontend, solide API, deployt und live.", get: ["Responsiv auf jedem Bildschirm", "Login, Rollen und Admin-Bereich", "SEO-bereit und schnell", "CI/CD vom ersten Tag an"] },
+  api: { title: "Der Motor hinter deinem Produkt", desc: "Sichere, dokumentierte APIs und Datenbanken, auf die sich deine Apps verlassen können. Skalierbar und gut lesbar.", get: ["REST-APIs mit Swagger-Doku", "JWT-Auth und rollenbasierter Zugriff", "PostgreSQL-Schema und Migrationen", "Docker, Tests und CI/CD"] },
+  ai: { title: "KI, die ihre Begründung zeigt", desc: "Bilderkennung, smarte Suche oder Automatisierung in deinem Produkt. Modelle, die ihre Antworten erklären.", get: ["Prototyp mit deinen eigenen Daten", "Modell trainiert und evaluiert", "Erklärungen, denen Nutzer vertrauen", "Ausgeliefert in deiner App"] },
+  new: { title: "Etwas, das es noch nicht gibt", desc: "Eine verrückte Idee, ein Nebenprojekt, ein Tool, das noch niemand gebaut hat. Schnell einen Prototyp bauen und gemeinsam herausfinden.", get: ["Aus der Idee wird ein Plan", "Schneller Proof of Concept", "Ehrliches Feedback, was funktioniert", "Ein Partner, der genauso neugierig ist"], stack: ["Was passt", "Schnelle Prototypen", "Neugier"] }
+};
+if (DE) {
+  P.forEach((p, i) => Object.assign(p, P_DE[i]));
+  MORE.forEach(m => { if (MORE_DE[m[0]]) m[1] = MORE_DE[m[0]]; });
+  LIFE.forEach((e, i) => { e[1] = LIFE_DE[i][0]; e[2] = LIFE_DE[i][1]; e[3] = LIFE_DE[i][2]; });
+}
 LIFE.reverse(); // latest first
 /* LinkedIn recommendations: [text, name, role]. The section stays hidden while this is empty. */
 const RECS = [];
@@ -78,6 +160,8 @@ const F = {
   ai: { title: "AI that shows its reasoning", desc: "Image recognition, smart search or automation inside your product. Models that explain their answers.", get: ["Prototype on your own data", "Model trained and evaluated", "Explanations users can trust", "Shipped inside your app"], stack: ["Python", "TensorFlow", "ONNX", "LIME", "Flask"] },
   new: { title: "Something that doesn't exist yet", desc: "A wild idea, a side project, a tool nobody has made. Prototype it fast and find out together.", get: ["Idea shaped into a plan", "Fast proof of concept", "Honest feedback on what works", "A partner who's curious too"], stack: ["Whatever fits", "Fast prototypes", "Curiosity"] }
 };
+
+if (DE) Object.keys(F_DE).forEach(k => Object.assign(F[k], F_DE[k]));
 
 /* ================= render ================= */
 $$("[data-chars]").forEach(el => {
@@ -90,7 +174,7 @@ $("#projects").innerHTML = P.map((p, i) => `<article class="card pc" style="--i:
   <div class="pc-body">
     <p class="pc-sum">${esc(p.summary)}</p>
     <p class="pc-stack">${p.stack.slice(0, 6).map(esc).join(" / ")}</p>
-    <div class="pc-act"><button type="button" class="btn o" data-i="${i}" data-c="Open">Open project</button>${p.live ? `<a class="btn" href="${p.live}" target="_blank" rel="noopener" data-c="Visit">Live site</a>` : ""}${p.repo ? `<a class="btn" href="${GH + p.repo}" target="_blank" rel="noopener" data-c="Code">GitHub</a>` : ""}</div>
+    <div class="pc-act"><button type="button" class="btn o" data-i="${i}" data-c="${curWord("Open")}">${tr("Open project", "Projekt öffnen")}</button>${p.live ? `<a class="btn" href="${p.live}" target="_blank" rel="noopener" data-c="${curWord("Visit")}">${tr("Live site", "Live-Seite")}</a>` : ""}${p.repo ? `<a class="btn" href="${GH + p.repo}" target="_blank" rel="noopener" data-c="Code">GitHub</a>` : ""}</div>
   </div>
   <p class="pc-big" aria-hidden="true">${String(i + 1).padStart(2, "0")}</p>
 </div></article>`).join("");
@@ -123,9 +207,9 @@ function openSheet(i) {
   $("#shSum").textContent = p.summary;
   $("#shPts").innerHTML = p.points.map(x => `<li>${esc(x)}</li>`).join("");
   $("#shStack").textContent = p.stack.join(" / ");
-  $("#shLinks").innerHTML = (p.live ? `<a href="${p.live}" target="_blank" rel="noopener">Open the live site</a>` : "") +
-    (p.repo ? `<a href="${GH + p.repo}" target="_blank" rel="noopener">Code on GitHub</a>` : "") +
-    (p.repo2 ? `<a href="${p.repo2}" target="_blank" rel="noopener">Team repository</a>` : "");
+  $("#shLinks").innerHTML = (p.live ? `<a href="${p.live}" target="_blank" rel="noopener">${tr("Open the live site", "Live-Seite öffnen")}</a>` : "") +
+    (p.repo ? `<a href="${GH + p.repo}" target="_blank" rel="noopener">${tr("Code on GitHub", "Code auf GitHub")}</a>` : "") +
+    (p.repo2 ? `<a href="${p.repo2}" target="_blank" rel="noopener">${tr("Team repository", "Team-Repository")}</a>` : "");
   sheet.scrollTop = 0;
   sheet.showModal ? sheet.showModal() : sheet.setAttribute("open", "");
   if (lenis) lenis.stop();
@@ -373,7 +457,8 @@ function frame() {
 }
 /* ================= the name screen: "Software engineer" decodes into "Polymath" as the skier comes in ================= */
 const midWord = heroMid.firstElementChild, midSub = heroMid.lastElementChild;
-const MORPH = [["Software engineer", "Hannover, DE"], ["Polymath", "Curious about too many things"]];
+const MORPH = DE ? [["Softwareentwickler", "Hannover, DE"], ["Polymath", "Neugierig auf zu viele Dinge"]]
+               : [["Software engineer", "Hannover, DE"], ["Polymath", "Curious about too many things"]];
 const GLYPHS = "#%&$@!?<>/\\=+*01ΔΣΞ";
 let mState = 0;
 function scramble(el, to, dur, delay) {
@@ -583,7 +668,7 @@ if (matchMedia("(hover:hover) and (pointer:fine)").matches && !reduced) {
   document.addEventListener("pointerover", e => {
     const t = e.target.closest("a, button");
     cur.classList.toggle("hot", !!t);
-    ct.textContent = t ? (t.dataset.c || (t.target === "_blank" ? "Open" : "Go")) : "";
+    ct.textContent = t ? curWord(t.dataset.c || (t.target === "_blank" ? "Open" : "Go")) : "";
   });
   (function loop() {
     rx += (x - rx) * .18; ry += (y - ry) * .18;
@@ -609,7 +694,9 @@ if (matchMedia("(hover:hover) and (pointer:fine)").matches && !reduced) {
     $("#fGet").innerHTML = f.get.map(x => `<li>${esc(x)}</li>`).join("");
     $("#fStack").textContent = f.stack.join(" / ");
     const label = tabs.find(t => t.dataset.k === k).textContent;
-    go.href = `mailto:kavindudeshal2@gmail.com?subject=${encodeURIComponent("Let's build: " + label)}&body=${encodeURIComponent("Hi Kavindu,\n\nI'd like to build: " + label.toLowerCase() + ".\n\nThe idea:\n")}`;
+    go.href = DE
+      ? `mailto:kavindudeshal2@gmail.com?subject=${encodeURIComponent("Lass uns bauen: " + label)}&body=${encodeURIComponent("Hallo Kavindu,\n\nich möchte gern Folgendes bauen: " + label + ".\n\nDie Idee:\n")}`
+      : `mailto:kavindudeshal2@gmail.com?subject=${encodeURIComponent("Let's build: " + label)}&body=${encodeURIComponent("Hi Kavindu,\n\nI'd like to build: " + label.toLowerCase() + ".\n\nThe idea:\n")}`;
   }
   tabs.forEach(t => t.addEventListener("click", () => show(t.dataset.k)));
   show("mobile");
@@ -619,7 +706,7 @@ if (matchMedia("(hover:hover) and (pointer:fine)").matches && !reduced) {
 const toast = $("#toast");
 function say(m) { toast.textContent = m; toast.classList.add("on"); clearTimeout(say.t); say.t = setTimeout(() => toast.classList.remove("on"), 2000); }
 $("#copyEmail").addEventListener("click", async () => {
-  try { await navigator.clipboard.writeText("kavindudeshal2@gmail.com"); say("Email copied"); }
+  try { await navigator.clipboard.writeText("kavindudeshal2@gmail.com"); say(tr("Email copied", "E-Mail kopiert")); }
   catch { location.href = "mailto:kavindudeshal2@gmail.com"; }
 });
 $("#yr2").textContent = new Date().getFullYear();
@@ -633,6 +720,11 @@ $$('a[href^="#"]').forEach(a => a.addEventListener("click", e => {
   const t = document.querySelector(a.getAttribute("href")); if (!t) return;
   e.preventDefault(); goTo(a.getAttribute("href") === "#top" ? 0 : docTop(t));
 }));
-const start = () => { fit(); tlSize(); capColours(); measure(); skSize(); frame(); requestAnimationFrame(() => document.body.classList.add("loaded")); };
+const start = () => {
+  fit(); tlSize(); capColours(); measure(); skSize(); frame();
+  let back = 0; try { back = +sessionStorage.getItem("langY") || 0; sessionStorage.removeItem("langY"); } catch (e) {}
+  if (back) { lenis ? lenis.scrollTo(back, { immediate: true }) : scrollTo(0, back); frame(); }
+  requestAnimationFrame(() => document.body.classList.add("loaded"));
+};
 (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(start);
 })();
