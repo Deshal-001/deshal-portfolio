@@ -32,8 +32,8 @@ const DE = LANG === "de";
 const tr = (en, de) => DE ? de : en;
 document.documentElement.lang = LANG;
 if (DE) {
-  document.title = "Kavindu Hembadura – Softwareentwickler";
-  const md = $('meta[name="description"]'); if (md) md.content = "Kavindu Hembadura, Softwareentwickler in Hannover. Mobile, Web, Backend und KI.";
+  document.title = "Kavindu Deshal Hembadura – Softwareentwickler in Hannover";
+  const md = $('meta[name="description"]'); if (md) md.content = "Kavindu Deshal Hembadura (Deshal), Softwareentwickler in Hannover. Flutter-, Full-Stack- und KI-Projekte: Ankomm, GemLens, UniConnect, dazu Artikel auf Medium.";
   $$("[data-de]").forEach(el => { el.textContent = el.dataset.de; });
   $$("[data-de-html]").forEach(el => { el.innerHTML = el.dataset.deHtml; });
   $$("[data-de-aria]").forEach(el => el.setAttribute("aria-label", el.dataset.deAria));
