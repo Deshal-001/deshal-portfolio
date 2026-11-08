@@ -225,14 +225,27 @@ function openSheet(i) {
   $("#shLinks").innerHTML = (p.live ? `<a href="${p.live}" target="_blank" rel="noopener">${tr("Open the live site", "Live-Seite öffnen")}</a>` : "") +
     (p.repo ? `<a href="${GH + p.repo}" target="_blank" rel="noopener">${tr("Code on GitHub", "Code auf GitHub")}</a>` : "") +
     (p.repo2 ? `<a href="${p.repo2}" target="_blank" rel="noopener">${tr("Team repository", "Team-Repository")}</a>` : "");
+  sheet.classList.remove("closing");
   sheet.scrollTop = 0;
   sheet.showModal ? sheet.showModal() : sheet.setAttribute("open", "");
   if (lenis) lenis.stop();
   document.body.style.overflow = "hidden";
+  // a history entry, so the phone's back gesture closes the project instead of leaving the site
+  try { history.pushState({ sheet: 1 }, ""); } catch (e) {}
 }
+let shT = 0;
+function closeSheet() {
+  if (!sheet.open || sheet.classList.contains("closing")) return;
+  sheet.classList.add("closing");
+  clearTimeout(shT);
+  shT = setTimeout(() => { sheet.classList.remove("closing"); sheet.close ? sheet.close() : sheet.removeAttribute("open"); }, 340);
+}
+function requestClose() { history.state && history.state.sheet ? history.back() : closeSheet(); }
+addEventListener("popstate", () => { if (sheet.open) closeSheet(); });
+sheet.addEventListener("cancel", e => { e.preventDefault(); requestClose(); });   // Esc
 sheet.addEventListener("close", () => { document.body.style.overflow = ""; if (lenis) lenis.start(); });
 $("#projects").addEventListener("click", e => { const b = e.target.closest("[data-i]"); if (b) openSheet(+b.dataset.i); });
-$("#shClose").addEventListener("click", () => sheet.close ? sheet.close() : sheet.removeAttribute("open"));
+$("#shClose").addEventListener("click", requestClose);
 
 /* ================= fit text ================= */
 function fitEmail() {
@@ -299,7 +312,7 @@ const L = {};
 const docTop = el => { let y = 0; for (let n = el; n; n = n.offsetParent) y += n.offsetTop; return y; };
 const stacks = $$(".stack").map(st => ({ st, cards: [...st.querySelectorAll(".card")] }));
 function measure() {
-  const vh = innerHeight;
+  const vh = stableVh();
   L.vh = vh;
   stacks.forEach(S => {
     S.top = docTop(S.st); S.bottom = S.top + S.st.offsetHeight;
@@ -335,10 +348,16 @@ function stackFx(y) {
 }
 /* timeline: vertical scroll drives a sideways track */
 const tl = $("#timeline"), track = $("#life"), tlBar = $("#tlBar"), tlNow = $("#tlNow"), tlCards = [...track.children];
+/* phones show and hide their address bar while you scroll (mostly when scrolling up), which changes innerHeight.
+   Layout uses the tallest height seen at the current width, so nothing jumps or gets rebuilt mid-scroll. */
+/* the "large" viewport (address bar hidden), measured once with a 100lvh probe, so the first hide causes no jump */
+const largeVh = () => { const p = document.createElement("div"); p.style.cssText = "position:fixed;top:0;height:100vh;height:100lvh;width:0;visibility:hidden;pointer-events:none"; document.body.appendChild(p); const h = p.offsetHeight; p.remove(); return h; };
+let VW = innerWidth, VH = Math.max(innerHeight, largeVh());
+const stableVh = () => (VH = Math.max(VH, innerHeight));
 function tlSize() {
   if (reduced) return;
   const extra = Math.max(0, track.scrollWidth - innerWidth);
-  tl.style.height = (innerHeight + extra) + "px";
+  tl.style.height = (stableVh() + extra) + "px";
 }
 let tlCur = -1;
 function tlFx(y) {
@@ -515,7 +534,8 @@ function morphTo(s) {
 const sk = $("#ski"), g = sk.getContext("2d");
 let SW = 0, SH = 0, DPR = 1, skQ = 0, skVel = 0;
 function skSize() {
-  SW = innerWidth; SH = innerHeight;
+  SW = innerWidth; SH = stableVh();
+  sk.style.height = SH + "px";
   DPR = Math.min(1.5, devicePixelRatio || 1, Math.sqrt(1.6e6 / (SW * SH)));
   sk.width = Math.round(SW * DPR); sk.height = Math.round(SH * DPR);
   skMode = "clear";
@@ -639,7 +659,7 @@ function skFrame(t) {
   skT = clamp((y - a) / (b - a));
   const d = skT - skQ;
   skVel = d;
-  skQ = Math.abs(d) < .0004 ? skT : skQ + d * .16;          // ease toward the scroll: no jumps, even on a fast flick
+  skQ = Math.abs(d) < .0004 ? skT : skQ + d * .085;          // ease toward the scroll: no jumps, even on a fast flick
   if (skQ >= .999 && y >= b && y < L.work.top) {
     // the water carries on: a solid orange sheet, slid up by the compositor as the projects rise out of it
     skSet("hold");
@@ -673,7 +693,19 @@ const queue = () => { if (!rafQ) rafQ = requestAnimationFrame(() => { rafQ = 0; 
 addEventListener("scroll", queue, { passive: true });
 addEventListener("touchmove", queue, { passive: true });
 if (lenis) lenis.on("scroll", queue);
-addEventListener("resize", () => { fit(); tlSize(); capColours(); measure(); skSize(); frame(); });
+let rzT = 0;
+addEventListener("resize", () => {
+  if (innerWidth !== VW) {
+    // a real resize or rotation: rebuild everything once
+    VW = innerWidth; VH = Math.max(innerHeight, largeVh());
+    fit(); tlSize(); capColours(); measure(); skSize(); frame();
+    return;
+  }
+  // height only (address bar): no re-fitting, no canvas rebuild; re-measure once things settle, and only if it grew
+  if (innerHeight <= VH) return;
+  clearTimeout(rzT);
+  rzT = setTimeout(() => { tlSize(); measure(); skSize(); frame(); }, 180);
+});
 
 /* ================= cursor ================= */
 if (matchMedia("(hover:hover) and (pointer:fine)").matches && !reduced) {

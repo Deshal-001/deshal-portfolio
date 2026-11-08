@@ -13,7 +13,7 @@
 html{background:var(--bg);-webkit-text-size-adjust:100%}
 html.lenis,html.lenis body{height:auto}
 .lenis.lenis-stopped{overflow:clip}
-.ski{position:fixed;inset:0;width:100%;height:100%;z-index:45;pointer-events:none;display:block;will-change:transform}
+.ski{position:fixed;top:0;left:0;width:100%;height:100vh;z-index:45;pointer-events:none;display:block;will-change:transform}
 body{margin:0;background:var(--bg);color:var(--ink);font:400 1rem/1.55 var(--b);overflow-x:clip;-webkit-font-smoothing:antialiased}
 ::selection{background:var(--o);color:#000}
 a{color:inherit;text-decoration:none}
@@ -261,8 +261,18 @@ html[lang="de"] .ev.now .k::after{content:"Jetzt"}
 
 /* ---------- project sheet ---------- */
 .sheet{border:0;padding:0;margin:0;max-width:none;max-height:none;width:100%;height:100%;background:var(--o);color:#000;overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
-.sheet::backdrop{background:#000}
-.sheet[open]{animation:fade .4s var(--out)}
+.sheet::backdrop{background:rgba(0,0,0,.78)}
+/* the project page slides up from the bottom; the site stays dimmed behind it; contents arrive in order */
+.sheet[open]{animation:shUp .62s cubic-bezier(.16,1,.3,1)}
+.sheet[open]::backdrop{animation:shDim .5s ease}
+.sheet[open] .sheet-in > [style*="--k"]{animation:shItem .7s cubic-bezier(.16,1,.3,1) backwards;animation-delay:calc(.16s + var(--k) * .06s)}
+.sheet.closing{animation:shDown .36s cubic-bezier(.7,0,.84,0) forwards}
+.sheet.closing::backdrop{animation:shUndim .36s ease forwards}
+@keyframes shUp{from{transform:translate3d(0,100%,0)}to{transform:none}}
+@keyframes shDown{from{transform:none}to{transform:translate3d(0,100%,0)}}
+@keyframes shDim{from{background:rgba(0,0,0,0)}}
+@keyframes shUndim{to{background:rgba(0,0,0,0)}}
+@keyframes shItem{from{opacity:0;transform:translate3d(0,28px,0)}to{opacity:1;transform:none}}
 .sheet-in{max-width:1100px;margin:0 auto;padding:clamp(4rem,10vh,7rem) var(--pad) 4rem}
 .x{position:fixed;top:1rem;right:var(--pad);height:2.8rem;padding:0 1.2rem;background:#000;color:var(--o);font-weight:700;font-size:.9rem;z-index:2}
 .x:hover{background:#fff;color:#000}
@@ -277,8 +287,9 @@ html[lang="de"] .ev.now .k::after{content:"Jetzt"}
 .sh-pts{list-style:none;margin:0 0 2rem;padding:0;counter-reset:p}
 .sh-pts li{counter-increment:p;display:grid;grid-template-columns:3rem 1fr;padding:1rem 0;border-top:2px solid #000}
 .sh-pts li::before{content:counter(p,decimal-leading-zero);font-weight:700;font-size:.85rem;padding-top:.15rem}
-.sh-stack{margin:0 0 2rem;font-weight:600}
-.sh-links{display:flex;gap:.6rem;flex-wrap:wrap}
+.sh-stack{margin:0;font-weight:600}
+.sh-links{display:flex;gap:.6rem;flex-wrap:wrap;margin:0 0 3rem}
+.sh-links:empty{display:none}
 .sh-links a{height:3rem;padding:0 1.3rem;display:inline-flex;align-items:center;font-weight:700;border:2px solid #000;transition:background .2s,color .2s}
 .sh-links a:first-child{background:#000;color:var(--o)}
 .sh-links a:hover{background:#fff;color:#000;border-color:#fff}
@@ -385,3 +396,4 @@ html[lang="de"] .ev.now .k::after{content:"Jetzt"}
 /* phones: no blend modes on fixed or moving text (each one forces the whole screen to be re-composited every frame) */
 .touch .mark,.touch .lang,.touch .hero-mid{mix-blend-mode:normal}
 .touch .hero-mid{will-change:transform,opacity}
+
