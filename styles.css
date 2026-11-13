@@ -76,6 +76,8 @@ body.leaving main,body.leaving .bar{opacity:0;transition:opacity .25s}
 /* ---------- sections ---------- */
 .sec{padding:clamp(5rem,12vh,9rem) 0;position:relative}
 .hot{background:var(--o);color:#000}
+/* the projects screen tucks under the pinned hero; the skier pulls it in from the left (app.js workPos) */
+#work{margin-top:-100vh;z-index:2;will-change:transform}
 .head{display:flex;justify-content:space-between;align-items:flex-end;gap:1rem;flex-wrap:wrap;margin-bottom:clamp(2.2rem,6vh,4rem)}
 .big{margin:0;font-size:clamp(3.4rem,1rem + 6vw,7.5rem);line-height:.84;letter-spacing:-.02em}
 .mid{margin:0;font-size:clamp(2.2rem,1rem + 2.9vw,4.2rem);line-height:.86;letter-spacing:-.015em}

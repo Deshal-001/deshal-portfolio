@@ -486,14 +486,15 @@ function frame() {
   ski(y);
   afterFx(y);
   if (!near("hero", y)) return;
-  const hp = ease(pin("hero", y));
+  // the name splits over the first 70% of the pin (same pace as before); the rest is POLYMATH alone, then the skier
+  const hpin = pin("hero", y), hp = ease(clamp(hpin / .7));
   const sc = TOUCH ? "" : ` scale(${(1 + hp * .15).toFixed(4)})`;
   r1.style.transform = `translate3d(${(-hp * 62).toFixed(3)}vw,0,0)${sc}`;
   r2.style.transform = `translate3d(${(hp * 62).toFixed(3)}vw,0,0)${sc}`;
   heroMid.style.opacity = clamp((hp - .15) / .3).toFixed(3);
   const mk = clamp((hp - .15) / .5);
   heroMid.style.transform = TOUCH ? `translate3d(-50%,calc(-50% + ${((1 - mk) * 24).toFixed(1)}px),0)` : `translate(-50%,-50%) scale(${lerp(.8, 1, mk).toFixed(4)})`;
-  morphTo(y >= skRange()[0] - L.vh * .18 ? 1 : 0);
+  morphTo(hpin >= .34 ? 1 : 0);
 }
 /* ================= the name screen: "Software engineer" decodes into "Polymath" as the skier comes in ================= */
 const midWord = heroMid.firstElementChild, midSub = heroMid.lastElementChild;
@@ -540,7 +541,8 @@ function skSize() {
   sk.width = Math.round(SW * DPR); sk.height = Math.round(SH * DPR);
   skMode = "clear";
 }
-const skRange = () => [L.hero.top + (L.hero.h - L.vh) * .5, L.hero.top + (L.hero.h - L.vh) * 1.02];
+// the skier runs while the hero is still pinned and ends exactly when the projects screen is fully in, at its own top
+const skRange = () => [L.work.top - L.vh * .95, L.work.top];
 const sstep = (a, b, x) => { const t = clamp((x - a) / (b - a)); return t * t * (3 - 2 * t); };
 const mix = (c1, c2, t) => c1.map((v, i) => Math.round(v + (c2[i] - v) * t));
 const WHITE = [243, 241, 236], OR = [255, 79, 18];
@@ -584,57 +586,87 @@ let skSp = null;
 function skSprite(w, h) {
   const key = `${Math.round(w)}x${DPR}`;
   if (skSp && skSp._key === key) return skSp;
-  const pad = Math.ceil(w * .01), c = document.createElement("canvas");
+  const pad = Math.ceil(w * .015), c = document.createElement("canvas");
   c.width = Math.ceil((w + pad * 2) * DPR); c.height = Math.ceil((h + pad * 2) * DPR);
   const x = c.getContext("2d"); x.scale(DPR, DPR);
-  if (skRim) x.drawImage(skRim, pad + w * .005, pad - h * .008, w, h);
+  // a full orange outline around the black rider, so he reads on the black name screen as well as on the sea
+  if (skRim) { const o = Math.max(1.5, w * .006); for (let k = 0; k < 8; k++) { const a = k * Math.PI / 4; x.drawImage(skRim, pad + Math.cos(a) * o, pad + Math.sin(a) * o, w, h); } }
   x.drawImage(skImg, pad, pad, w, h);
   c._key = key; c._pad = pad; c._w = w + pad * 2; c._h = h + pad * 2;
   return (skSp = skRim ? c : null) || c;
 }
+/* the run: the projects screen rides in from the left on the skier's wake. #work sits under the hero
+   (margin-top:-100vh) and is moved with transform only, so the slide costs the compositor, not paint */
+const WK = $("#work");
+let wkX = null, wkY = null;
+// the run: the sea has already risen under POLYMATH; he rides in on it towing the projects screen behind him
+// on a rope. the screen is moved with transform only (compositor), its leading edge foaming on the water
+let seaR = 0;
+const skGap = () => Math.max(SW * .32, 130);
+function skGeo(q) {
+  const w = Math.min(SW * .6, SH * 1.15), h = w * skImg.naturalHeight / skImg.naturalWidth;
+  const ix = lerp(-w * .95, SW + skGap() * 1.1, q);
+  return { w, h, ix, s: q, tx: ix + w * TAIL[0] };
+}
+const skEdge = q => q <= 0 ? -SW * 1.2 : skGeo(q).ix - skGap();
+function workPos(y, q) {
+  let X = 0, Y = 0;
+  if (y < L.work.top) { X = Math.min(0, Math.round(skEdge(q) - SW)); Y = Math.round(y - L.work.top); if (X <= -SW) X = -SW - 60; }
+  if (X === wkX && Y === wkY) return;
+  wkX = X; wkY = Y;
+  WK.style.transform = X || Y ? `translate3d(${X}px,${Y}px,0)` : "";
+  WK.style.visibility = X <= -SW ? "hidden" : "";
+}
 function skDraw(q, t) {
   g.setTransform(DPR, 0, 0, DPR, 0, 0);
   g.clearRect(0, 0, SW, SH);
-  if (q <= 0 || q >= 1 || !skImg.complete || !skImg.naturalWidth) return;
+  if (!skImg.complete || !skImg.naturalWidth) return;
   sk.style.opacity = "1";
-  const warm = sstep(.12, .6, q);
-  const water = mix(WHITE, OR, warm);
-
-  // no curtain: he rides straight over the splitting name
   const surface = SH * .74;
-
-  // the run: left to right across the whole screen, on a gentle curve
-  const w = Math.min(SW * .6, SH * 1.15), h = w * skImg.naturalHeight / skImg.naturalWidth;
-  const ix = lerp(-w * .95, SW * 1.45, q);
-  const lift = Math.sin(q * Math.PI) * SH * .07;
-  const tilt = Math.cos(q * Math.PI) * -.07;
+  const { w, h, ix, tx } = skGeo(q);
+  const lift = Math.sin(q * Math.PI) * SH * .05;
+  const tilt = Math.cos(q * Math.PI) * -.06;
   const iy = surface - h * WATER - lift;
-  const tx = ix + w * TAIL[0], ty = iy + h * TAIL[1];
+  const ty = iy + h * TAIL[1];
+  const E = skEdge(q);
+  const big = SW > 600 ? 1.4 : 1;
 
-  // the water only exists behind him: thrown off the ski, covering everything he has passed
-  const D = SW * .34;
-  const cover = (reach, col, seed, lo) => {
-    g.beginPath();
-    g.moveTo(tx + 12, ty);
-    for (let i = 0; i <= 50; i++) {
-      const u = i / 50;
-      const x = tx - u * reach;
-      const rise = 1 - Math.pow(1 - Math.min(1, u * 1.1), 2.4);
-      const bump = (Math.sin(u * 18 + t * .007 + seed) + Math.sin(u * 7 - t * .004 + seed)) * .5;
-      g.lineTo(x, ty - (ty + SH * .15) * rise * lo - bump * SH * .03 * Math.sin(u * Math.PI));
+  // the sea: rises from the bottom while POLYMATH stands, then carries him. ahead of the screen only
+  const calm = surface - h * (WATER - TAIL[1]) - 4;
+  const lvl = q > 0 ? ty - 4 : lerp(SH + 30, calm, ease(seaR));
+  const x0 = q > 0 ? Math.max(-10, E) : -10;
+  if (x0 < SW + 10) {
+    g.beginPath(); g.moveTo(x0, SH + 10);
+    for (let x = x0; ; x += 12) {
+      const xx = Math.min(x, SW + 22);
+      g.lineTo(xx, lvl + Math.sin(xx * .021 + t * .0045) * 5 + Math.sin(xx * .0068 - t * .0028) * 9 * big);
+      if (xx >= SW + 22) break;
     }
-    g.lineTo(tx - reach - 10, -SH * .2);
-    g.lineTo(-20, -SH * .2); g.lineTo(-20, SH + 20);
-    g.lineTo(tx - reach * .35, SH + 20);
-    g.quadraticCurveTo(tx - reach * .05, surface + (SH - surface) * .35, tx + 12, ty);
-    g.closePath();
-    g.fillStyle = col; g.fill();
-  };
-  cover(D * 1.35, rgb(mix(water, [255, 255, 255], .3 * (1 - warm))), 2.2, 1);
-  cover(D, rgb(mix(water, [10, 10, 10], .12 * (1 - warm))), 5.9, 1);
-  cover(D * .55, rgb(water), 9.1, .55);
+    g.lineTo(SW + 22, SH + 10); g.closePath(); g.fillStyle = rgb(OR); g.fill();
+  }
+  if (q <= 0 || q >= 1) return;
 
-  // the skier, riding the curve, rope carried on to the boat past the edge of the screen
+  // the wave: thrown up off his ski, it climbs back to the top of the screen and is the leading edge of
+  // the projects screen it carries along behind him
+  const wake = (lead, back, col, seed) => {
+    const N = 44, sx = tx + 8 - lead, len = sx - E;
+    if (len < 2) return;
+    g.beginPath();
+    g.moveTo(E - SW * back, -10);
+    for (let i = N; i >= 0; i--) {
+      const u = i / N;
+      const rise = 1 - Math.pow(1 - u, 2.2);
+      const bump = (Math.sin(u * 16 + t * .007 + seed) + Math.sin(u * 6 - t * .004 + seed)) * .5 * SH * .025 * Math.sin(u * Math.PI);
+      g.lineTo(sx - u * len, ty - (ty + 10) * rise - bump);
+    }
+    g.quadraticCurveTo(sx - len * .2, ty + (SH - ty) * .5, E + SW * .03, SH + 10);
+    for (let i = 10; i >= 0; i--) { const v = i / 10; g.lineTo(E - SW * back * (.6 + .4 * Math.sin(v * 9 + t * .004)), -10 + (SH + 20) * v); }
+    g.closePath(); g.fillStyle = col; g.fill();
+  };
+  wake(0, .05, rgb(WHITE), 1.3);
+  wake(SW * .03, .07, "rgb(255,168,128)", 4.1);
+  wake(SW * .07, .09, rgb(OR), 7.7);
+
   g.save();
   g.translate(tx, ty); g.rotate(tilt); g.translate(-tx, -ty);
   g.strokeStyle = "#FF4F12"; g.lineWidth = Math.max(2.5, w * .0042); g.lineCap = "butt";
@@ -644,14 +676,12 @@ function skDraw(q, t) {
   g.restore();
 }
 
-let skAnim = 0, skT = 0, skLast = 0, skMode = "clear", skShift = 0;
-/* the canvas is only touched when its picture changes: an idle or solid-orange canvas costs nothing per frame */
+let skAnim = 0, skT = 0, skLast = 0, skMode = "clear";
+/* the canvas is only touched when its picture changes: an idle canvas costs nothing per frame */
 function skSet(mode) {
   if (mode === skMode) return;
   g.setTransform(DPR, 0, 0, DPR, 0, 0);
   g.clearRect(0, 0, SW, SH);
-  if (mode === "hold") { g.fillStyle = "#FF4F12"; g.fillRect(0, 0, SW, SH); sk.style.opacity = "1"; }
-  if (mode !== "hold" && skShift) { skShift = 0; sk.style.transform = ""; }
   skMode = mode;
 }
 function skFrame(t) {
@@ -659,28 +689,24 @@ function skFrame(t) {
   skT = clamp((y - a) / (b - a));
   const d = skT - skQ;
   skVel = d;
-  // desktop: ease after the (already smoothed) wheel scroll. phones: follow the finger exactly; native
-  // momentum is already smooth, and easing on top made the water lag and get cut off by the projects
+  // desktop: ease after the (already smoothed) wheel scroll. phones: follow the finger exactly
   skQ = TOUCH || Math.abs(d) < .0004 ? skT : skQ + d * .085;
-  if (skQ >= .999 && y >= b && y < L.work.top) {
-    // the water carries on: a solid orange sheet, slid up by the compositor as the projects rise out of it
-    skSet("hold");
-    const shift = Math.min(0, Math.round(L.work.top - y + 1 - SH));
-    if (shift !== skShift) { skShift = shift; sk.style.transform = `translate3d(0,${shift}px,0)`; }
-  } else if (skQ > 0 && skQ < 1) {
-    skSet("draw");
-    skDraw(skQ, t);
-  } else {
-    skSet("clear");
-  }
-  const busy = Math.abs(skT - skQ) > .0004 || (skQ > 0 && skQ < 1);
+  const y0 = L.hero.top + (L.hero.h - L.vh) * .36;
+  seaR = clamp((y - y0) / Math.max(1, a - y0));
+  const live = (skQ > 0 && skQ < 1) || (skQ <= 0 && seaR > 0);
+  if (live) { skSet("draw"); skDraw(skQ, t); } else skSet("clear");
+  workPos(y, skQ);
+  const busy = Math.abs(skT - skQ) > .0004 || live;
   skAnim = busy ? requestAnimationFrame(skFrame) : 0;
 }
 function ski(y) {
   // wake the loop near the hand-off; it sleeps everywhere else
   const [a] = skRange();
   if (y > a - L.vh && y < L.work.top + 10) { if (!skAnim) skAnim = requestAnimationFrame(skFrame); }
-  else if (skQ !== 0 || skAnim || skMode !== "clear") { if (skAnim) cancelAnimationFrame(skAnim); skAnim = 0; skQ = skT = 0; skSet("clear"); }
+  else {
+    if (skAnim) cancelAnimationFrame(skAnim);
+    skAnim = 0; skQ = skT = y < a ? 0 : 1; skSet("clear"); workPos(y, skQ);
+  }
 }
 /* ================= smooth scrolling ================= */
 let lenis = null;
