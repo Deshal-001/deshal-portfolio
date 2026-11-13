@@ -536,7 +536,7 @@ let SW = 0, SH = 0, DPR = 1, skQ = 0, skVel = 0;
 function skSize() {
   SW = innerWidth; SH = stableVh();
   sk.style.height = SH + "px";
-  DPR = Math.min(1.5, devicePixelRatio || 1, Math.sqrt(1.6e6 / (SW * SH)));
+  DPR = Math.min(TOUCH ? 1.25 : 1.5, devicePixelRatio || 1, Math.sqrt(1.6e6 / (SW * SH)));
   sk.width = Math.round(SW * DPR); sk.height = Math.round(SH * DPR);
   skMode = "clear";
 }
@@ -659,7 +659,9 @@ function skFrame(t) {
   skT = clamp((y - a) / (b - a));
   const d = skT - skQ;
   skVel = d;
-  skQ = Math.abs(d) < .0004 ? skT : skQ + d * .085;          // ease toward the scroll: no jumps, even on a fast flick
+  // desktop: ease after the (already smoothed) wheel scroll. phones: follow the finger exactly; native
+  // momentum is already smooth, and easing on top made the water lag and get cut off by the projects
+  skQ = TOUCH || Math.abs(d) < .0004 ? skT : skQ + d * .085;
   if (skQ >= .999 && y >= b && y < L.work.top) {
     // the water carries on: a solid orange sheet, slid up by the compositor as the projects rise out of it
     skSet("hold");
