@@ -37,5 +37,6 @@
       "destination": "https://deshal.me/:path*",
       "permanent": true
     }
-  ]
+  ],
+  "trailingSlash": false
 }

@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shrink – make photos smaller, free and private | deshal.me</title>
+<meta name="description" content="Make photos smaller right in your browser. Resize and compress JPG and WebP for email, the web or upload limits. Free, no sign-up, nothing is uploaded.">
+<meta name="author" content="Kavindu Deshal Hembadura">
+<link rel="canonical" href="https://deshal.me/shrink">
+<meta name="theme-color" content="#000000">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://deshal.me/shrink">
+<meta property="og:title" content="Shrink – make photos smaller, privately">
+<meta property="og:description" content="Free image compressor that runs in your browser. Nothing is uploaded.">
+<meta property="og:image" content="https://deshal.me/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Shrink","url":"https://deshal.me/shrink","applicationCategory":"MultimediaApplication","operatingSystem":"Any (web browser)","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"description":"Resize and compress photos in the browser. Nothing is uploaded.","creator":{"@id":"https://deshal.me/#me","@type":"Person","name":"Kavindu Deshal Hembadura","url":"https://deshal.me/"}}
+</script>
+<style>
+@font-face{font-family:"Archivo";src:url(../assets/fonts/archivo.woff2) format("woff2");font-weight:100 900;font-stretch:62% 125%;font-display:swap}
+@font-face{font-family:"Hanken Grotesk";src:url(../assets/fonts/hanken-grotesk.woff2) format("woff2");font-weight:100 900;font-display:swap}
+:root{--bg:#000;--ink:#F3F1EC;--dim:#8A8883;--line:#262626;--o:#FF4F12;--d:"Archivo",Arial Black,sans-serif;--b:"Hanken Grotesk",system-ui,sans-serif;--pad:clamp(1.1rem,3.4vw,3.2rem);--out:cubic-bezier(.16,1,.3,1)}
+*{box-sizing:border-box}
+html{background:var(--bg);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1rem/1.55 var(--b);-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
+::selection{background:var(--o);color:#000}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--o);outline-offset:3px}
+.wrap{width:100%;max-width:1100px;margin:0 auto;padding:0 var(--pad)}
+.disp{font-family:var(--d);font-weight:900;font-stretch:110%;text-transform:uppercase;line-height:.86;letter-spacing:-.01em}
+
+.bar{display:flex;justify-content:space-between;align-items:center;padding:.9rem var(--pad)}
+.mark{font:900 1.1rem/1 var(--d);font-stretch:110%;text-decoration:none}
+.bar-r{display:flex;gap:.6rem;align-items:center}
+.lang{font:900 .82rem/1 var(--d);font-stretch:110%;letter-spacing:.04em;border:2px solid currentColor;padding:.5rem .6rem}
+.back{font:600 .9rem/1 var(--b);text-decoration:none;color:var(--dim)}
+.back:hover{color:var(--ink)}
+
+.top{padding:clamp(2.2rem,7vw,5rem) 0 clamp(1.4rem,3vw,2.2rem)}
+.top h1{margin:0;font-size:clamp(4.2rem,15vw,11rem);color:var(--o)}
+.top p{margin:1rem 0 0;max-width:34rem;font-size:clamp(1.05rem,1rem + .4vw,1.3rem);color:var(--ink)}
+.top p b{font-weight:600}
+
+/* drop zone */
+.drop{position:relative;display:grid;place-items:center;text-align:center;gap:.6rem;min-height:clamp(12rem,30vw,16rem);padding:2rem 1.2rem;border:2px dashed #3a3a3a;border-radius:1.2rem;cursor:pointer;transition:border-color .2s,background .2s}
+.drop:hover,.drop.over{border-color:var(--o);background:rgba(255,79,18,.06)}
+.drop.over{border-style:solid}
+.drop strong{font:900 clamp(1.4rem,1rem + 1.6vw,2.2rem)/1 var(--d);font-stretch:110%;text-transform:uppercase}
+.drop span{color:var(--dim);font-size:.95rem}
+.drop .pick{display:inline-block;margin-top:.4rem;background:var(--o);color:#000;font:800 .95rem/1 var(--b);padding:.85rem 1.3rem;border-radius:99px}
+.drop input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+
+/* settings */
+.set{margin:clamp(1.4rem,3vw,2rem) 0 0}
+.set h2{font:700 1rem/1.2 var(--b);margin:0 0 .7rem}
+.presets{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem}
+.pre{display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:.3rem;padding:.9rem 1rem;border:1.5px solid var(--line);border-radius:.9rem;transition:border-color .2s,background .2s}
+.pre b{font:900 1.05rem/1 var(--d);font-stretch:110%;text-transform:uppercase}
+.pre small{color:var(--dim);font-size:.82rem;line-height:1.35}
+.pre:hover{border-color:#555}
+.pre[aria-pressed="true"]{border-color:var(--o);background:rgba(255,79,18,.1)}
+.pre[aria-pressed="true"] b{color:var(--o)}
+.custom{display:none;grid-template-columns:1fr 1fr auto;gap:1rem 1.6rem;align-items:end;margin-top:1rem;padding:1rem 1.1rem;border:1.5px solid var(--line);border-radius:.9rem}
+.custom.on{display:grid}
+.field label{display:flex;justify-content:space-between;font-size:.88rem;color:var(--dim);margin-bottom:.45rem}
+.field label output{color:var(--ink);font-weight:600}
+input[type=range]{width:100%;accent-color:var(--o)}
+.seg{display:inline-flex;border:1.5px solid var(--line);border-radius:99px;overflow:hidden}
+.seg button{padding:.55rem .9rem;font-weight:600;font-size:.9rem}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#000}
+
+/* results */
+.res{margin:clamp(1.6rem,3vw,2.4rem) 0 0}
+.sum{display:none;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;padding:1rem 1.1rem;background:var(--o);color:#000;border-radius:.9rem}
+.sum.on{display:flex}
+.sum p{margin:0;font-weight:600}
+.sum p b{font:900 1.5rem/1 var(--d);font-stretch:110%;margin-right:.35rem}
+.sum .acts{display:flex;gap:.5rem;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.7rem 1.1rem;border-radius:99px;font-weight:700;font-size:.92rem;text-decoration:none}
+.btn.dark{background:#000;color:var(--ink)}
+.btn.line{border:1.5px solid #000}
+.list{list-style:none;margin:.8rem 0 0;padding:0;display:grid;gap:.5rem}
+.it{display:grid;grid-template-columns:3.6rem 1fr auto;gap:.9rem;align-items:center;padding:.6rem .7rem .6rem .6rem;border:1.5px solid var(--line);border-radius:.9rem}
+.it img{width:3.6rem;height:3.6rem;object-fit:cover;border-radius:.55rem;background:#111}
+.it .nm{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.it .meta{font-size:.85rem;color:var(--dim)}
+.it .meta s{text-decoration:none;color:var(--dim)}
+.it .meta em{font-style:normal;color:var(--o);font-weight:700}
+.it .dl{padding:.6rem .95rem;border-radius:99px;background:var(--ink);color:#000;font-weight:700;font-size:.88rem;text-decoration:none;white-space:nowrap}
+.it.busy .dl{visibility:hidden}
+.it.err{border-color:#5a2a1a}
+.it.err .meta{color:#ff8f6b}
+.it.err .dl{display:none}.it.err img{visibility:hidden}
+.bar-p{height:3px;background:#222;border-radius:3px;margin-top:.45rem;overflow:hidden}
+.bar-p i{display:block;height:100%;width:40%;background:var(--o);animation:ld 1s ease-in-out infinite}
+@keyframes ld{0%{transform:translateX(-100%)}100%{transform:translateX(260%)}}
+
+.how{margin:clamp(2.4rem,6vw,4rem) 0 0;display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;color:var(--dim);font-size:.92rem}
+.how h3{margin:0 0 .3rem;color:var(--ink);font:700 1rem/1.2 var(--b)}
+.how p{margin:0}
+footer{margin-top:auto;padding:clamp(2.4rem,6vw,4rem) 0 1.6rem;color:var(--dim);font-size:.9rem}
+footer .wrap{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:1.2rem}
+footer a{color:var(--ink);text-decoration-color:var(--o);text-underline-offset:3px}
+
+@media (max-width:760px){
+  .presets{grid-template-columns:1fr 1fr}
+  .custom{grid-template-columns:1fr}
+  .how{grid-template-columns:1fr}
+  .it{grid-template-columns:3rem 1fr;row-gap:.6rem}
+  .it img{width:3rem;height:3rem}
+  .it .dl{grid-column:1 / -1;text-align:center}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<header class="bar">
+  <a class="mark" href="../" aria-label="Kavindu Deshal Hembadura, portfolio">KH</a>
+  <div class="bar-r"><a class="back" href="../" data-t="back">Portfolio</a><button type="button" class="lang" id="lang">DE</button></div>
+</header>
+
+<main class="wrap">
+  <section class="top">
+    <h1 class="disp">Shrink</h1>
+    <p data-t="lead">Make photos smaller, right in your browser. <b>Nothing is uploaded.</b> Your photos never leave this device.</p>
+  </section>
+
+  <label class="drop" id="drop">
+    <input type="file" id="file" accept="image/*" multiple>
+    <strong data-t="dropT">Drop photos here</strong>
+    <span data-t="dropS">or paste them, up to 50 at once</span>
+    <span class="pick" data-t="choose">Choose photos</span>
+  </label>
+
+  <section class="set" aria-labelledby="setH">
+    <h2 id="setH" data-t="setH">What are they for?</h2>
+    <div class="presets" id="presets">
+      <button type="button" class="pre" data-p="email" aria-pressed="true"><b data-t="pEmail">Email</b><small data-t="pEmailS">1600 px, JPG. Sharp on any screen, light to send.</small></button>
+      <button type="button" class="pre" data-p="web" aria-pressed="false"><b data-t="pWeb">Web</b><small data-t="pWebS">2000 px, WebP. Small files for sites and blogs.</small></button>
+      <button type="button" class="pre" data-p="1mb" aria-pressed="false"><b data-t="p1mb">Under 1 MB</b><small data-t="p1mbS">For upload forms with a size limit.</small></button>
+      <button type="button" class="pre" data-p="custom" aria-pressed="false"><b data-t="pCustom">Custom</b><small data-t="pCustomS">Pick the size, quality and format.</small></button>
+    </div>
+    <div class="custom" id="custom">
+      <div class="field"><label for="cw"><span data-t="cw">Longest side</span><output id="cwO"></output></label><input type="range" id="cw" min="400" max="4400" step="100" value="2000"></div>
+      <div class="field"><label for="cq"><span data-t="cq">Quality</span><output id="cqO"></output></label><input type="range" id="cq" min="40" max="95" step="1" value="80"></div>
+      <div class="field"><label data-t="cf">Format</label><div class="seg" id="cf"><button type="button" data-f="jpeg" aria-pressed="true">JPG</button><button type="button" data-f="webp" aria-pressed="false">WebP</button></div></div>
+    </div>
+  </section>
+
+  <section class="res" aria-live="polite">
+    <div class="sum" id="sum"><p id="sumT"></p><div class="acts"><button type="button" class="btn dark" id="zip" data-t="zip">Download all (ZIP)</button><button type="button" class="btn line" id="clear" data-t="clear">Start over</button></div></div>
+    <ul class="list" id="list"></ul>
+  </section>
+
+  <section class="how">
+    <div><h3 data-t="h1">Private by design</h3><p data-t="h1p">Your browser does all the work. No server ever sees your photos, so it is safe for passports, contracts and family pictures.</p></div>
+    <div><h3 data-t="h2">Clean files</h3><p data-t="h2p">Location and camera details are removed, and iPhone photos keep the right way up.</p></div>
+    <div><h3 data-t="h3">Never bigger</h3><p data-t="h3p">If a photo is already small, you get the original back instead of a worse copy.</p></div>
+  </section>
+</main>
+
+<footer><div class="wrap"><span data-t="made">Made by <a href="../">Kavindu Deshal Hembadura</a>, software engineer in Hannover.</span><span data-t="free">Free to use. No tracking, no sign-up.</span></div></footer>
+
+<script>
+(() => {
+"use strict";
+/* ---------- language: same rule as the portfolio ---------- */
+const LANG = (() => {
+  const q = new URLSearchParams(location.search).get("lang");
+  if (q === "de" || q === "en") { try { localStorage.setItem("lang", q); } catch (e) {} return q; }
+  try { const s = localStorage.getItem("lang"); if (s === "de" || s === "en") return s; } catch (e) {}
+  let tz = ""; try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch (e) {}
+  return /^Europe\/(Berlin|Busingen)$/.test(tz) ? "de" : "en";
+})();
+const DE = LANG === "de";
+const T = {
+  back: ["Portfolio", "Portfolio"],
+  lead: ["Make photos smaller, right in your browser. <b>Nothing is uploaded.</b> Your photos never leave this device.", "Fotos verkleinern, direkt im Browser. <b>Nichts wird hochgeladen.</b> Deine Fotos verlassen dieses Gerät nie."],
+  dropT: ["Drop photos here", "Fotos hier ablegen"],
+  dropS: ["or paste them, up to 50 at once", "oder einfügen, bis zu 50 auf einmal"],
+  choose: ["Choose photos", "Fotos auswählen"],
+  setH: ["What are they for?", "Wofür sind sie?"],
+  pEmail: ["Email", "E-Mail"], pEmailS: ["1600 px, JPG. Sharp on any screen, light to send.", "1600 px, JPG. Scharf auf jedem Bildschirm, leicht zu verschicken."],
+  pWeb: ["Web", "Web"], pWebS: ["2000 px, WebP. Small files for sites and blogs.", "2000 px, WebP. Kleine Dateien für Websites und Blogs."],
+  p1mb: ["Under 1 MB", "Unter 1 MB"], p1mbS: ["For upload forms with a size limit.", "Für Upload-Formulare mit Größenlimit."],
+  pCustom: ["Custom", "Eigene"], pCustomS: ["Pick the size, quality and format.", "Größe, Qualität und Format selbst wählen."],
+  cw: ["Longest side", "Längste Seite"], cq: ["Quality", "Qualität"], cf: ["Format", "Format"],
+  zip: ["Download all (ZIP)", "Alle laden (ZIP)"], clear: ["Start over", "Neu starten"],
+  h1: ["Private by design", "Privat von Grund auf"], h1p: ["Your browser does all the work. No server ever sees your photos, so it is safe for passports, contracts and family pictures.", "Dein Browser erledigt alles. Kein Server sieht je deine Fotos, also sicher für Ausweise, Verträge und Familienbilder."],
+  h2: ["Clean files", "Saubere Dateien"], h2p: ["Location and camera details are removed, and iPhone photos keep the right way up.", "Standort- und Kameradaten werden entfernt, iPhone-Fotos bleiben richtig herum."],
+  h3: ["Never bigger", "Nie größer"], h3p: ["If a photo is already small, you get the original back instead of a worse copy.", "Ist ein Foto schon klein, bekommst du das Original statt einer schlechteren Kopie."],
+  made: ['Made by <a href="../">Kavindu Deshal Hembadura</a>, software engineer in Hannover.', 'Gebaut von <a href="../">Kavindu Deshal Hembadura</a>, Softwareentwickler in Hannover.'],
+  free: ["Free to use. No tracking, no sign-up.", "Kostenlos. Kein Tracking, keine Anmeldung."],
+  orig: ["Original", "Original"], save: ["Save", "Speichern"],
+  kept: ["Already small, original kept", "Schon klein, Original behalten"],
+  bad: ["Can't read this file. iPhone HEIC photos open in Safari, or set Camera > Formats > Most Compatible.", "Datei nicht lesbar. iPhone-HEIC-Fotos in Safari öffnen oder Kamera > Formate > Maximale Kompatibilität wählen."],
+  notImg: ["Not an image", "Kein Bild"],
+  tooMany: ["Only the first 50 photos were added.", "Nur die ersten 50 Fotos wurden hinzugefügt."],
+  noWebp: ["This browser can't make WebP, so JPG was used.", "Dieser Browser kann kein WebP erzeugen, daher JPG."],
+  over: ["Couldn't get under 1 MB without ruining it", "Unter 1 MB nur mit zu viel Qualitätsverlust"]
+};
+const t = k => T[k][DE ? 1 : 0];
+document.documentElement.lang = LANG;
+document.querySelectorAll("[data-t]").forEach(el => { el.innerHTML = t(el.dataset.t); });
+const langBtn = document.getElementById("lang");
+langBtn.textContent = DE ? "EN" : "DE";
+langBtn.setAttribute("aria-label", DE ? "Read in English" : "Auf Deutsch lesen");
+langBtn.addEventListener("click", () => { try { localStorage.setItem("lang", DE ? "en" : "de"); } catch (e) {} location.search = "?lang=" + (DE ? "en" : "de"); });
+if (DE) document.title = "Shrink – Fotos verkleinern, kostenlos und privat | deshal.me";
+
+/* ---------- settings ---------- */
+const PRESET = {
+  email: { max: 1600, q: .8, type: "image/jpeg" },
+  web: { max: 2000, q: .8, type: "image/webp" },
+  "1mb": { max: 0, q: .86, type: "image/jpeg", target: 1000 * 1024 },
+  custom: null
+};
+let preset = "email";
+const cw = document.getElementById("cw"), cq = document.getElementById("cq"), cwO = document.getElementById("cwO"), cqO = document.getElementById("cqO");
+let cType = "image/jpeg";
+const showC = () => { cwO.textContent = +cw.value >= 4400 ? (DE ? "Original" : "Original") : cw.value + " px"; cqO.textContent = cq.value + " %"; };
+showC();
+const settings = () => preset === "custom" ? { max: +cw.value >= 4400 ? 0 : +cw.value, q: +cq.value / 100, type: cType } : PRESET[preset];
+document.getElementById("presets").addEventListener("click", e => {
+  const b = e.target.closest(".pre"); if (!b || b.dataset.p === preset) return;
+  preset = b.dataset.p;
+  document.querySelectorAll(".pre").forEach(x => x.setAttribute("aria-pressed", x === b));
+  document.getElementById("custom").classList.toggle("on", preset === "custom");
+  rerun();
+});
+let rT = 0;
+const soon = () => { showC(); clearTimeout(rT); rT = setTimeout(rerun, 350); };
+cw.addEventListener("input", soon); cq.addEventListener("input", soon);
+document.getElementById("cf").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  cType = "image/" + b.dataset.f;
+  document.querySelectorAll("#cf button").forEach(x => x.setAttribute("aria-pressed", x === b));
+  rerun();
+});
+
+/* ---------- input: pick, drop, paste ---------- */
+const drop = document.getElementById("drop"), fileIn = document.getElementById("file");
+fileIn.addEventListener("change", () => { add([...fileIn.files]); fileIn.value = ""; });
+["dragenter", "dragover"].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add("over"); }));
+["dragleave", "drop"].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove("over"); }));
+drop.addEventListener("drop", e => add([...(e.dataTransfer.files || [])]));
+addEventListener("dragover", e => e.preventDefault());
+addEventListener("drop", e => { if (!drop.contains(e.target)) { e.preventDefault(); add([...(e.dataTransfer.files || [])]); } });
+addEventListener("paste", e => { const fs = [...(e.clipboardData && e.clipboardData.files || [])]; if (fs.length) add(fs); });
+
+/* ---------- the work ---------- */
+const items = [];             // {file, url, out, el, state}
+const list = document.getElementById("list");
+const kb = n => n >= 1024 * 1024 ? (n / 1048576).toFixed(n >= 10485760 ? 0 : 1).replace(".", DE ? "," : ".") + " MB" : Math.max(1, Math.round(n / 1024)) + " KB";
+const esc = s => s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+let note = "";
+
+function add(files) {
+  let fs = files.filter(f => f && f.size);
+  if (items.length + fs.length > 50) { fs = fs.slice(0, Math.max(0, 50 - items.length)); note = t("tooMany"); }
+  fs.forEach(file => {
+    const li = document.createElement("li"); li.className = "it busy";
+    const it = { file, el: li, out: null, url: "", gen: 0 };
+    li.innerHTML = `<img alt=""><div><div class="nm">${esc(file.name)}</div><div class="meta">${kb(file.size)}</div><div class="bar-p"><i></i></div></div><a class="dl" href="#" download>${t("save")}</a>`;
+    try { li.querySelector("img").src = URL.createObjectURL(file); } catch (e) {}
+    list.appendChild(li); items.push(it);
+  });
+  queue();
+}
+let running = false, wantRerun = false;
+function rerun() { if (!items.length) return; items.forEach(it => { it.gen++; it.done = false; it.el.classList.add("busy"); it.el.classList.remove("err"); }); queue(); }
+async function queue() {
+  if (running) { wantRerun = true; return; }
+  running = true;
+  do {
+    wantRerun = false;
+    for (const it of items) {
+      if (it.done) continue;
+      const gen = it.gen, s = settings();
+      try {
+        const out = await shrink(it.file, s);
+        if (gen !== it.gen) continue;
+        show(it, out);
+      } catch (err) {
+        if (gen !== it.gen) continue;
+        it.done = true; it.out = null; it.el.classList.remove("busy"); it.el.classList.add("err");
+        it.el.querySelector(".meta").textContent = /image/.test(it.file.type) || /\.(heic|heif)$/i.test(it.file.name) ? t("bad") : t("notImg");
+        const p = it.el.querySelector(".bar-p"); if (p) p.remove();
+      }
+      await new Promise(r => setTimeout(r, 0));
+    }
+  } while (wantRerun || items.some(it => !it.done));
+  running = false;
+  summary();
+}
+
+async function decode(file) {
+  if (window.createImageBitmap) {
+    try { return await createImageBitmap(file, { imageOrientation: "from-image" }); } catch (e) {}
+  }
+  // fallback: let an <img> decode it (Safari reads HEIC this way)
+  const url = URL.createObjectURL(file);
+  try {
+    const img = new Image(); img.decoding = "async"; img.src = url;
+    await img.decode();
+    return img;
+  } finally { setTimeout(() => URL.revokeObjectURL(url), 1000); }
+}
+const encode = (cv, type, q) => new Promise(res => cv.toBlob(b => res(b), type, q));
+function draw(src, w, h) {
+  const cv = document.createElement("canvas"); cv.width = w; cv.height = h;
+  const x = cv.getContext("2d", { alpha: false });
+  x.fillStyle = "#fff"; x.fillRect(0, 0, w, h);      // transparent PNGs become white, not black, in JPG
+  x.imageSmoothingEnabled = true; x.imageSmoothingQuality = "high";
+  x.drawImage(src, 0, 0, w, h);
+  return cv;
+}
+// step down in halves first: one big jump to a small size looks soft
+function resize(src, W, H, w, h) {
+  let cur = src, cw_ = W, ch_ = H;
+  while (cw_ / 2 >= w * 1.05 && ch_ / 2 >= h) { cw_ = Math.round(cw_ / 2); ch_ = Math.round(ch_ / 2); cur = draw(cur, cw_, ch_); }
+  return draw(cur, w, h);
+}
+async function shrink(file, s) {
+  if (!/^image\//.test(file.type) && !/\.(heic|heif|jpe?g|png|webp|gif|bmp|avif)$/i.test(file.name)) throw new Error("type");
+  const src = await decode(file);
+  const W = src.width || src.naturalWidth, H = src.height || src.naturalHeight;
+  if (!W || !H) throw new Error("decode");
+  let scale = s.max ? Math.min(1, s.max / Math.max(W, H)) : 1;
+  let type = s.type, warn = "";
+  const ext = () => type === "image/webp" ? "webp" : "jpg";
+  const make = async (sc, q) => {
+    const w = Math.max(1, Math.round(W * sc)), h = Math.max(1, Math.round(H * sc));
+    const cv = sc < 1 ? resize(src, W, H, w, h) : draw(src, w, h);
+    let b = await encode(cv, type, q);
+    if (b && type === "image/webp" && b.type !== "image/webp") { type = "image/jpeg"; warn = t("noWebp"); b = await encode(cv, type, q); }
+    return { blob: b, w, h };
+  };
+  let r;
+  if (s.target) {
+    // aim for the size limit: search the quality first, then step the dimensions down if needed
+    scale = Math.min(scale, Math.sqrt(40e6 / (W * H)) || 1);   // cap at ~40 MP so phones don't run out of memory
+    let lo = .45, hi = s.q, best = null;
+    for (let pass = 0; pass < 4 && !best; pass++) {
+      const top = await make(scale, hi);
+      if (top.blob.size <= s.target) { best = top; break; }
+      let l = lo, hgh = hi, found = null;
+      for (let i = 0; i < 6; i++) { const m = (l + hgh) / 2, tr = await make(scale, m); if (tr.blob.size <= s.target) { found = tr; l = m; } else hgh = m; }
+      if (found) { best = found; break; }
+      const bottom = await make(scale, lo);
+      scale *= Math.max(.5, Math.sqrt(s.target / bottom.blob.size) * .92);
+    }
+    r = best || await make(scale, lo);
+    if (r.blob.size > s.target) warn = t("over");
+  } else {
+    r = await make(scale, s.q);
+  }
+  if (src.close) src.close();
+  // never hand back something bigger than what came in: if the copy isn't smaller, the original is the better file
+  if (r.blob.size >= file.size) {
+    return { blob: file, w: W, h: H, W, H, kept: true, name: file.name, warn: "" };
+  }
+  const base = file.name.replace(/\.[^.]+$/, "") || "photo";
+  return { blob: r.blob, w: r.w, h: r.h, W, H, kept: false, name: `${base}-small.${ext()}`, warn };
+}
+function show(it, out) {
+  it.done = true; it.out = out;
+  if (it.url) URL.revokeObjectURL(it.url);
+  it.url = URL.createObjectURL(out.blob);
+  const li = it.el; li.classList.remove("busy", "err");
+  const p = li.querySelector(".bar-p"); if (p) p.remove();
+  const saved = 1 - out.blob.size / it.file.size;
+  li.querySelector(".meta").innerHTML = out.kept
+    ? `${kb(it.file.size)}, ${out.W} × ${out.H}. ${t("kept")}`
+    : `<s>${kb(it.file.size)}</s> → <b>${kb(out.blob.size)}</b> <em>−${Math.min(99, Math.max(0, Math.round(saved * 100)))}%</em>, ${out.w} × ${out.h}${out.warn ? ". " + esc(out.warn) : ""}`;
+  const a = li.querySelector(".dl"); a.href = it.url; a.download = out.name;
+}
+function summary() {
+  const ok = items.filter(it => it.out);
+  const sum = document.getElementById("sum");
+  if (!ok.length) { sum.classList.remove("on"); return; }
+  const before = ok.reduce((n, it) => n + it.file.size, 0), after = ok.reduce((n, it) => n + it.out.blob.size, 0);
+  const pct = Math.min(99, Math.max(0, Math.round((1 - after / before) * 100)));
+  document.getElementById("sumT").innerHTML = (DE
+    ? `<b>−${pct}%</b>${ok.length} ${ok.length === 1 ? "Foto" : "Fotos"}: ${kb(before)} auf ${kb(after)}`
+    : `<b>−${pct}%</b>${ok.length} ${ok.length === 1 ? "photo" : "photos"}: ${kb(before)} down to ${kb(after)}`) + (note ? `. ${esc(note)}` : "");
+  document.getElementById("zip").style.display = ok.length > 1 ? "" : "none";
+  sum.classList.add("on");
+}
+document.getElementById("clear").addEventListener("click", () => {
+  items.forEach(it => { if (it.url) URL.revokeObjectURL(it.url); const im = it.el.querySelector("img"); if (im && im.src.startsWith("blob:")) URL.revokeObjectURL(im.src); });
+  items.length = 0; list.innerHTML = ""; note = ""; document.getElementById("sum").classList.remove("on");
+});
+
+/* ---------- ZIP (stored, no compression: the photos are already compressed) ---------- */
+const CRC = (() => { const tb = new Uint32Array(256); for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; tb[n] = c >>> 0; } return tb; })();
+const crc32 = u8 => { let c = 0xFFFFFFFF; for (let i = 0; i < u8.length; i++) c = CRC[(c ^ u8[i]) & 255] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; };
+async function zip(files) {
+  const enc = new TextEncoder(), parts = [], central = []; let off = 0;
+  const d = new Date(), dt = ((d.getHours() << 11) | (d.getMinutes() << 5) | (d.getSeconds() >> 1)), dd = (((d.getFullYear() - 1980) << 9) | ((d.getMonth() + 1) << 5) | d.getDate());
+  const used = {};
+  for (const f of files) {
+    let name = f.name; while (used[name]) name = name.replace(/(\.[^.]+)?$/, m => "-" + (used[f.name]++) + m); used[name] = 1;
+    const data = new Uint8Array(await f.blob.arrayBuffer()), nb = enc.encode(name), crc = crc32(data);
+    const h = new DataView(new ArrayBuffer(30));
+    h.setUint32(0, 0x04034b50, true); h.setUint16(4, 20, true); h.setUint16(6, 0x0800, true); h.setUint16(8, 0, true);
+    h.setUint16(10, dt, true); h.setUint16(12, dd, true); h.setUint32(14, crc, true); h.setUint32(18, data.length, true); h.setUint32(22, data.length, true);
+    h.setUint16(26, nb.length, true); h.setUint16(28, 0, true);
+    parts.push(h, nb, data);
+    const c = new DataView(new ArrayBuffer(46));
+    c.setUint32(0, 0x02014b50, true); c.setUint16(4, 20, true); c.setUint16(6, 20, true); c.setUint16(8, 0x0800, true); c.setUint16(10, 0, true);
+    c.setUint16(12, dt, true); c.setUint16(14, dd, true); c.setUint32(16, crc, true); c.setUint32(20, data.length, true); c.setUint32(24, data.length, true);
+    c.setUint16(28, nb.length, true); c.setUint32(42, off, true);
+    central.push(c, nb);
+    off += 30 + nb.length + data.length;
+  }
+  const cSize = central.reduce((n, p) => n + p.byteLength, 0);
+  const e = new DataView(new ArrayBuffer(22));
+  e.setUint32(0, 0x06054b50, true); e.setUint16(8, files.length, true); e.setUint16(10, files.length, true); e.setUint32(12, cSize, true); e.setUint32(16, off, true);
+  return new Blob([...parts, ...central, e], { type: "application/zip" });
+}
+document.getElementById("zip").addEventListener("click", async () => {
+  const ok = items.filter(it => it.out);
+  if (!ok.length) return;
+  const b = await zip(ok.map(it => ({ name: it.out.name, blob: it.out.blob })));
+  const a = document.createElement("a"); a.href = URL.createObjectURL(b); a.download = DE ? "fotos-verkleinert.zip" : "photos-small.zip";
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+});
+})();
+</script>
+</body>
+</html>

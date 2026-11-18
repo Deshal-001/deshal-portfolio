@@ -399,3 +399,14 @@ html[lang="de"] .ev.now .k::after{content:"Jetzt"}
 .touch .mark,.touch .lang,.touch .hero-mid{mix-blend-mode:normal}
 .touch .hero-mid{will-change:transform,opacity}
 
+
+/* free tool: Shrink */
+.tool{padding-top:clamp(3rem,8vh,5rem);padding-bottom:clamp(3rem,8vh,5rem)}
+.tool-card{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:1rem clamp(1.2rem,3vw,2.6rem);padding:clamp(1.2rem,3vw,2rem) clamp(1.2rem,3vw,2.2rem);border:2px solid var(--o);border-radius:1.4rem;transition:background .3s var(--out)}
+.tool-name{font:900 clamp(3rem,2rem + 5vw,6.5rem)/.85 var(--d);font-stretch:110%;text-transform:uppercase;color:var(--o);transition:color .3s}
+.tool-line{max-width:30rem;color:var(--ink);font-size:clamp(1rem,.95rem + .3vw,1.2rem)}
+.tool-go{background:var(--o);color:#000;font-weight:800;padding:.9rem 1.3rem;border-radius:99px;white-space:nowrap;transition:background .3s,color .3s}
+.tool-card:hover{background:var(--o)}
+.tool-card:hover .tool-name{color:#000}
+.tool-card:hover .tool-go{background:#000;color:var(--ink)}
+@media (max-width:760px){.tool-card{grid-template-columns:1fr}.tool-go{justify-self:start}}
