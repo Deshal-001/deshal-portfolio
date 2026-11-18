@@ -193,7 +193,7 @@ html[lang="de"] .ev.now .k::after{content:"Jetzt"}
 @media (hover:none){.cur{display:none}}
 
 /* ---------- polymath (orange) ---------- */
-.poly{overflow:hidden}
+.poly{overflow:clip}
 .pword{margin:0;font-size:10rem;line-height:.82;letter-spacing:-.02em}
 .psub{margin:1.2rem 0 clamp(2.5rem,6vh,4rem);font-weight:700;font-size:1.05rem}
 .disc{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:.2rem .9rem;border-top:3px solid #000;padding-top:1.6rem}
@@ -205,6 +205,7 @@ html[lang="de"] .ev.now .k::after{content:"Jetzt"}
 
 /* ---------- quote ---------- */
 .quote{padding:clamp(7rem,18vh,12rem) 0}
+.quote.pin{padding:0}
 .q{margin:0}
 .q p{margin:0 0 1.6rem;font-size:clamp(2.4rem,1rem + 3.8vw,5.4rem);line-height:.88;letter-spacing:-.02em;max-width:16ch}
 .q p > span:not(.w){color:var(--o)}
@@ -411,3 +412,16 @@ html[lang="de"] .ev.now .k::after{content:"Jetzt"}
 .tool-card:hover .tool-name{color:#000}
 .tool-card:hover .tool-go{background:#000;color:var(--ink)}
 @media (max-width:760px){.tools{grid-template-columns:1fr}}
+
+/* ---------- scroll-driven endings: Polymath, quote, "Let's build", tools, footer name (app.js endFx) ---------- */
+.poly .stage,.quote .stage,.bpin .stage{display:flex;flex-direction:column;justify-content:center;padding:4.6rem 0 1.4rem}
+.poly .stage > .wrap,.quote .stage > .wrap{width:100%;transform-origin:50% 50%}
+.bpin .stage{padding:0}
+.bpin .big{font-size:clamp(4rem,1rem + 9vw,11.5rem)}
+html.scrub .pword .c,html.scrub .fname .c{transition:none;will-change:transform}
+html.scrub .disc li{transition:color .35s;color:rgba(0,0,0,.4)}
+html.scrub .disc li.now,html.scrub .disc.done li{color:#000}
+html.scrub .psub,html.scrub .techs,html.scrub .q cite{will-change:opacity,transform}
+html.scrub .q p .w{transition:opacity .25s}
+html.scrub .tool-card{will-change:transform}
+@media (max-width:760px){.bpin .big{font-size:12.2vw}}

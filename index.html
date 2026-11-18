@@ -94,7 +94,7 @@
 <link rel="preload" href="assets/fonts/big-shoulders.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/hanken-grotesk.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="styles.css?v=68">
+<link rel="stylesheet" href="styles.css?v=69">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23FF4F12'/%3E%3Ctext x='16' y='24' font-family='Arial Black' font-size='19' text-anchor='middle' fill='%23000'%3EK%3C/text%3E%3C/svg%3E">
 </head>
 <body>
@@ -172,7 +172,8 @@
 </section>
 
 <!-- POLYMATH (orange) -->
-<section class="sec hot poly wave" id="polymath">
+<section class="pin hot poly wave" id="polymath" style="--h:270vh">
+  <div class="stage">
   <div class="wrap">
     <p class="say"><i aria-hidden="true">KH</i><span data-de="Code ist nur ein Teil der Geschichte. Hier ist der Rest von mir.">Code is only part of the story. Here's the rest of me.</span></p>
     <h2 class="pword reveal"><span class="fit" data-chars>Polymath</span></h2>
@@ -182,14 +183,17 @@
     </ul>
     <p class="techs">Flutter / Dart / BLoC / Spring Boot / Node.js / NestJS / Next.js / Angular / React / TypeScript / PostgreSQL / Prisma / Docker / CI/CD / Python / TensorFlow / ONNX</p>
   </div>
+</div>
 </section>
 
 <!-- QUOTE -->
-<section class="sec quote wave">
+<section class="pin quote wave" id="quoteSec" style="--h:210vh">
+  <div class="stage">
   <div class="wrap">
     <p class="say"><i aria-hidden="true">KH</i><span data-de="Der Satz, nach dem ich trainiere. Auf dem Platz und an der Tastatur.">The line I train by. On the pitch and at the keyboard.</span></p>
     <blockquote class="q" id="quote"><p data-de-html="Talent ohne harte Arbeit &lt;span&gt;ist nichts.&lt;/span&gt;">Talent without working hard <span>is nothing.</span></p><cite>Cristiano Ronaldo</cite></blockquote>
   </div>
+</div>
 </section>
 
 <!-- RECOMMENDATIONS (shown only when filled in app.js) -->
@@ -221,8 +225,10 @@
 
 <!-- CONTACT (orange) -->
 <section class="sec hot contact wave" id="contact">
-  <div class="wrap">
+  <div class="pin bpin" style="--h:175vh"><div class="stage"><div class="wrap">
     <h2 class="big slide2"><span class="ln" data-de="Lass uns">Let's build</span><span class="ln" data-de="was bauen">something</span></h2>
+  </div></div></div>
+  <div class="wrap">
     <p class="say csay"><i aria-hidden="true">KH</i><span data-de="Du bist dran. Eine Idee? Wähl aus, was du brauchst, und erzähl mir davon.">Your turn. Got an idea? Pick what you need and tell me about it.</span></p>
     <div class="forge">
       <div class="pick" role="tablist" aria-label="What should we build?" data-de-aria="Was sollen wir bauen?">
@@ -280,7 +286,7 @@
 
 <div class="cur" id="cur" aria-hidden="true"><i class="cur-dot"></i><i class="cur-ring"><span id="curT"></span></i></div>
 <p class="toast" id="toast" role="status"></p>
-<script src="assets/lenis.min.js?v=68"></script>
-<script src="app.js?v=68"></script>
+<script src="assets/lenis.min.js?v=69"></script>
+<script src="app.js?v=69"></script>
 </body>
 </html>

@@ -110,7 +110,7 @@ footer a{color:var(--ink);text-decoration-color:var(--o);text-underline-offset:3
 <body>
 <header class="bar">
   <a class="mark" href="../" aria-label="Kavindu Deshal Hembadura, portfolio">KH</a>
-  <div class="bar-r"><a class="back" id="back" href="../"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M12.5 4 6.5 10l6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-t="back">Back to portfolio</span></a><button type="button" class="lang" id="lang">DE</button></div>
+  <div class="bar-r"><a class="back" id="back" href="../#tool"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M12.5 4 6.5 10l6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-t="back">Back to portfolio</span></a><button type="button" class="lang" id="lang">DE</button></div>
 </header>
 
 <main class="wrap">
@@ -247,10 +247,6 @@ const langBtn = $("#lang");
 langBtn.textContent = DE ? "EN" : "DE";
 langBtn.setAttribute("aria-label", DE ? "Read in English" : "Auf Deutsch lesen");
 langBtn.addEventListener("click", () => { try { localStorage.setItem("lang", DE ? "en" : "de"); } catch (e) {} location.search = "?lang=" + (DE ? "en" : "de"); });
-$("#back").addEventListener("click", e => {
-  let fromSite = false; try { const r = new URL(document.referrer); fromSite = r.origin === location.origin && !/\/(qr|shrink)/.test(r.pathname); } catch (err) {}
-  if (fromSite && history.length > 1) { e.preventDefault(); history.back(); }
-});
 
 /* ---------- what goes into the code ---------- */
 let kind = "url";

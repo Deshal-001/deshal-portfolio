@@ -1,4 +1,5 @@
 if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+const START_HASH = location.hash;   // read before it is cleared: "#tool" means coming back from a tool
 if (location.hash) history.replaceState(null, "", location.pathname + location.search);
 window.scrollTo(0, 0);
 addEventListener("load", () => window.scrollTo(0, 0));
@@ -12,6 +13,7 @@ const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const lerp = (a, b, t) => a + (b - a) * t;
 const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 const reduced = false;   // full motion for everyone, as chosen
+if (!reduced) document.documentElement.classList.add("scrub");   // late sections follow the scroll instead of playing once
 /* phones and tablets: same motion, but only effects their browsers can draw without re-rendering text every frame */
 const TOUCH = matchMedia("(hover: none), (pointer: coarse)").matches;
 if (TOUCH) document.documentElement.classList.add("touch");
@@ -326,6 +328,15 @@ function measure() {
   L.waves = waves.map(docTop);
   L.quote = { top: docTop(quoteEl), h: quoteEl.offsetHeight };
   L.build = { top: docTop(buildLns[0]), h: buildLns[0].offsetHeight };
+  [["poly", polyEl], ["qpin", qpinEl], ["bpin", bpinEl]].forEach(([k, el]) => { L[k] = { top: docTop(el), h: el.offsetHeight }; });
+  L.tools = { top: docTop(toolsEl), h: toolsEl.offsetHeight };
+  L.fname = { top: docTop(fnameEl) };
+  // a pinned screen can't be taller than the screen: shrink the content to fit when it would be cut off
+  [polyWrap, qWrap].forEach(w => {
+    w.style.transform = "";
+    const avail = vh - 4.6 * 16 - 22, hh = w.offsetHeight;
+    w.style.transform = hh > avail ? `scale(${(avail / hh).toFixed(4)})` : "";
+  });
   const fxp = $("#repos");
   if (fxp && !reduced) { fxp.style.minHeight = Math.max(...$$("#repos .pane").map(p => p.offsetHeight)) + "px"; }
 }
@@ -461,17 +472,61 @@ function afterFx(y) {
     sec._amp = v;
     sec._cap.style.transform = `scaleY(${v})`;
   });
-  const qr = { top: L.quote.top - y, bottom: L.quote.top + L.quote.h - y };
-  if (qr.top < vh && qr.bottom > 0) {
-    const p = clamp((vh * .85 - qr.top) / (vh * .55));
-    const lit = Math.round(p * qWords.length);
-    qWords.forEach((w, i) => w.classList.toggle("on", i < lit));
+  endFx(y);
+}
+
+/* ================= the endings: each late section holds the screen while your scroll plays it ================= */
+const polyEl = $("#polymath"), polyWrap = $("#polymath .stage > .wrap"), pLet = $$("#polymath .pword .c"), pSub = $("#polymath .psub"),
+  discUl = $("#polymath .disc"), discLi = $$("#polymath .disc li"), techs = $("#polymath .techs");
+const qpinEl = $("#quoteSec"), qWrap = $("#quoteSec .stage > .wrap"), qCite = $("#quote cite"), bpinEl = $(".bpin");
+const toolsEl = $(".tools") || document.body, toolCards = $$(".tool-card"), fnameEl = $(".fname"), fLet = $$(".fname .c");
+// progress through a pinned section, starting a little before it pins so the screen is never empty on arrival
+const pinIn = (k, y, lead) => clamp((y - (L[k].top - lead * L.vh)) / Math.max(1, L[k].h - L.vh + lead * L.vh));
+const inView = (k, y) => L[k] && y > L[k].top - L.vh * 1.2 && y < L[k].top + L[k].h + L.vh * .2;
+const put = (el, v) => { if (el._v !== v) { el._v = v; el.style.transform = v; } };
+const op = (el, v) => { const s = v.toFixed(3); if (el._o !== s) { el._o = s; el.style.opacity = s; } };
+let discNow = -2, discDone = null;
+function endFx(y) {
+  const vh = L.vh;
+  // POLYMATH: the word rises letter by letter, the disciplines land one at a time, the stack slides in last
+  if (inView("poly", y)) {
+    const p = pinIn("poly", y, .55), n = pLet.length;
+    pLet.forEach((c, i) => { const t = ease(clamp((p - .02 - i * (.14 / n)) / .1)); put(c, t >= 1 ? "none" : `translate3d(0,${((1 - t) * 105).toFixed(1)}%,0)`); });
+    const ts = ease(clamp((p - .17) / .06)); op(pSub, ts); put(pSub, `translate3d(0,${((1 - ts) * 20).toFixed(1)}px,0)`);
+    let now = -1;
+    discLi.forEach((li, i) => {
+      const a = .25 + i * .07, t = ease(clamp((p - a) / .055));
+      if (p >= a) now = i;
+      op(li, t); put(li, t >= 1 ? "none" : `translate3d(0,${((1 - t) * 60).toFixed(1)}px,0)`);
+    });
+    const done = p > .86;
+    if (now !== discNow) { discLi.forEach((li, i) => li.classList.toggle("now", i === now)); discNow = now; }
+    if (done !== discDone) { discUl.classList.toggle("done", done); discDone = done; }
+    const tt = ease(clamp((p - .86) / .08)); op(techs, tt); put(techs, `translate3d(${((1 - tt) * 8).toFixed(2)}vw,0,0)`);
   }
-  const br = { top: L.build.top - y, bottom: L.build.top + L.build.h - y };
-  if (br.top < vh && br.bottom > -vh) {
-    const p = ease(clamp((vh - br.top) / (vh * .7)));
-    buildLns[0].style.transform = `translate3d(${(-(1 - p) * 40).toFixed(2)}vw,0,0)`;
-    buildLns[1].style.transform = `translate3d(${((1 - p) * 40).toFixed(2)}vw,0,0)`;
+  // the quote holds still and lights up word by word, then the name under it
+  if (inView("qpin", y)) {
+    const p = pinIn("qpin", y, .5);
+    const lit = Math.round(clamp((p - .06) / .64) * qWords.length);
+    qWords.forEach((w, i) => { const on = i < lit; if (w._on !== on) { w._on = on; w.classList.toggle("on", on); } });
+    const tc = ease(clamp((p - .76) / .1)); op(qCite, tc); put(qCite, `translate3d(0,${((1 - tc) * 16).toFixed(1)}px,0)`);
+  }
+  // "Let's build / something": the two lines slide in from opposite sides and lock together while the screen holds
+  if (inView("bpin", y)) {
+    const p = ease(clamp(pinIn("bpin", y, .6) / .7));
+    put(buildLns[0], `translate3d(${(-(1 - p) * 60).toFixed(2)}vw,0,0)`);
+    put(buildLns[1], `translate3d(${((1 - p) * 60).toFixed(2)}vw,0,0)`);
+  }
+  // the two tool cards slide in from the sides and meet
+  if (toolCards.length && y > L.tools.top - vh * 1.2 && y < L.tools.top + L.tools.h) {
+    const t = ease(clamp((y + vh - L.tools.top) / (vh * .8)));
+    const one = toolCards.length < 2 || innerWidth <= 760;
+    toolCards.forEach((c, i) => put(c, t >= 1 ? "none" : `translate3d(${(((i % 2 ? 1 : -1) * (1 - t) * (one ? 18 : 28))).toFixed(2)}vw,0,0)`));
+  }
+  // the name in the footer rises letter by letter as you reach the very bottom
+  if (fLet.length && y > L.fname.top - vh * 1.4) {
+    const start = Math.min(L.fname.top - vh, L.max - vh * .6), p = clamp((y - start) / Math.max(1, L.max - start)), n = fLet.length;
+    fLet.forEach((c, i) => { const t = ease(clamp((p - i * (.55 / n)) / .4)); put(c, t >= 1 ? "none" : `translate3d(0,${((1 - t) * 105).toFixed(1)}%,0)`); });
   }
 }
 
@@ -802,22 +857,38 @@ $$('a[href^="#"]').forEach(a => a.addEventListener("click", e => {
   e.preventDefault(); goTo(a.getAttribute("href") === "#top" ? 0 : docTop(t));
 }));
 $$(".tool-card").forEach((a, i) => a.addEventListener("click", () => { try { sessionStorage.setItem("toolY", String(Math.round(a.getBoundingClientRect().top) + 1)); sessionStorage.setItem("toolI", String(i)); } catch (e) {} }));
+/* put the tool card the visitor left from back where it was on screen. the page may still be settling
+   (fonts, images, pinned sections measuring), so it is checked again a few times and once everything has loaded */
+function toolReturn(force) {
+  let ty = 0, ti = 0;
+  try { ty = +sessionStorage.getItem("toolY") || 0; ti = +sessionStorage.getItem("toolI") || 0; sessionStorage.removeItem("toolY"); } catch (e) {}
+  if (!ty && !force) return 0;
+  const cards = $$(".tool-card"), card = cards[ti] || cards[0], sec = $("#tool");
+  if (!card) return 0;
+  const want = ty ? ty - 1 : Math.round(L.vh * .22);          // straight from a shared link: just show the cards
+  const go = to => { lenis ? lenis.scrollTo(to, { immediate: true }) : scrollTo(0, to); frame(); };
+  const fix = () => { const d = card.getBoundingClientRect().top - want; if (Math.abs(d) > 2) go(scrollY + d); };
+  [120, 400, 900, 1600, 2600].forEach(ms => setTimeout(fix, ms));
+  addEventListener("load", () => setTimeout(fix, 50), { once: true });
+  return Math.max(1, docTop(card) - want);
+}
+// Safari and Chrome may show the page from memory on "back" instead of reloading it: re-sync the smooth scroll
+// to where the page really is, and if the visitor is coming back from a tool, put the card back in place
+addEventListener("pageshow", e => {
+  if (!e.persisted) return;
+  document.body.classList.remove("leaving");
+  try { if (lenis) { lenis.resize && lenis.resize(); lenis.scrollTo(scrollY, { immediate: true }); } } catch (err) {}
+  measure(); frame();
+  const to = toolReturn(false); if (to) { lenis ? lenis.scrollTo(to, { immediate: true }) : scrollTo(0, to); frame(); }
+});
 const start = () => {
   fit(); tlSize(); capColours(); measure(); skSize(); frame();
   let back = 0; try { back = +sessionStorage.getItem("langY") || 0; sessionStorage.removeItem("langY"); } catch (e) {}
-  // coming back from the Shrink tool (back button or the phone's back gesture): land on the tool card again
+  // coming back from a tool (its "Back to portfolio" link opens /#tool, or the phone's back gesture): land on that card again
   try {
-    const ty = +sessionStorage.getItem("toolY") || 0, nav = performance.getEntriesByType && performance.getEntriesByType("navigation")[0];
-    const fromTool = /\/(shrink|qr)/.test(document.referrer) || (nav && nav.type === "back_forward");
-    const card = document.querySelectorAll(".tool-card")[+sessionStorage.getItem("toolI") || 0];
-    if (ty && fromTool && !back && card) {
-      back = Math.max(1, docTop(card) - (ty - 1));
-      // the page is still settling (fonts, images): nudge until the card sits where it was left
-      const fix = () => { const d = card.getBoundingClientRect().top - (ty - 1); if (Math.abs(d) > 2) { const to = scrollY + d; lenis ? lenis.scrollTo(to, { immediate: true }) : scrollTo(0, to); frame(); } };
-      [120, 400, 900, 1600].forEach(ms => setTimeout(fix, ms));
-      addEventListener("load", () => setTimeout(fix, 50), { once: true });
-    }
-    if (ty && fromTool) sessionStorage.removeItem("toolY");
+    const hash = START_HASH === "#tool", nav = performance.getEntriesByType && performance.getEntriesByType("navigation")[0];
+    const fromTool = hash || /\/(shrink|qr)/.test(document.referrer) || (nav && nav.type === "back_forward");
+    if (fromTool && !back) back = toolReturn(hash) || 0;
   } catch (e) {}
   if (back) { lenis ? lenis.scrollTo(back, { immediate: true }) : scrollTo(0, back); frame(); }
   requestAnimationFrame(() => document.body.classList.add("loaded"));
