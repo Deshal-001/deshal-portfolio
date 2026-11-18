@@ -801,9 +801,24 @@ $$('a[href^="#"]').forEach(a => a.addEventListener("click", e => {
   const t = document.querySelector(a.getAttribute("href")); if (!t) return;
   e.preventDefault(); goTo(a.getAttribute("href") === "#top" ? 0 : docTop(t));
 }));
+$$(".tool-card").forEach((a, i) => a.addEventListener("click", () => { try { sessionStorage.setItem("toolY", String(Math.round(a.getBoundingClientRect().top) + 1)); sessionStorage.setItem("toolI", String(i)); } catch (e) {} }));
 const start = () => {
   fit(); tlSize(); capColours(); measure(); skSize(); frame();
   let back = 0; try { back = +sessionStorage.getItem("langY") || 0; sessionStorage.removeItem("langY"); } catch (e) {}
+  // coming back from the Shrink tool (back button or the phone's back gesture): land on the tool card again
+  try {
+    const ty = +sessionStorage.getItem("toolY") || 0, nav = performance.getEntriesByType && performance.getEntriesByType("navigation")[0];
+    const fromTool = /\/(shrink|qr)/.test(document.referrer) || (nav && nav.type === "back_forward");
+    const card = document.querySelectorAll(".tool-card")[+sessionStorage.getItem("toolI") || 0];
+    if (ty && fromTool && !back && card) {
+      back = Math.max(1, docTop(card) - (ty - 1));
+      // the page is still settling (fonts, images): nudge until the card sits where it was left
+      const fix = () => { const d = card.getBoundingClientRect().top - (ty - 1); if (Math.abs(d) > 2) { const to = scrollY + d; lenis ? lenis.scrollTo(to, { immediate: true }) : scrollTo(0, to); frame(); } };
+      [120, 400, 900, 1600].forEach(ms => setTimeout(fix, ms));
+      addEventListener("load", () => setTimeout(fix, 50), { once: true });
+    }
+    if (ty && fromTool) sessionStorage.removeItem("toolY");
+  } catch (e) {}
   if (back) { lenis ? lenis.scrollTo(back, { immediate: true }) : scrollTo(0, back); frame(); }
   requestAnimationFrame(() => document.body.classList.add("loaded"));
 };

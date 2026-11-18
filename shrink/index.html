@@ -35,8 +35,10 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .mark{font:900 1.1rem/1 var(--d);font-stretch:110%;text-decoration:none}
 .bar-r{display:flex;gap:.6rem;align-items:center}
 .lang{font:900 .82rem/1 var(--d);font-stretch:110%;letter-spacing:.04em;border:2px solid currentColor;padding:.5rem .6rem}
-.back{font:600 .9rem/1 var(--b);text-decoration:none;color:var(--dim)}
-.back:hover{color:var(--ink)}
+.bar{position:sticky;top:0;z-index:10;background:rgba(0,0,0,.92);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.back{display:inline-flex;align-items:center;gap:.35rem;font:700 .92rem/1 var(--b);text-decoration:none;background:var(--ink);color:#000;padding:.6rem 1rem .6rem .7rem;border-radius:99px;transition:background .2s}
+.back:hover{background:var(--o)}
+@media (max-width:420px){.back span{font-size:.85rem}}
 
 .top{padding:clamp(2.2rem,7vw,5rem) 0 clamp(1.4rem,3vw,2.2rem)}
 .top h1{margin:0;font-size:clamp(4.2rem,15vw,11rem);color:var(--o)}
@@ -118,7 +120,7 @@ footer a{color:var(--ink);text-decoration-color:var(--o);text-underline-offset:3
 <body>
 <header class="bar">
   <a class="mark" href="../" aria-label="Kavindu Deshal Hembadura, portfolio">KH</a>
-  <div class="bar-r"><a class="back" href="../" data-t="back">Portfolio</a><button type="button" class="lang" id="lang">DE</button></div>
+  <div class="bar-r"><a class="back" id="back" href="../"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M12.5 4 6.5 10l6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-t="back">Back to portfolio</span></a><button type="button" class="lang" id="lang">DE</button></div>
 </header>
 
 <main class="wrap">
@@ -176,7 +178,7 @@ const LANG = (() => {
 })();
 const DE = LANG === "de";
 const T = {
-  back: ["Portfolio", "Portfolio"],
+  back: ["Back to portfolio", "Zurück zum Portfolio"],
   lead: ["Make photos smaller, right in your browser. <b>Nothing is uploaded.</b> Your photos never leave this device.", "Fotos verkleinern, direkt im Browser. <b>Nichts wird hochgeladen.</b> Deine Fotos verlassen dieses Gerät nie."],
   dropT: ["Drop photos here", "Fotos hier ablegen"],
   dropS: ["or paste them, up to 50 at once", "oder einfügen, bis zu 50 auf einmal"],
@@ -204,6 +206,11 @@ const T = {
 const t = k => T[k][DE ? 1 : 0];
 document.documentElement.lang = LANG;
 document.querySelectorAll("[data-t]").forEach(el => { el.innerHTML = t(el.dataset.t); });
+/* back: return to where they were on the portfolio when they came from it, otherwise open the portfolio */
+document.getElementById("back").addEventListener("click", e => {
+  let fromSite = false; try { fromSite = new URL(document.referrer).origin === location.origin && !/\/shrink/.test(new URL(document.referrer).pathname); } catch (err) {}
+  if (fromSite && history.length > 1) { e.preventDefault(); history.back(); }
+});
 const langBtn = document.getElementById("lang");
 langBtn.textContent = DE ? "EN" : "DE";
 langBtn.setAttribute("aria-label", DE ? "Read in English" : "Auf Deutsch lesen");

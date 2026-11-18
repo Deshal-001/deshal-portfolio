@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QR – make a QR code for a link, Wi‑Fi or contact | deshal.me</title>
+<meta name="description" content="Free QR code maker that runs in your browser. Links, Wi‑Fi logins, contact cards and text. Download PNG or SVG. No sign-up, nothing is uploaded.">
+<meta name="author" content="Kavindu Deshal Hembadura">
+<link rel="canonical" href="https://deshal.me/qr">
+<meta name="theme-color" content="#000000">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://deshal.me/qr">
+<meta property="og:title" content="QR – free QR code maker, privately in your browser">
+<meta property="og:description" content="Links, Wi‑Fi, contacts and text. PNG or SVG. Nothing is uploaded.">
+<meta property="og:image" content="https://deshal.me/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"QR","url":"https://deshal.me/qr","applicationCategory":"UtilitiesApplication","operatingSystem":"Any (web browser)","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"description":"Make QR codes for links, Wi-Fi, contacts and text in the browser. Nothing is uploaded.","creator":{"@id":"https://deshal.me/#me","@type":"Person","name":"Kavindu Deshal Hembadura","url":"https://deshal.me/"}}
+</script>
+<style>
+@font-face{font-family:"Archivo";src:url(../assets/fonts/archivo.woff2) format("woff2");font-weight:100 900;font-stretch:62% 125%;font-display:swap}
+@font-face{font-family:"Hanken Grotesk";src:url(../assets/fonts/hanken-grotesk.woff2) format("woff2");font-weight:100 900;font-display:swap}
+:root{--bg:#000;--ink:#F3F1EC;--dim:#8A8883;--line:#262626;--o:#FF4F12;--d:"Archivo",Arial Black,sans-serif;--b:"Hanken Grotesk",system-ui,sans-serif;--pad:clamp(1.1rem,3.4vw,3.2rem)}
+*{box-sizing:border-box}
+html{background:var(--bg);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1rem/1.55 var(--b);-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
+::selection{background:var(--o);color:#000}
+a{color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
+button{background:none;border:0;padding:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--o);outline-offset:3px}
+.wrap{width:100%;max-width:1100px;margin:0 auto;padding:0 var(--pad)}
+.disp{font-family:var(--d);font-weight:900;font-stretch:110%;text-transform:uppercase;line-height:.86;letter-spacing:-.01em}
+
+.bar{position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:.9rem var(--pad);background:rgba(0,0,0,.92);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.mark{font:900 1.1rem/1 var(--d);font-stretch:110%;text-decoration:none}
+.bar-r{display:flex;gap:.6rem;align-items:center}
+.lang{font:900 .82rem/1 var(--d);font-stretch:110%;letter-spacing:.04em;border:2px solid currentColor;padding:.5rem .6rem}
+.back{display:inline-flex;align-items:center;gap:.35rem;font:700 .92rem/1 var(--b);text-decoration:none;background:var(--ink);color:#000;padding:.6rem 1rem .6rem .7rem;border-radius:99px;transition:background .2s}
+.back:hover{background:var(--o)}
+@media (max-width:420px){.back span{font-size:.85rem}}
+
+.top{padding:clamp(2.2rem,7vw,5rem) 0 clamp(1.4rem,3vw,2.2rem)}
+.top h1{margin:0;font-size:clamp(4.2rem,15vw,11rem);color:var(--o)}
+.top p{margin:1rem 0 0;max-width:34rem;font-size:clamp(1.05rem,1rem + .4vw,1.3rem)}
+.top p b{font-weight:600}
+
+.grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(1.4rem,4vw,3rem);align-items:start}
+.tabs{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 1.2rem}
+.tab{padding:.65rem 1.05rem;border:1.5px solid var(--line);border-radius:99px;font-weight:700;font-size:.95rem;transition:border-color .2s,background .2s,color .2s}
+.tab:hover{border-color:#555}
+.tab[aria-selected="true"]{background:var(--o);border-color:var(--o);color:#000}
+.form{display:none;gap:.9rem}
+.form.on{display:grid}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+.f label{display:block;font-size:.88rem;color:var(--dim);margin-bottom:.4rem}
+.f input,.f select,.f textarea{width:100%;background:#0d0d0d;border:1.5px solid var(--line);border-radius:.75rem;padding:.8rem .9rem;font-size:1rem;transition:border-color .2s}
+.f textarea{min-height:8rem;resize:vertical}
+.f input:focus,.f select:focus,.f textarea:focus{outline:0;border-color:var(--o)}
+.f select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--dim) 50%),linear-gradient(135deg,var(--dim) 50%,transparent 50%);background-position:calc(100% - 1.1rem) 52%,calc(100% - .8rem) 52%;background-size:.3rem .3rem;background-repeat:no-repeat}
+.chk{display:flex;align-items:center;gap:.55rem;font-size:.95rem;color:var(--ink);cursor:pointer}
+.chk input{width:1.1rem;height:1.1rem;accent-color:var(--o)}
+.hint{font-size:.88rem;color:var(--dim);margin:0}
+#shHint{margin-top:.6rem}
+
+.look{margin-top:1.6rem;padding-top:1.4rem;border-top:1px solid var(--line)}
+.look h2{font:700 1rem/1.2 var(--b);margin:0 0 .8rem}
+.sw{display:flex;flex-wrap:wrap;gap:.55rem;align-items:center}
+.swb{display:inline-flex;align-items:center;gap:.5rem;padding:.45rem .8rem .45rem .45rem;border:1.5px solid var(--line);border-radius:99px;font-size:.9rem;font-weight:600}
+.swb i{width:1.6rem;height:1.6rem;border-radius:50%;border:1px solid #444;background:linear-gradient(135deg,var(--a) 50%,var(--b2) 50%)}
+.swb[aria-pressed="true"]{border-color:var(--o)}
+.cust{display:none;gap:.8rem;margin-top:.8rem}
+.cust.on{display:flex;flex-wrap:wrap}
+.cust label{display:flex;align-items:center;gap:.5rem;font-size:.9rem;color:var(--dim)}
+.cust input[type=color]{width:2.6rem;height:2.1rem;padding:0;border:1.5px solid var(--line);border-radius:.5rem;background:none}
+.seg{display:inline-flex;border:1.5px solid var(--line);border-radius:99px;overflow:hidden;margin-top:.9rem}
+.seg button{padding:.55rem 1rem;font-weight:600;font-size:.9rem}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#000}
+.warn{display:none;margin:.8rem 0 0;padding:.6rem .8rem;border-radius:.6rem;background:#2a140b;color:#ffb08f;font-size:.88rem}
+.warn.on{display:block}
+
+.out{position:sticky;top:5rem;display:grid;gap:1rem}
+.stage{aspect-ratio:1;border-radius:1.2rem;display:grid;place-items:center;background:#0d0d0d;border:1.5px solid var(--line);overflow:hidden}
+.stage canvas{width:100%;height:100%;display:block}
+.stage .empty{color:var(--dim);font-size:.95rem;text-align:center;padding:2rem}
+.acts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem}
+.btn{display:inline-flex;justify-content:center;align-items:center;gap:.4rem;padding:.85rem 1rem;border-radius:99px;font-weight:700;font-size:.95rem;text-decoration:none;border:1.5px solid var(--line);transition:background .2s,border-color .2s,color .2s}
+.btn.pri{background:var(--o);border-color:var(--o);color:#000}
+.btn:hover{border-color:var(--ink)}
+.btn.pri:hover{background:var(--ink);border-color:var(--ink)}
+.btn[disabled]{opacity:.35;pointer-events:none}
+.meta{font-size:.85rem;color:var(--dim);margin:0;text-align:center;min-height:1.3em}
+
+.how{margin:clamp(2.4rem,6vw,4rem) 0 0;display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;color:var(--dim);font-size:.92rem}
+.how h3{margin:0 0 .3rem;color:var(--ink);font:700 1rem/1.2 var(--b)}
+.how p{margin:0}
+footer{margin-top:auto;padding:clamp(2.4rem,6vw,4rem) 0 1.6rem;color:var(--dim);font-size:.9rem}
+footer .wrap{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:1.2rem}
+footer a{color:var(--ink);text-decoration-color:var(--o);text-underline-offset:3px}
+
+@media (max-width:820px){
+  .grid{grid-template-columns:1fr}
+  .out{position:static;order:-1;max-width:24rem;width:100%;justify-self:center}
+  .how{grid-template-columns:1fr}
+}
+@media (max-width:420px){.row2{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="bar">
+  <a class="mark" href="../" aria-label="Kavindu Deshal Hembadura, portfolio">KH</a>
+  <div class="bar-r"><a class="back" id="back" href="../"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M12.5 4 6.5 10l6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-t="back">Back to portfolio</span></a><button type="button" class="lang" id="lang">DE</button></div>
+</header>
+
+<main class="wrap">
+  <section class="top">
+    <h1 class="disp">QR</h1>
+    <p data-t="lead">Make a QR code for a link, your Wi‑Fi or your contact card. <b>Made right here in your browser.</b> Your details are never sent anywhere.</p>
+  </section>
+
+  <div class="grid">
+    <section>
+      <div class="tabs" role="tablist" id="tabs">
+        <button type="button" class="tab" role="tab" data-k="url" aria-selected="true" data-t="tUrl">Link</button>
+        <button type="button" class="tab" role="tab" data-k="wifi" aria-selected="false" data-t="tWifi">Wi‑Fi</button>
+        <button type="button" class="tab" role="tab" data-k="card" aria-selected="false" data-t="tCard">Contact</button>
+        <button type="button" class="tab" role="tab" data-k="text" aria-selected="false" data-t="tText">Text</button>
+      </div>
+
+      <div class="form on" data-k="url">
+        <div class="f"><label for="u" data-t="uL">Link</label><input id="u" type="url" inputmode="url" autocomplete="url" placeholder="deshal.me" value=""></div>
+        <p class="hint" data-t="uH">Phones open it straight away. https:// is added for you.</p>
+      </div>
+
+      <div class="form" data-k="wifi">
+        <div class="f"><label for="ws" data-t="wsL">Network name</label><input id="ws" autocomplete="off" spellcheck="false"></div>
+        <div class="row2">
+          <div class="f"><label for="wp" data-t="wpL">Password</label><input id="wp" type="text" autocomplete="off" spellcheck="false"></div>
+          <div class="f"><label for="wt" data-t="wtL">Security</label><select id="wt"><option value="WPA">WPA / WPA2 / WPA3</option><option value="WEP">WEP</option><option value="nopass" data-t="wtN">None (open)</option></select></div>
+        </div>
+        <label class="chk"><input type="checkbox" id="wh"><span data-t="whL">Hidden network</span></label>
+        <p class="hint" data-t="wH">Guests point their camera at it and tap Join. Your password stays on this device.</p>
+      </div>
+
+      <div class="form" data-k="card">
+        <div class="row2">
+          <div class="f"><label for="cf" data-t="cfL">First name</label><input id="cf" autocomplete="given-name"></div>
+          <div class="f"><label for="cl" data-t="clL">Last name</label><input id="cl" autocomplete="family-name"></div>
+        </div>
+        <div class="row2">
+          <div class="f"><label for="cp" data-t="cpL">Phone</label><input id="cp" type="tel" autocomplete="tel"></div>
+          <div class="f"><label for="ce" data-t="ceL">Email</label><input id="ce" type="email" autocomplete="email"></div>
+        </div>
+        <div class="row2">
+          <div class="f"><label for="co" data-t="coL">Company</label><input id="co" autocomplete="organization"></div>
+          <div class="f"><label for="cw" data-t="cwL">Website</label><input id="cw" type="url" inputmode="url" autocomplete="url"></div>
+        </div>
+        <p class="hint" data-t="cH">Scanning it offers to save you as a contact.</p>
+      </div>
+
+      <div class="form" data-k="text">
+        <div class="f"><label for="tx" data-t="txL">Text</label><textarea id="tx"></textarea></div>
+      </div>
+
+      <div class="look">
+        <h2 data-t="lookH">Look</h2>
+        <div class="sw" id="sw">
+          <button type="button" class="swb" data-c="#000000,#FFFFFF" aria-pressed="true" style="--a:#000;--b2:#fff"><i></i><span data-t="sClassic">Classic</span></button>
+          <button type="button" class="swb" data-c="#111111,#F3F1EC" aria-pressed="false" style="--a:#111;--b2:#F3F1EC"><i></i><span data-t="sPaper">Paper</span></button>
+          <button type="button" class="swb" data-c="#000000,#FF4F12" aria-pressed="false" style="--a:#000;--b2:#FF4F12"><i></i><span data-t="sOrange">Orange</span></button>
+          <button type="button" class="swb" data-c="custom" aria-pressed="false" style="--a:#1d3557;--b2:#f1faee"><i></i><span data-t="sCustom">Your colours</span></button>
+        </div>
+        <div class="cust" id="cust">
+          <label><input type="color" id="fg" value="#1d3557"><span data-t="fgL">Code</span></label>
+          <label><input type="color" id="bg" value="#f1faee"><span data-t="bgL">Background</span></label>
+        </div>
+        <p class="warn" id="warn"></p>
+        <div><div class="seg" id="shape"><button type="button" data-s="square" aria-pressed="true" data-t="shSq">Square</button><button type="button" data-s="dots" aria-pressed="false" data-t="shDot">Rounded</button></div><p class="hint" id="shHint" hidden data-t="shH">Phone cameras read rounded codes fine. For print, Square is the safest.</p></div>
+      </div>
+    </section>
+
+    <aside class="out" aria-live="polite">
+      <div class="stage" id="stage"><canvas id="cv" width="800" height="800" role="img" aria-label="QR code"></canvas></div>
+      <div class="acts">
+        <button type="button" class="btn pri" id="png">PNG</button>
+        <button type="button" class="btn" id="svg">SVG</button>
+        <button type="button" class="btn" id="copy" data-t="copy">Copy</button>
+      </div>
+      <p class="meta" id="meta"></p>
+    </aside>
+  </div>
+
+  <section class="how">
+    <div><h3 data-t="h1">Private by design</h3><p data-t="h1p">The code is drawn by your browser. Wi‑Fi passwords and contact details never leave this device.</p></div>
+    <div><h3 data-t="h2">Print ready</h3><p data-t="h2p">PNG for chats and slides. SVG stays sharp at any size, from a sticker to a poster.</p></div>
+    <div><h3 data-t="h3">Works forever</h3><p data-t="h3p">No tracking link in between. The code holds your link itself, so it never expires.</p></div>
+  </section>
+</main>
+
+<footer><div class="wrap"><span data-t="made">Made by <a href="../">Kavindu Deshal Hembadura</a>, software engineer in Hannover.</span><span data-t="free">Free to use. No tracking, no sign-up.</span></div></footer>
+
+<script src="../assets/qrcode.js"></script>
+<script>
+(() => {
+"use strict";
+/* ---------- language: same rule as the portfolio ---------- */
+const LANG = (() => {
+  const q = new URLSearchParams(location.search).get("lang");
+  if (q === "de" || q === "en") { try { localStorage.setItem("lang", q); } catch (e) {} return q; }
+  try { const s = localStorage.getItem("lang"); if (s === "de" || s === "en") return s; } catch (e) {}
+  let tz = ""; try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch (e) {}
+  return /^Europe\/(Berlin|Busingen)$/.test(tz) ? "de" : "en";
+})();
+const DE = LANG === "de";
+const T = {
+  back: ["Back to portfolio", "Zurück zum Portfolio"],
+  lead: ["Make a QR code for a link, your Wi‑Fi or your contact card. <b>Made right here in your browser.</b> Your details are never sent anywhere.", "Ein QR-Code für einen Link, dein WLAN oder deine Kontaktkarte. <b>Direkt hier im Browser erstellt.</b> Deine Daten werden nirgendwohin gesendet."],
+  tUrl: ["Link", "Link"], tWifi: ["Wi‑Fi", "WLAN"], tCard: ["Contact", "Kontakt"], tText: ["Text", "Text"],
+  uL: ["Link", "Link"], uH: ["Phones open it straight away. https:// is added for you.", "Handys öffnen ihn sofort. https:// wird automatisch ergänzt."],
+  wsL: ["Network name", "Netzwerkname"], wpL: ["Password", "Passwort"], wtL: ["Security", "Sicherheit"], wtN: ["None (open)", "Keine (offen)"],
+  whL: ["Hidden network", "Verstecktes Netzwerk"], wH: ["Guests point their camera at it and tap Join. Your password stays on this device.", "Gäste halten die Kamera drauf und tippen auf Verbinden. Dein Passwort bleibt auf diesem Gerät."],
+  cfL: ["First name", "Vorname"], clL: ["Last name", "Nachname"], cpL: ["Phone", "Telefon"], ceL: ["Email", "E-Mail"], coL: ["Company", "Firma"], cwL: ["Website", "Website"],
+  cH: ["Scanning it offers to save you as a contact.", "Beim Scannen kann man dich direkt als Kontakt speichern."],
+  txL: ["Text", "Text"],
+  lookH: ["Look", "Aussehen"], sClassic: ["Classic", "Klassisch"], sPaper: ["Paper", "Papier"], sOrange: ["Orange", "Orange"], sCustom: ["Your colours", "Eigene Farben"],
+  shH: ["Phone cameras read rounded codes fine. For print, Square is the safest.", "Handykameras lesen runde Codes problemlos. Für den Druck ist Eckig am sichersten."],
+  fgL: ["Code", "Code"], bgL: ["Background", "Hintergrund"], shSq: ["Square", "Eckig"], shDot: ["Rounded", "Rund"],
+  copy: ["Copy", "Kopieren"], copied: ["Copied", "Kopiert"],
+  h1: ["Private by design", "Privat von Grund auf"], h1p: ["The code is drawn by your browser. Wi‑Fi passwords and contact details never leave this device.", "Der Code entsteht in deinem Browser. WLAN-Passwörter und Kontaktdaten verlassen dieses Gerät nie."],
+  h2: ["Print ready", "Bereit zum Drucken"], h2p: ["PNG for chats and slides. SVG stays sharp at any size, from a sticker to a poster.", "PNG für Chats und Folien. SVG bleibt in jeder Größe scharf, vom Sticker bis zum Poster."],
+  h3: ["Works forever", "Funktioniert für immer"], h3p: ["No tracking link in between. The code holds your link itself, so it never expires.", "Kein Tracking-Link dazwischen. Der Code enthält deinen Link selbst und läuft nie ab."],
+  made: ['Made by <a href="../">Kavindu Deshal Hembadura</a>, software engineer in Hannover.', 'Gebaut von <a href="../">Kavindu Deshal Hembadura</a>, Softwareentwickler in Hannover.'],
+  free: ["Free to use. No tracking, no sign-up.", "Kostenlos. Kein Tracking, keine Anmeldung."],
+  empty: ["Start typing and your code appears here.", "Fang an zu tippen, dein Code erscheint hier."],
+  long: ["Too long for one QR code. Shorten it a little.", "Zu lang für einen QR-Code. Bitte etwas kürzen."],
+  lowC: ["The colours are too close. Some phones won't be able to scan this.", "Die Farben sind zu ähnlich. Manche Handys können das nicht scannen."],
+  inv: ["Light code on a dark background: newer phones read it, some older ones can't.", "Heller Code auf dunklem Grund: neue Handys lesen das, manche ältere nicht."],
+  chars: ["characters", "Zeichen"], size: ["modules", "Module"]
+};
+const t = k => T[k][DE ? 1 : 0];
+document.documentElement.lang = LANG;
+document.querySelectorAll("[data-t]").forEach(el => { el.innerHTML = t(el.dataset.t); });
+if (DE) document.title = "QR – QR-Code für Link, WLAN oder Kontakt erstellen | deshal.me";
+const $ = s => document.querySelector(s);
+const langBtn = $("#lang");
+langBtn.textContent = DE ? "EN" : "DE";
+langBtn.setAttribute("aria-label", DE ? "Read in English" : "Auf Deutsch lesen");
+langBtn.addEventListener("click", () => { try { localStorage.setItem("lang", DE ? "en" : "de"); } catch (e) {} location.search = "?lang=" + (DE ? "en" : "de"); });
+$("#back").addEventListener("click", e => {
+  let fromSite = false; try { const r = new URL(document.referrer); fromSite = r.origin === location.origin && !/\/(qr|shrink)/.test(r.pathname); } catch (err) {}
+  if (fromSite && history.length > 1) { e.preventDefault(); history.back(); }
+});
+
+/* ---------- what goes into the code ---------- */
+let kind = "url";
+const v = id => $("#" + id).value.trim();
+// Wi-Fi and vCard have their own escaping rules
+const escW = s => s.replace(/([\\;,:"])/g, "\\$1");
+const escV = s => s.replace(/\\/g, "\\\\").replace(/\n/g, "\\n").replace(/([,;])/g, "\\$1");
+const withScheme = s => !s ? "" : /^[a-z][a-z0-9+.-]*:/i.test(s) ? s : "https://" + s.replace(/^\/+/, "");
+function payload() {
+  if (kind === "url") return withScheme(v("u"));
+  if (kind === "text") return $("#tx").value;
+  if (kind === "wifi") {
+    const s = $("#ws").value; if (!s) return "";
+    const ty = $("#wt").value, p = $("#wp").value;
+    return `WIFI:T:${ty};S:${escW(s)};${ty !== "nopass" ? `P:${escW(p)};` : ""}${$("#wh").checked ? "H:true;" : ""};`;
+  }
+  const f = v("cf"), l = v("cl"), ph = v("cp"), em = v("ce"), org = v("co"), web = v("cw");
+  if (!(f || l || ph || em || org)) return "";
+  const lines = ["BEGIN:VCARD", "VERSION:3.0", `N:${escV(l)};${escV(f)};;;`, `FN:${escV([f, l].filter(Boolean).join(" ") || org)}`];
+  if (org) lines.push(`ORG:${escV(org)}`);
+  if (ph) lines.push(`TEL;TYPE=CELL:${ph.replace(/[^\d+]/g, "")}`);
+  if (em) lines.push(`EMAIL:${escV(em)}`);
+  if (web) lines.push(`URL:${escV(withScheme(web))}`);
+  lines.push("END:VCARD");
+  return lines.join("\r\n");
+}
+
+/* ---------- look ---------- */
+let fg = "#000000", bg = "#FFFFFF", shape = "square";
+const lum = hex => { const n = parseInt(hex.slice(1), 16), c = [n >> 16 & 255, n >> 8 & 255, n & 255].map(x => { x /= 255; return x <= .03928 ? x / 12.92 : Math.pow((x + .055) / 1.055, 2.4); }); return .2126 * c[0] + .7152 * c[1] + .0722 * c[2]; };
+function checkColours() {
+  const a = lum(fg), b = lum(bg), ratio = (Math.max(a, b) + .05) / (Math.min(a, b) + .05);
+  const w = $("#warn");
+  if (ratio < 3) { w.textContent = t("lowC"); w.classList.add("on"); }
+  else if (a > b) { w.textContent = t("inv"); w.classList.add("on"); }
+  else w.classList.remove("on");
+}
+$("#sw").addEventListener("click", e => {
+  const b = e.target.closest(".swb"); if (!b) return;
+  document.querySelectorAll(".swb").forEach(x => x.setAttribute("aria-pressed", x === b));
+  const custom = b.dataset.c === "custom";
+  $("#cust").classList.toggle("on", custom);
+  [fg, bg] = custom ? [$("#fg").value, $("#bg").value] : b.dataset.c.split(",");
+  checkColours(); draw();
+});
+["fg", "bg"].forEach(id => $("#" + id).addEventListener("input", () => { fg = $("#fg").value; bg = $("#bg").value; checkColours(); draw(); }));
+$("#shape").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  shape = b.dataset.s;
+  $("#shHint").hidden = shape !== "dots";
+  document.querySelectorAll("#shape button").forEach(x => x.setAttribute("aria-pressed", x === b));
+  draw();
+});
+
+/* ---------- inputs ---------- */
+$("#tabs").addEventListener("click", e => {
+  const b = e.target.closest(".tab"); if (!b) return;
+  kind = b.dataset.k;
+  document.querySelectorAll(".tab").forEach(x => x.setAttribute("aria-selected", x === b));
+  document.querySelectorAll(".form").forEach(f => f.classList.toggle("on", f.dataset.k === kind));
+  draw();
+});
+document.querySelectorAll(".form input, .form textarea, .form select").forEach(el => el.addEventListener("input", draw));
+document.querySelectorAll(".form select, .form input[type=checkbox]").forEach(el => el.addEventListener("change", draw));
+
+/* ---------- the code ---------- */
+qrcode.stringToBytes = qrcode.stringToBytesFuncs["UTF-8"];
+let mat = null, text = "";
+function build(s) {
+  // rounded dots cover less of each module, so they get more error correction
+  const ec = shape === "dots" ? "Q" : "M";
+  const q = qrcode(0, ec); q.addData(s, "Byte"); q.make();
+  const n = q.getModuleCount(), m = [];
+  for (let r = 0; r < n; r++) { const row = []; for (let c = 0; c < n; c++) row.push(q.isDark(r, c)); m.push(row); }
+  return m;
+}
+const QZ = 4; // quiet zone, in modules
+const isFinder = (r, c, n) => (r < 7 && c < 7) || (r < 7 && c >= n - 7) || (r >= n - 7 && c < 7);
+// draws onto a 2D context, or returns SVG markup when ctx is null. every dark module goes into ONE path,
+// filled once: no hairline seams between neighbours, on screen or in print
+function render(m, px, ctx) {
+  const n = m.length, cell = px / (n + QZ * 2), o = QZ * cell, f2 = k => +k.toFixed(2);
+  let d = "";
+  if (ctx) { ctx.fillStyle = bg; ctx.fillRect(0, 0, px, px); ctx.beginPath(); }
+  // add a box with per-corner radii [top-left, top-right, bottom-right, bottom-left] to the shared path
+  const box = (x, y, w, h, rr) => {
+    const [a, b, c, e] = rr || [0, 0, 0, 0];
+    if (ctx) {
+      ctx.moveTo(x + a, y); ctx.lineTo(x + w - b, y); if (b) ctx.arcTo(x + w, y, x + w, y + b, b); ctx.lineTo(x + w, y + h - c); if (c) ctx.arcTo(x + w, y + h, x + w - c, y + h, c);
+      ctx.lineTo(x + e, y + h); if (e) ctx.arcTo(x, y + h, x, y + h - e, e); ctx.lineTo(x, y + a); if (a) ctx.arcTo(x, y, x + a, y, a); ctx.closePath();
+    } else {
+      const [A, B, C, E] = [a, b, c, e].map(f2);
+      d += `M${f2(x + a)} ${f2(y)}H${f2(x + w - b)}${B ? `A${B} ${B} 0 0 1 ${f2(x + w)} ${f2(y + b)}` : ""}V${f2(y + h - c)}${C ? `A${C} ${C} 0 0 1 ${f2(x + w - c)} ${f2(y + h)}` : ""}H${f2(x + e)}${E ? `A${E} ${E} 0 0 1 ${f2(x)} ${f2(y + h - e)}` : ""}V${f2(y + a)}${A ? `A${A} ${A} 0 0 1 ${f2(x + a)} ${f2(y)}` : ""}Z`;
+    }
+  };
+  const on = (r, c) => r >= 0 && c >= 0 && r < n && c < n && m[r][c];
+  if (shape === "square") {
+    // one box per run of dark modules in a row
+    for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) {
+      if (!m[r][c]) continue;
+      let e = c; while (e + 1 < n && m[r][e + 1]) e++;
+      box(o + c * cell, o + r * cell, (e - c + 1) * cell, cell);
+      c = e;
+    }
+  } else {
+    // soft blobs: neighbours stay joined, only outside corners round off, so the pattern scanners read stays solid
+    const R = cell * .5;
+    for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) {
+      if (!m[r][c] || isFinder(r, c, n)) continue;
+      const up = on(r - 1, c), dn = on(r + 1, c), lf = on(r, c - 1), rt = on(r, c + 1);
+      box(o + c * cell, o + r * cell, cell, cell, [!up && !lf ? R : 0, !up && !rt ? R : 0, !dn && !rt ? R : 0, !dn && !lf ? R : 0]);
+    }
+  }
+  if (ctx) { ctx.fillStyle = fg; ctx.fill("nonzero"); }
+  let eyes = "";
+  if (shape !== "square") {
+    // finder eyes: gently rounded ring and centre, drawn separately so the ring's hole stays open
+    const ring = (x, y, s, rad, col) => {
+      if (ctx) { ctx.beginPath(); ctx.fillStyle = col; ctx.roundRect ? ctx.roundRect(x, y, s, s, rad) : ctx.rect(x, y, s, s); ctx.fill(); }
+      else eyes += `<rect x="${f2(x)}" y="${f2(y)}" width="${f2(s)}" height="${f2(s)}" rx="${f2(rad)}" fill="${col}"/>`;
+    };
+    [[0, 0], [0, n - 7], [n - 7, 0]].forEach(([r, c]) => {
+      const x = o + c * cell, y = o + r * cell;
+      ring(x, y, 7 * cell, cell * 1.05, fg); ring(x + cell, y + cell, 5 * cell, cell * .55, bg); ring(x + 2 * cell, y + 2 * cell, 3 * cell, cell * .5, fg);
+    });
+  }
+  return ctx ? null : `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${px} ${px}" width="${px}" height="${px}"><rect width="${px}" height="${px}" fill="${bg}"/><path d="${d}" fill="${fg}"/>${eyes}</svg>`;
+}
+const cv = $("#cv"), cx = cv.getContext("2d");
+const btns = ["#png", "#svg", "#copy"].map(s => $(s));
+let raf = 0;
+function draw() { cancelAnimationFrame(raf); raf = requestAnimationFrame(drawNow); }
+function drawNow() {
+  text = payload();
+  const meta = $("#meta");
+  if (!text) { mat = null; showEmpty(t("empty")); meta.textContent = ""; return; }
+  try { mat = build(text); }
+  catch (e) { mat = null; showEmpty(t("long")); meta.textContent = ""; return; }
+  $("#stage").querySelector(".empty")?.remove(); cv.style.display = "";
+  const px = cv.width; cx.clearRect(0, 0, px, px); render(mat, px, cx);
+  btns.forEach(b => b.disabled = false);
+  meta.textContent = `${mat.length} × ${mat.length} ${t("size")}, ${[...text].length} ${t("chars")}`;
+}
+function showEmpty(msg) {
+  cv.style.display = "none"; btns.forEach(b => b.disabled = true);
+  let e = $("#stage").querySelector(".empty"); if (!e) { e = document.createElement("p"); e.className = "empty"; $("#stage").appendChild(e); }
+  e.textContent = msg;
+}
+
+/* ---------- export ---------- */
+const fname = ext => `qr-${kind === "url" ? (text.replace(/^https?:\/\//, "").replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "").slice(0, 40) || "link") : kind === "wifi" ? "wifi" : kind === "card" ? "contact" : "text"}.${ext}`;
+function pngBlob(px = 1200) { return new Promise(res => { const c = document.createElement("canvas"); c.width = c.height = px; render(mat, px, c.getContext("2d")); c.toBlob(res, "image/png"); }); }
+function save(blob, name) { const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); }
+$("#png").addEventListener("click", async () => { if (mat) save(await pngBlob(), fname("png")); });
+$("#svg").addEventListener("click", () => { if (mat) save(new Blob([render(mat, 1000, null)], { type: "image/svg+xml" }), fname("svg")); });
+const copyBtn = $("#copy");
+if (!(navigator.clipboard && window.ClipboardItem)) copyBtn.remove();
+else copyBtn.addEventListener("click", async () => {
+  if (!mat) return;
+  try { await navigator.clipboard.write([new ClipboardItem({ "image/png": pngBlob() })]); copyBtn.textContent = t("copied"); setTimeout(() => copyBtn.textContent = t("copy"), 1600); } catch (e) {}
+});
+if (!copyBtn.isConnected) $(".acts").style.gridTemplateColumns = "1fr 1fr";
+
+draw();
+})();
+</script>
+</body>
+</html>
